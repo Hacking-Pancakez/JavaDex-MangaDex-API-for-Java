@@ -5,7 +5,7 @@
 
     <groupId>dev.kurumidisciples</groupId>
     <artifactId>javadex</artifactId>
-    <version>0.1.4.4-PRERELEASE</version>
+    <version>0.1.4.4</version>
     <packaging>jar</packaging>
 
     <name>JavaDex</name>

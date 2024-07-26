@@ -1,4 +1,4 @@
-[![JavaDex Latest - 0.1.4.3](https://img.shields.io/badge/JavaDex_Latest-0.1.4.3-2ea44f?style=for-the-badge)](https://)
+[![JavaDex Latest - 0.1.4.4](https://img.shields.io/badge/JavaDex_Latest-0.1.4.4-2ea44f?style=for-the-badge)](https://)
 # JavaDex: MangaDex API for Java
 
 JavaDex is a wrapper for managing and interacting with manga chapters and related entities. This project provides a comprehensive API to handle various operations such as retrieving manga information, managing chapters, and handling user interactions.
@@ -24,12 +24,12 @@ You CANNOT run ads or paid services on your website and/or apps
 <dependency>
     <groupId>dev.kurumidisciples</groupId>
     <artifactId>javadex</artifactId>
-    <version>[VERSION HERE]</version>
+    <version>0.1.4.4</version>
 </dependency>
 ```
 ### Gradle
 ```gradle
-implementation group: 'dev.kurumidisciples', name: 'javadex', version: '[VERSION HERE]'
+implementation group: 'dev.kurumidisciples', name: 'javadex', version: '0.1.4.4'
 ```
     
 ## Usage/Examples
