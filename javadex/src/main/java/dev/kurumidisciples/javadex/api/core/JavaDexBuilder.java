@@ -19,7 +19,6 @@ import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
  * Builder class for creating JavaDex instances with specified configurations.
  *
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
 public class JavaDexBuilder {
 

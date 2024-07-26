@@ -47,7 +47,6 @@ import okhttp3.Response;
  * Main class for interacting with the MangaDex API.
  *
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
 public class JavaDex implements AutoCloseable{
 
