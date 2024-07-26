@@ -119,7 +119,7 @@ public class JavaDex implements AutoCloseable{
      * Returns the authorization mode of the JavaDex object.
      *
      * @see Authenticated
-     * @return a {@link dev.kurumidisciples.javadex.api.core.JavaDex.Mode} object
+     * @return a {@link Mode} object
      */
     public Mode getMode(){
         return mode;
@@ -133,7 +133,7 @@ public class JavaDex implements AutoCloseable{
      *
      * @param query The search query. This should be a non-null and non-empty string.
      * @return A new SearchAction object with the provided query.
-     * @throws java.lang.IllegalArgumentException If the provided query is null or empty.
+     * @throws IllegalArgumentException If the provided query is null or empty.
      */
     public MangaAction search(@NotNull String query) {
       return new MangaAction(query);
@@ -209,8 +209,7 @@ public class JavaDex implements AutoCloseable{
     }
 
     /**
-     * <b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b>
-     * <b>Follows a specific manga.</b>
+     * Follows a specific manga.
      *
      * @param manga - Manga object to follow.
      * @return true if the manga was successfully followed, false if error.
@@ -220,8 +219,7 @@ public class JavaDex implements AutoCloseable{
         return followManga(manga.getIdRaw());
     }
     /**
-     * <b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b>
-     * <b>Follows a specific manga.</b>
+     * Follows a specific manga.
      *
      * @param mangaId - UUID of the manga to follow.
      * @return true if the manga was successfully followed, false if error.
@@ -232,8 +230,7 @@ public class JavaDex implements AutoCloseable{
     }
 
     /**
-     * <b>Follows a specific manga.</b>
-     * <p><b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b></p>
+     * Follows a specific manga.
      * 
      *
      * @param mangaId - String of the manga to follow.
@@ -261,8 +258,7 @@ public class JavaDex implements AutoCloseable{
     }
 
     /**
-     * <b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b>
-     * <b>Retrieves a list of UUIDs representing the chapters read for a specific manga.</b>
+     * Retrieves a list of UUIDs representing the chapters read for a specific manga.
      *
      * <p>This method sends a GET request to the MangaDex API to retrieve the list of read chapters for the manga with the specified ID.
      * The ID is appended to the URL of the request.</p>
@@ -296,8 +292,7 @@ public class JavaDex implements AutoCloseable{
     }
 
     /**
-     * <b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b>
-     * <b>Marks a specific chapter as read.</b>
+     * Marks a specific chapter as read.
      *
      * <p>This method sends a POST request to the MangaDex API to mark the specified chapter as read.
      * The chapter ID is sent in the request body as a JSON object.</p>
@@ -305,7 +300,7 @@ public class JavaDex implements AutoCloseable{
      * This method is asynchronous and returns a CompletableFuture that will be completed when the
      * API response is received and parsed.
      *
-     * @param chapter A {@link org.jetbrains.annotations.NotNull} Chapter object to mark as read.
+     * @param chapter A {@link NotNull} Chapter object to mark as read.
      * @return A CompletableFuture that will be completed when the chapter is marked as read.
      */
     @Authenticated
@@ -358,18 +353,11 @@ public class JavaDex implements AutoCloseable{
     }
 
     /**
-     * <b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b>
-     * <b>Retrieves the list of Scanlation Groups that the user is following.</b>
-     *
-     * <p>This method sends a GET request to the MangaDex API and retrieves the list of Scanlation Groups
-     * that the user is currently following. The response from the API is a JSON object which is then
-     * parsed into a list of ScanlationGroup objects.</p>
-     *
-     * This method is asynchronous and returns a CompletableFuture that will be completed with the
-     * list of ScanlationGroup objects when the API response is received and parsed.
+     * Retrieves the list of Scanlation Groups that the user is following.
      *
      * @return A CompletableFuture that will be completed with the list of ScanlationGroup objects
      *         when the API response is received and parsed.
+     * @deprecated Use {@link #retrieveFollowingGroups()} instead.
      */
     @Deprecated
     @Authenticated
@@ -397,16 +385,9 @@ public class JavaDex implements AutoCloseable{
     }
 
     /**
-     * <b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b>
-     * <b>Retrieves the list of Scanlation Groups that the user is following.</b>
-     * <p>This method sends a GET request to the MangaDex API and retrieves the list of Scanlation Groups
-     * that the user is currently following. The response from the API is a JSON object which is then
-     * parsed into a list of ScanlationGroup objects.</p>
+     * Retrieves the list of Scanlation Groups that the user is following.
      *
-     * <p>This method is asynchronous and returns a CompletableFuture that will be completed with the
-     * list of ScanlationGroup objects when the API response is received and parsed.</p>
-     *
-     * @return FollowsAction object that will be completed with the list of ScanlationGroup objects
+     * @return FollowsAction object that you can use to complete the action.
      */
     @Authenticated
     public FollowsAction retrieveFollowingGroups(){
@@ -414,16 +395,7 @@ public class JavaDex implements AutoCloseable{
     }
     
     /**
-     *
-     * <b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b>
-     * <b>Checks if self is following a specific group.</b>
-     *
-     * <p>This method sends a GET request to the MangaDex API and retrieves the list of Scanlation Groups
-     * that the user is currently following. The response from the API is a JSON object which is then
-     * parsed into a list of ScanlationGroup objects.</p>
-     *
-     * This method is asynchronous and returns a CompletableFuture that will be completed with the
-     * list of ScanlationGroup objects when the API response is received and parsed.
+     * Checks if self is following a specific group.
      *
      * @return A CompletableFuture that will be completed with the list of ScanlationGroup objects
      *         when the API response is received and parsed.
@@ -454,9 +426,8 @@ public class JavaDex implements AutoCloseable{
     }
 
     /**
-     * <b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b>
-     *
-     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.FollowsAction} object
+     * Creates a new FollowsAction object to retrieve the manga that self is following.
+     * @return a {@link FollowsAction} object
      */
     @Authenticated
     public FollowsAction retrieveFollowingManga(){
@@ -464,14 +435,10 @@ public class JavaDex implements AutoCloseable{
     }
 
     /**
-     * <b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b>
-     * <b>Retrieves the current user's information from the MangaDex API.</b>
+     * <Retrieves the current user's information from the MangaDex API.
      *
      * <p>This method sends a GET request to the "/user/me" endpoint of the MangaDex API.
-     * The response is parsed into a {@link dev.kurumidisciples.javadex.api.entities.User} object and returned as a {@link java.util.concurrent.CompletableFuture}.
-     *
-     * <p>If an error occurs during the request or the parsing of the response,
-     * a {@link java.util.concurrent.CompletionException} is thrown with the original exception as the cause.
+     * The response is parsed into a {@link User} object and returned as a {@link CompletableFuture}.
      *
      * @return a CompletableFuture that will complete with the User object for the current user
      */
