@@ -1,0 +1,56 @@
+# Ignore all files in the .history directory
+.history/
+
+# Ignore all files in the .vscode directory
+.vscode/
+
+# Ignore all log files in the logs directory
+logs/
+
+# Ignore all files in the TestImages directory
+TestImages/
+
+# Ignore all .env files in any directory
+**/*.env
+
+# Ignore all data folders in any directory
+**/data/
+
+# Ignore target directory
+target/
+
+# Ingore logback file
+javadex/src/main/resources/log4j2.xml
+
+# Ignore Maven build files
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Ignore IntelliJ IDEA project files
+.idea/
+*.iml
+
+# Ignore Eclipse project files
+.project
+.classpath
+.settings/
+
+# Ignore NetBeans project files
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore Windows system files
+Thumbs.db
+
+
+.fake

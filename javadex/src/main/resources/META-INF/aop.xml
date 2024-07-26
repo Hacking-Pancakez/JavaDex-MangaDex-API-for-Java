@@ -1,0 +1,12 @@
+<aspectj>
+    <weaver>
+        <include within="dev.kurumidisciples..*"/>
+    </weaver>
+    <aspects>
+        <aspect name="dev.kurumidisciples.javadex.api.internal.annotations.aspects.NotLessThanOneAspect"/>
+        <aspect name="dev.kurumidisciples.javadex.api.internal.annotations.aspects.MustBeDraftAspect"/>
+        <aspect name="dev.kurumidisciples.javadex.api.internal.annotations.aspects.MustNotBeUnknownAspect"/>
+        <aspect name="dev.kurumidisciples.javadex.api.internal.annotations.aspects.SizeAspect"/>
+        <aspect name="dev.kurumidisciples.javadex.api.internal.annotations.aspects.AuthenticatedAspect"/>
+    </aspects>
+</aspectj>
