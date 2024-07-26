@@ -19,6 +19,8 @@ TestImages/
 # Ignore target directory
 target/
 
+settings.xml
+
 # Ingore logback file
 javadex/src/main/resources/log4j2.xml
 
