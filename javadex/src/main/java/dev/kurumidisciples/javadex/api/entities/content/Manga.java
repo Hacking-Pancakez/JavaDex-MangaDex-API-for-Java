@@ -488,7 +488,7 @@ public class Manga extends Entity implements ISnowflake {
     private final OffsetDateTime createdAt;
     private final OffsetDateTime updatedAt;
     private final long version;
-    private final List<String> availableTranslatedLanguages;
+    private final List<Locale> availableTranslatedLanguages;
     private final String latestUploadedChapterId;
     private final RelationshipMap relationshipMap;
 
@@ -544,12 +544,20 @@ public class Manga extends Entity implements ISnowflake {
     }
 
     /**
-     * <p>Getter for the field <code>state</code>.</p>
+     * <p>The state property of the manga object.</p>
      *
-     * @return a {@link dev.kurumidisciples.javadex.api.entities.enums.State} object
+     * @return a {@link State} object
      */
     public State getState() {
         return state;
+    }
+
+    /**
+     * <p>Returns the avaliable languages the manga can be read in.</p>
+     * @return a list of available languages
+     */
+    public List<Locale> getAvailableTranslatedLanguages() {
+        return availableTranslatedLanguages;
     }
 
     /**
