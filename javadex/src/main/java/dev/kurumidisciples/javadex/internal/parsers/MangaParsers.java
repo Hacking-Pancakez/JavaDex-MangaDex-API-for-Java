@@ -31,11 +31,12 @@ public class MangaParsers {
     public static List<String> parseAvailableTranslatedLanguages(JsonArray availableTranslatedLanguagesArray) {
         List<String> languages = new ArrayList<>();
         for (JsonElement langElement : availableTranslatedLanguagesArray) {
-            languages.add(langElement.getAsString());
+            if (!langElement.isJsonNull()) {
+                languages.add(langElement.getAsString());
+            }
         }
         return languages;
     }
-
     /**
      * <p>parseTags.</p>
      *
