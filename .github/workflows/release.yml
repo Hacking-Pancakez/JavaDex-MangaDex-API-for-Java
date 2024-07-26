@@ -42,7 +42,7 @@ jobs:
 
     - name: Create tarball and zip
       run: |
-        tar -czvf release/source-code.tar.gz .
+        tar --exclude='./release/source-code.tar.gz' -czvf release/source-code.tar.gz .
         zip -r release/source-code.zip .
 
     - name: Upload release assets
