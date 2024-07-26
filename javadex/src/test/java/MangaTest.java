@@ -84,6 +84,30 @@ public class MangaTest {
         assertTrue(javadex.followManga(manga).get());
     }
 
+    @Test
+    public void testIfEveryMangaPropertyAccessible() throws Exception{
+        // Test if every manga property is accessible
+        // This test is important because it ensures that every manga property is accessible
+        // This test will pass if every manga property is accessible
+
+        Manga manga = javadex.search("Destiny Unchain Online").setLimit(1).complete().get(0);
+        assertNotNull(manga);
+        assertNotNull(manga.getId());
+        assertNotNull(manga.getIdRaw());
+        assertNotNull(manga.getDefaultTitle());
+        assertNotNull(manga.getAltTitles());
+        assertNotNull(manga.getTags());
+        assertNotNull(manga.getLinks());
+        assertNotNull(manga.getPublicationDemographic());
+        assertNotNull(manga.getStatus());
+        assertNotNull(manga.doChapterNumbersResetOnNewVolume());
+        assertNotNull(manga.retrieveFeed().get());
+        assertNotNull(manga.retrieveChaptersOrdered(Locale.ENGLISH).get());
+        assertNotNull(manga.retrieveCovers(Locale.ENGLISH).get());
+        assertNotNull(manga.getRelationshipMap());
+
+    }
+
     private static JavaDex loginToJavaDex(){
         try {
             return JavaDexBuilder.createPersonal()
