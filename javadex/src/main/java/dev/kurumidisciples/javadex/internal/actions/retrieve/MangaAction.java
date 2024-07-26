@@ -57,7 +57,7 @@ public class MangaAction extends Action<List<Manga>>{
     private List<String> originalLanguages = new ArrayList<>();
     private List<String> excludedLanguages = new ArrayList<>();
     private List<Locale> availableTranslatedLanguages = new ArrayList<>();
-    private List<Demographic> demographic;
+    private List<Demographic> demographic = new ArrayList<>();
     private List<String> contentRatings = new ArrayList<>();
     private Boolean hasAvailableChapters;
 
