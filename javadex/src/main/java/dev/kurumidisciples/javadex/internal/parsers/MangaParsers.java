@@ -29,11 +29,11 @@ public class MangaParsers {
      * @param availableTranslatedLanguagesArray a {@link com.google.gson.JsonArray} object
      * @return List of available translated languages.
      */
-    public static List<String> parseAvailableTranslatedLanguages(JsonArray availableTranslatedLanguagesArray) {
-        List<String> languages = new ArrayList<>();
+    public static List<Locale> parseAvailableTranslatedLanguages(JsonArray availableTranslatedLanguagesArray) {
+        List<Locale> languages = new ArrayList<>();
         for (JsonElement langElement : availableTranslatedLanguagesArray) {
             if (!langElement.isJsonNull()) {
-                languages.add(langElement.getAsString());
+                languages.add(Locale.getByLanguage(langElement.getAsString()));
             }
         }
         return languages;
