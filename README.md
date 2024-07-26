@@ -19,7 +19,18 @@ You CANNOT run ads or paid services on your website and/or apps
 ```
 ## Installation
 
-_Coming soon_
+### Maven
+```xml
+<dependency>
+    <groupId>dev.kurumidisciples</groupId>
+    <artifactId>javadex</artifactId>
+    <version>[VERSION HERE]</version>
+</dependency>
+```
+### Gradle
+```gradle
+implementation group: 'dev.kurumidisciples', name: 'javadex', version: '[VERSION HERE]'
+```
     
 ## Usage/Examples
 
