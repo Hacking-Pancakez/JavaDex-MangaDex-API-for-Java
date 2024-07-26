@@ -29,7 +29,7 @@ jobs:
       run: |
         mkdir -p release
         cp javadex/target/*.jar release/
-        cp javadex/target/site/apidocs/*.jar release/
+        cp javadex/target/apidocs/*.jar release/
         tar -czvf release/source-code.tar.gz .
         zip -r release/source-code.zip .
 
