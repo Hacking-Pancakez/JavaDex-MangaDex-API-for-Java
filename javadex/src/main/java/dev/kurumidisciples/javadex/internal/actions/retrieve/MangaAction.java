@@ -20,6 +20,7 @@ import com.google.gson.JsonObject;
 
 import dev.kurumidisciples.javadex.api.entities.content.Manga;
 import dev.kurumidisciples.javadex.api.entities.enums.IncludesType;
+import dev.kurumidisciples.javadex.api.entities.enums.Locale;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Demographic;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Status;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Mode;
@@ -43,6 +44,7 @@ public class MangaAction extends Action<List<Manga>>{
     private Integer limit;
     private Integer offset;
     private String title;
+    private List<UUID> mangaIds = new ArrayList<>(); //limited to 100 per request
     private UUID authorOrArtist;
     private List<UUID> authors = new ArrayList<>();
     private List<UUID> artists = new ArrayList<>();
@@ -54,8 +56,8 @@ public class MangaAction extends Action<List<Manga>>{
     private Status status;
     private List<String> originalLanguages = new ArrayList<>();
     private List<String> excludedLanguages = new ArrayList<>();
-    private List<String> availableTranslatedLanguages = new ArrayList<>();
-    private Demographic demographic;
+    private List<Locale> availableTranslatedLanguages = new ArrayList<>();
+    private List<Demographic> demographic;
     private List<String> contentRatings = new ArrayList<>();
     private Boolean hasAvailableChapters;
 
@@ -107,6 +109,19 @@ public class MangaAction extends Action<List<Manga>>{
      */
     public MangaAction addAuthor(UUID author) {
         this.authors.add(author);
+        return this;
+    }
+
+    /**
+     * Add a id to the list of {@link Manga}'s to search for.
+     * <p><b>WARNING: This method is limited to 100 manga ids per request.</b></p>
+     * @param id The id of the manga to add to the search.
+     * @return The current instance of the MangaAction.
+     */
+    public MangaAction addMangaId(UUID id) {
+        if (mangaIds.size() < 100) {
+            mangaIds.add(id);
+        }
         return this;
     }
 
@@ -300,8 +315,8 @@ public class MangaAction extends Action<List<Manga>>{
      * @param demographic a {@link dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Demographic} object
      * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
      */
-    public MangaAction setDemographic(Demographic demographic) {
-        this.demographic = demographic;
+    public MangaAction add(Demographic demographic) {
+        this.demographic.add(demographic);
         return this;
     }
 
@@ -361,7 +376,7 @@ public class MangaAction extends Action<List<Manga>>{
      * @param availableTranslatedLanguages a {@link java.util.List} object
      * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
      */
-    public MangaAction setAvailableTranslatedLanguages(List<String> availableTranslatedLanguages) {
+    public MangaAction setAvailableTranslatedLanguages(List<Locale> availableTranslatedLanguages) {
         this.availableTranslatedLanguages = availableTranslatedLanguages;
         return this;
     }
@@ -384,6 +399,14 @@ public class MangaAction extends Action<List<Manga>>{
      */
     public Integer getLimit() {
         return limit;
+    }
+
+    /**
+     * <p>Getter for the field <code>ids</code>.</p>
+     * @return a {@link java.util.List} object of {@link java.util.UUID} objects
+     */
+    public List<UUID> getMangaIds() {
+        return mangaIds;
     }
 
     /**
@@ -490,7 +513,7 @@ public class MangaAction extends Action<List<Manga>>{
      *
      * @return a {@link dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Demographic} object
      */
-    public Demographic getDemographic() {
+    public List<Demographic> getDemographics() {
         return demographic;
     }
 
@@ -526,7 +549,7 @@ public class MangaAction extends Action<List<Manga>>{
      *
      * @return a {@link java.util.List} object
      */
-    public List<String> getAvailableTranslatedLanguages() {
+    public List<Locale> getAvailableTranslatedLanguages() {
         return availableTranslatedLanguages;
     }
 
@@ -617,9 +640,13 @@ public class MangaAction extends Action<List<Manga>>{
         if (offset != null) queryString.append("offset=").append(offset).append("&");
         if (year != null) queryString.append("year=").append(year).append("&");
         if (status != null) queryString.append("status=").append(encodeValue(status.getValue())).append("&");
-        if (demographic != null) queryString.append("demographic=").append(encodeValue(demographic.getValue())).append("&");
         if (hasAvailableChapters != null) queryString.append("hasAvailableChapters=").append(hasAvailableChapters).append("&");
-
+        for (Demographic demo : demographic) {
+            queryString.append("publicationDemographic[]=").append(encodeValue(demo.getValue())).append("&");
+        }
+        for (UUID id : mangaIds) {
+            queryString.append("ids[]=").append(id.toString()).append("&");
+        }
         for (UUID author : authors) {
             queryString.append("authors[]=").append(author.toString()).append("&");
         }
@@ -635,13 +662,13 @@ public class MangaAction extends Action<List<Manga>>{
         }
         if (excludedTagsMode != null) queryString.append("excludedTagsMode=").append(encodeValue(excludedTagsMode)).append("&");
         for (String language : originalLanguages) {
-            queryString.append("originalLanguages[]=").append(encodeValue(language)).append("&");
+            queryString.append("originalLanguage[]=").append(encodeValue(language)).append("&");
         }
         for (String language : excludedLanguages) {
-            queryString.append("excludedLanguages[]=").append(encodeValue(language)).append("&");
+            queryString.append("excludedLanguage[]=").append(encodeValue(language)).append("&");
         }
-        for (String language : availableTranslatedLanguages) {
-            queryString.append("availableTranslatedLanguages[]=").append(encodeValue(language)).append("&");
+        for (Locale language : availableTranslatedLanguages) {
+            queryString.append("availableTranslatedLanguage[]=").append(encodeValue(language.getLanguage())).append("&");
         }
         for (String contentRating : contentRatings) {
             queryString.append("contentRating[]=").append(encodeValue(contentRating)).append("&");
