@@ -34,7 +34,7 @@ public class JavaDexTest {
 
     @Test
     public void testSetRefreshRate() {
-        JavaDexBuilder builder = JavaDexBuilder.createDefault();
+        JavaDexBuilder builder = JavaDexBuilder.createPersonal();
         Duration refreshRate = Duration.ofSeconds(30);
         builder.setRefreshRate(refreshRate);
         assertEquals(refreshRate, builder.getRefreshRate());
@@ -47,7 +47,7 @@ public class JavaDexTest {
     @Test
     public void testBuild() throws LoginException {
         Dotenv dotenv = Dotenv.configure().filename(".env").load();
-        JavaDexBuilder builder = JavaDexBuilder.createDefault();
+        JavaDexBuilder builder = JavaDexBuilder.createPersonal();
         builder.setClientId(dotenv.get("MANGADEX_CLIENT_ID"));
         builder.setClientSecret(dotenv.get("MANGADEX_CLIENT_SECRET"));
         builder.setUsername(dotenv.get("MANGADEX_USERNAME"));
@@ -64,7 +64,7 @@ public class JavaDexTest {
     @Test
     public void testReadChapters() throws IOException, InterruptedException, Exception {
         Dotenv dotenv = Dotenv.configure().filename(".env").load();
-        JavaDexBuilder builder = JavaDexBuilder.createDefault();
+        JavaDexBuilder builder = JavaDexBuilder.createPersonal();
         builder.setClientId(dotenv.get("MANGADEX_CLIENT_ID"));
         builder.setClientSecret(dotenv.get("MANGADEX_CLIENT_SECRET"));
         builder.setUsername(dotenv.get("MANGADEX_USERNAME"));
@@ -86,7 +86,7 @@ public class JavaDexTest {
     @Test
     public void testRetrievingSelf() throws IOException, InterruptedException, Exception {
         Dotenv dotenv = Dotenv.configure().filename(".env").load();
-        JavaDexBuilder builder = JavaDexBuilder.createDefault();
+        JavaDexBuilder builder = JavaDexBuilder.createPersonal();
         builder.setClientId(dotenv.get("MANGADEX_CLIENT_ID"));
         builder.setClientSecret(dotenv.get("MANGADEX_CLIENT_SECRET"));
         builder.setUsername(dotenv.get("MANGADEX_USERNAME"));
@@ -104,7 +104,7 @@ public class JavaDexTest {
     @Test
     public void testFollowingManga() throws LoginException, HTTPRequestException{
         Dotenv dotenv = Dotenv.configure().filename(".env").load();
-        JavaDexBuilder builder = JavaDexBuilder.createDefault();
+        JavaDexBuilder builder = JavaDexBuilder.createPersonal();
         builder.setClientId(dotenv.get("MANGADEX_CLIENT_ID"));
         builder.setClientSecret(dotenv.get("MANGADEX_CLIENT_SECRET"));
         builder.setUsername(dotenv.get("MANGADEX_USERNAME"));

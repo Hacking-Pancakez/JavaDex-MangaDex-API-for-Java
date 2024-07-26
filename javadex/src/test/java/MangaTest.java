@@ -86,7 +86,7 @@ public class MangaTest {
 
     private static JavaDex loginToJavaDex(){
         try {
-            return JavaDexBuilder.createDefault()
+            return JavaDexBuilder.createPersonal()
                 .setClientId(dotenv.get("MANGADEX_CLIENT_ID"))
                 .setClientSecret(dotenv.get("MANGADEX_CLIENT_SECRET"))
                 .setUsername(dotenv.get("MANGADEX_USERNAME"))
