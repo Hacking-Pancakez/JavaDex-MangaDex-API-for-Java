@@ -2,6 +2,12 @@ package dev.kurumidisciples.javadex.api.entities.enums.order;
 
 import java.util.HashMap;
 
+/**
+ * <p>OrderMapping class.</p>
+ *
+ * @author Hacking Pancakez
+ * @version $Id: $Id
+ */
 public class OrderMapping extends HashMap<OrderMapping.Option, OrderMapping.Value> {
 
     enum Value {

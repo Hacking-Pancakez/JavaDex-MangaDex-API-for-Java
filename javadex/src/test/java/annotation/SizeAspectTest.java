@@ -27,6 +27,10 @@ public class SizeAspectTest {
         when(joinPoint.getSignature()).thenReturn(signature);
     }
 
+    
+    /** 
+     * @throws Throwable
+     */
     @Test
     public void testValidNumberParameter() throws Throwable {
         Method method = DummyClass.class.getMethod("dummyMethodWithSize", Integer.class);

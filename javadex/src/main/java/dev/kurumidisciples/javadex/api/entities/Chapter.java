@@ -33,7 +33,10 @@ import dev.kurumidisciples.javadex.internal.factory.UserFactory;
 
 /**
  * Represents a Chapter entity. Chapters are uploaded by users and are associated with a Manga.
- * Implements {@link ISnowflake} and {@link IPublishable} interfaces for ID and publication time handling.
+ * Implements {@link dev.kurumidisciples.javadex.api.entities.intermediate.ISnowflake} and {@link dev.kurumidisciples.javadex.api.entities.intermediate.IPublishable} interfaces for ID and publication time handling.
+ *
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 public class Chapter extends Entity implements ISnowflake, IPublishable {
 
@@ -57,7 +60,7 @@ public class Chapter extends Entity implements ISnowflake, IPublishable {
      * Validates the JSON structure before initializing the object.
      *
      * @param data JsonObject containing chapter data.
-     * @throws IllegalArgumentException if the provided data does not represent a chapter.
+     * @throws java.lang.IllegalArgumentException if the provided data does not represent a chapter.
      */
     public Chapter(@NotNull JsonObject data) {
         if (!isChapterData(data)) throw new IllegalArgumentException("Invalid chapter data"); // TODO remove
@@ -87,57 +90,105 @@ public class Chapter extends Entity implements ISnowflake, IPublishable {
         return MangaAction.getMangaById(getRelationshipMap().get(RelationshipType.MANGA).get(0).toString());
     }
 
+    /**
+     * <p>Getter for the field <code>relationshipMap</code>.</p>
+     *
+     * @return a {@link dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap} object
+     */
     public RelationshipMap getRelationshipMap() {
         return relationshipMap;
     }
 
+    /**
+     * <p>Getter for the field <code>volume</code>.</p>
+     *
+     * @return a {@link java.lang.Number} object
+     */
     public Number getVolume() {
         return volume;
     }
+    /**
+     * <p>getIdRaw.</p>
+     *
+     * @return a {@link java.lang.String} object
+     */
     public String getIdRaw() {
         return id.toString();
     }
 
+    /**
+     * <p>Getter for the field <code>id</code>.</p>
+     *
+     * @return a {@link java.util.UUID} object
+     */
     public UUID getId() {
         return id;
     }
 
+    /** {@inheritDoc} */
     @Override
     public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
+    /** {@inheritDoc} */
     @Override
     public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 
+    /** {@inheritDoc} */
     @Override
     public OffsetDateTime getPublishAt() {
         return publishedAt;
     }
 
+    /** {@inheritDoc} */
     @Override
     public OffsetDateTime getReadableAt() {
         return readableAt;
     }
 
+    /**
+     * <p>getChapterNumber.</p>
+     *
+     * @return a {@link java.lang.Number} object
+     */
     public Number getChapterNumber() {
         return chapter;
     }
-    /**Could be null*/
+    /**
+     *Could be null
+     *
+     * @return a {@link java.lang.String} object
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * <p>Getter for the field <code>version</code>.</p>
+     *
+     * @return a int
+     */
     public int getVersion() {
         return version;
     }
 
+    /**
+     * <p>Getter for the field <code>translatedLanguage</code>.</p>
+     *
+     * @return a {@link dev.kurumidisciples.javadex.api.entities.enums.Locale} object
+     */
     public Locale getTranslatedLanguage() {
         return translatedLanguage;
     }
 
+    /**
+     * <p>Getter for the field <code>pages</code>.</p>
+     *
+     * @return a int
+     */
     public int getPages() {
         return pages;
     }
@@ -150,7 +201,7 @@ public class Chapter extends Entity implements ISnowflake, IPublishable {
      * Retrieves the pages of this chapter.
      *
      * @return A CompletableFuture containing a list of PageProxy objects representing the pages.
-     * @throws ExecutionException if the computation threw an exception.
+     * @throws java.util.concurrent.ExecutionException if the computation threw an exception.
      */
     public CompletableFuture<List<PageProxy>> retrievePages() throws ExecutionException {
         return CompletableFuture.supplyAsync(() -> {
@@ -168,8 +219,8 @@ public class Chapter extends Entity implements ISnowflake, IPublishable {
      * Retrieves the uploader of this chapter.
      *
      * @return A CompletableFuture containing the User who uploaded the chapter.
-     * @throws InterruptedException if the current thread was interrupted while waiting.
-     * @throws ExecutionException if the computation threw an exception.
+     * @throws java.lang.InterruptedException if the current thread was interrupted while waiting.
+     * @throws java.util.concurrent.ExecutionException if the computation threw an exception.
      */
     public CompletableFuture<User> retrieveUploader() throws InterruptedException, ExecutionException {
         return CompletableFuture.supplyAsync(() -> {
@@ -181,8 +232,8 @@ public class Chapter extends Entity implements ISnowflake, IPublishable {
      * Retrieves the scanlation groups associated with this chapter.
      *
      * @return A CompletableFuture containing a list of ScanlationGroup objects.
-     * @throws InterruptedException if the current thread was interrupted while waiting.
-     * @throws ExecutionException if the computation threw an exception.
+     * @throws java.lang.InterruptedException if the current thread was interrupted while waiting.
+     * @throws java.util.concurrent.ExecutionException if the computation threw an exception.
      */
     public CompletableFuture<List<ScanlationGroup>> retrieveScanlationGroups() throws InterruptedException, ExecutionException {
         return CompletableFuture.supplyAsync(() -> {

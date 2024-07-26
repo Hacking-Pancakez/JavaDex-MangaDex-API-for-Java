@@ -6,21 +6,26 @@ import dev.kurumidisciples.javadex.api.entities.enums.IncludesType;
 
 /**
  * Represents an action that can be completed and submitted.
+ *
  * @param <T> the type of the action.
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 // TODO Add Order to actions
 public abstract class Action<T> {
 
     /**
      * Completes the action and returns the result.
+     *
      * @return the result of the action.
-     * @throws Exception if an error occurs while completing the action.
+     * @throws java.lang.Exception if an error occurs while completing the action.
      */
     public abstract T complete() throws Exception;
 
     /**
      * Submits the action for execution.
      * This method returns a CompletableFuture that will be completed with the result of the action.
+     *
      * @return a CompletableFuture that will be completed with the result of the action.
      */
     public abstract CompletableFuture<T> submit();
@@ -29,6 +34,9 @@ public abstract class Action<T> {
      * Sets the limit of chapters to retrieve.
      * <p>Limit must be between 1 and 100.</p>
      * <p>Default is {@code 10}.</p>
+     *
+     * @param limit a {@link java.lang.Integer} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.Action} object
      */
     public abstract Action<T> setLimit(Integer limit);
 
@@ -36,6 +44,7 @@ public abstract class Action<T> {
      * Sets the offset for the chapter action.
      * <p>Offset is the number of chapters to skip before returning the results.</p>
      * <p>Default is {@code 0}.</p>
+     *
      * @param offset the offset.
      * @return the action with the offset set.
      */
@@ -43,8 +52,9 @@ public abstract class Action<T> {
 
     /**
      * Includes additional data in the result of the action.
+     *
      * @param includes the types of data to include.
-     * @return the action 
+     * @return the action
      */
     public abstract Action<T> setIncludes(IncludesType... includes);
 }

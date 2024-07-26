@@ -10,9 +10,21 @@ import dev.kurumidisciples.javadex.internal.annotations.MustNotBeUnknown;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+/**
+ * <p>MustNotBeUnknownAspect class.</p>
+ *
+ * @author Hacking Pancakez
+ * @version $Id: $Id
+ */
 @Aspect
 public class MustNotBeUnknownAspect {
     
+    /**
+     * <p>validateMustNotBeUnknown.</p>
+     *
+     * @param joinPoint a {@link org.aspectj.lang.JoinPoint} object
+     * @throws java.lang.Throwable if any.
+     */
     @Before("execution(* *(.., @dev.kurumidisciples.javadex.internal.annotations.MustNotBeUnknown (*), ..))")
     public void validateMustNotBeUnknown(JoinPoint joinPoint) throws Throwable {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();

@@ -4,6 +4,9 @@ package dev.kurumidisciples.javadex.api.core.authentication;
  * Represents an authentication token with access and refresh capabilities.
  * This class provides synchronized methods to safely get and set the access and refresh tokens,
  * ensuring thread safety in multi-threaded environments.
+ *
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 public class Token {
 
@@ -42,6 +45,11 @@ public class Token {
         this.accessToken = accessToken;
     }
 
+    /**
+     * <p>Getter for the field <code>instance</code>.</p>
+     *
+     * @return a {@link dev.kurumidisciples.javadex.api.core.authentication.Token} object
+     */
     public synchronized static Token getInstance() {
         return instance;
     }

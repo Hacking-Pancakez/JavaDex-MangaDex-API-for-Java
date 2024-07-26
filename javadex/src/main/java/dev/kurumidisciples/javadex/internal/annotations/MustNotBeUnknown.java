@@ -7,7 +7,10 @@ import java.lang.annotation.Target;
 
 /**
  * Requires the annotated parameter when given a enum type to not have a value of {@code unknown}.
+ *
  * @since 0.1.4
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.PARAMETER, ElementType.TYPE_USE})

@@ -3,6 +3,9 @@ package dev.kurumidisciples.javadex.api.entities.relationship.enums;
 /**
  * This enum represents the different types of relationships that can exist in the application.
  * Each enum constant corresponds to a specific type of relationship.
+ *
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 public enum RelationshipType {
     ARTIST("artist"),
@@ -50,9 +53,9 @@ public enum RelationshipType {
     }
 
     /**
-     * Returns the type of this relationship as a string.
+     * {@inheritDoc}
      *
-     * @return the type of this relationship as a string
+     * Returns the type of this relationship as a string.
      */
     @Override
     public String toString() {

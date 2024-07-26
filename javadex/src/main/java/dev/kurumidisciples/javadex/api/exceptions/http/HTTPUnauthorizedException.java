@@ -11,8 +11,11 @@ import okhttp3.Response;
  * the provided authentication was invalid.
  *
  * This typically corresponds to an HTTP 401 Unauthorized status code.
- * @See {@link HTTPRequestException}
+ *
+ * @see {@link dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException}
  * @since 0.1.1
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 public class HTTPUnauthorizedException extends HTTPRequestException{
 

@@ -26,6 +26,10 @@ public class MangaTest {
     private static final Dotenv dotenv = Dotenv.configure().filename(".env").load();
     private static final JavaDex javadex = loginToJavaDex();
 
+    
+    /** 
+     * @throws Exception
+     */
     @Test
     public void testScanGroupfromChapter() throws Exception{
         // Test if the scanlation group is correctly retrieved from a chapter

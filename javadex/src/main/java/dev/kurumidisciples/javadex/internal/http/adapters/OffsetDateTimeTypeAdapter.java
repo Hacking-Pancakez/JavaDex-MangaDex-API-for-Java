@@ -12,15 +12,19 @@ import java.time.format.DateTimeFormatter;
  * Type adapter for OffsetDateTime.
  * <p> This class is used to serialize and deserialize OffsetDateTime objects to and from JSON.
  * <p> This class is used internally by the JavaDex API.
+ *
  * @since 0.0.1
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 public class OffsetDateTimeTypeAdapter extends TypeAdapter<OffsetDateTime> {
 
     private static final DateTimeFormatter formatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
 
     /**
+     * {@inheritDoc}
+     *
      * Writes an OffsetDateTime object to a JSON string.
-     * @param out The JsonWriter object to write to.
      */
     @Override
     public void write(JsonWriter out, OffsetDateTime value) throws IOException {
@@ -32,9 +36,9 @@ public class OffsetDateTimeTypeAdapter extends TypeAdapter<OffsetDateTime> {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Reads an OffsetDateTime object from a JSON string.
-     * @param in The JsonReader object to read from.
-     * @return The OffsetDateTime object read from the JSON string.
      */
     @Override
     public OffsetDateTime read(JsonReader in) throws IOException {

@@ -7,9 +7,12 @@ import java.lang.annotation.Target;
 
 
 /**
- * An annotation that indicates that the annotated parameter must be greater than or equal to 1 
- * and will throw an {@link IllegalArgumentException} if it is not.
+ * An annotation that indicates that the annotated parameter must be greater than or equal to 1
+ * and will throw an {@link java.lang.IllegalArgumentException} if it is not.
+ *
  * @since 0.1.4
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)

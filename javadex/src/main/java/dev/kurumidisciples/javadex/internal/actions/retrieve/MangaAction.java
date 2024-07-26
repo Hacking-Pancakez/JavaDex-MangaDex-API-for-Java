@@ -29,6 +29,9 @@ import dev.kurumidisciples.javadex.internal.http.adapters.OffsetDateTimeTypeAdap
 
 /**
  * The MangaAction class provides methods for searching MangaDex API for manga titles and retrieving manga by ID.
+ *
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 public class MangaAction extends Action<List<Manga>>{
 
@@ -54,31 +57,60 @@ public class MangaAction extends Action<List<Manga>>{
     private List<String> contentRatings = new ArrayList<>();
     private Boolean hasAvailableChapters;
 
+    /**
+     * <p>Constructor for MangaAction.</p>
+     *
+     * @param query a {@link java.lang.String} object
+     */
     public MangaAction(String query) {
         this.title = formatString(query);
     }
 
+    /**
+     * <p>Constructor for MangaAction.</p>
+     */
     public MangaAction() {
         this.title = null;
     }
 
+    /**
+     * <p>Constructor for MangaAction.</p>
+     *
+     * @param query a {@link java.lang.String} object
+     * @param limit a int
+     * @param offset a int
+     */
     public MangaAction(String query, int limit, int offset) {
         this.title = query;
         this.limit = limit;
         this.offset = offset;
     }
 
+    /**
+     * <p>Setter for the field <code>authorOrArtist</code>.</p>
+     *
+     * @param authorOrArtist a {@link java.util.UUID} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
+     */
     public MangaAction setAuthorOrArtist(UUID authorOrArtist) {
         this.authorOrArtist = authorOrArtist;
         return this;
     }
 
+    /**
+     * <p>addAuthor.</p>
+     *
+     * @param author a {@link java.util.UUID} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
+     */
     public MangaAction addAuthor(UUID author) {
         this.authors.add(author);
         return this;
     }
 
     /**
+     * {@inheritDoc}
+     *
      * This method is not supported for this action.
      */
     @Override
@@ -86,9 +118,9 @@ public class MangaAction extends Action<List<Manga>>{
         throw new UnsupportedOperationException("This method is not supported for this action.");
     }
     /**
+     * {@inheritDoc}
+     *
      * Set the limit for the amount of results returned by the mangadex api
-     * @param limit Must be between 0 and 100 inclusive. Defaults to 100.
-     * @return SearchAction
      */
     @Override
     public MangaAction setLimit(@Size(min=1, max=100) Integer limit) {
@@ -96,14 +128,20 @@ public class MangaAction extends Action<List<Manga>>{
         return this;
     }
 
+    /**
+     * <p>setQuery.</p>
+     *
+     * @param query a {@link java.lang.String} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
+     */
     public MangaAction setQuery(String query) {
         this.title = formatString(query);
         return this;
     }
     /**
+     * {@inheritDoc}
+     *
      * Set the offset for the search results. This is helpful because the api will only returns a maximum 100 results at a time.
-     * @param offset
-     * @return SearchAction
      */
     @Override
     public MangaAction setOffset(@Size(min=0) Integer offset) {
@@ -111,44 +149,86 @@ public class MangaAction extends Action<List<Manga>>{
         return this;
     }
     /* TODO Should allow intake of a author class object */
+    /**
+     * <p>addArtist.</p>
+     *
+     * @param artist a {@link java.util.UUID} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
+     */
     public MangaAction addArtist(UUID artist) {
         this.artists.add(artist);
         return this;
     }
 
+    /**
+     * <p>addAuthors.</p>
+     *
+     * @param authors a {@link java.util.List} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
+     */
     public MangaAction addAuthors(List<UUID> authors) {
         this.authors.addAll(authors);
         return this;
     }
 
+    /**
+     * <p>addArtists.</p>
+     *
+     * @param artists a {@link java.util.List} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
+     */
     public MangaAction addArtists(List<UUID> artists) {
         this.artists.addAll(artists);
         return this;
     }
 
+    /**
+     * <p>Setter for the field <code>year</code>.</p>
+     *
+     * @param year a int
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
+     */
     public MangaAction setYear(int year) {
         this.year = year;
         return this;
     }
 
+    /**
+     * <p>Setter for the field <code>includedTagsMode</code>.</p>
+     *
+     * @param mode a {@link java.lang.String} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
+     */
     public MangaAction setIncludedTagsMode(String mode) {
         this.includedTagsMode = mode;
         return this;
     }
 
+    /**
+     * <p>Setter for the field <code>excludedTagsMode</code>.</p>
+     *
+     * @param mode a {@link java.lang.String} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
+     */
     public MangaAction setExcludedTagsMode(String mode) {
         this.excludedTagsMode = mode;
         return this;
     }
     /**
-     * @apiNote This method will be changed to accept MangaTag objects in the future.
+     * <p>addTag.</p>
+     *
+     * @param tag a {@link java.util.UUID} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
      */
     public MangaAction addTag(UUID tag) {
         this.includedTags.add(tag);
         return this;
     }
     /**
-     * @apiNote This method will be changed to accept MangaTag objects in the future.
+     * <p>addTags.</p>
+     *
+     * @param tags a {@link java.util.UUID} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
      */
     public MangaAction addTags(UUID... tags) {
         for (UUID tag : tags) {
@@ -157,28 +237,40 @@ public class MangaAction extends Action<List<Manga>>{
         return this;
     }
     /**
-     * @apiNote This method will be changed to accept MangaTag objects in the future.
+     * <p>addTags.</p>
+     *
+     * @param tags a {@link java.util.List} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
      */
     public MangaAction addTags(List<UUID> tags) {
         this.includedTags.addAll(tags);
         return this;
     }
     /**
-     * @apiNote This method will be changed to accept MangaTag objects in the future.
+     * <p>addExcludedTag.</p>
+     *
+     * @param tag a {@link java.util.UUID} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
      */
     public MangaAction addExcludedTag(UUID tag) {
         this.excludedTags.add(tag);
         return this;
     }
     /**
-     * @apiNote This method will be changed to accept MangaTag objects in the future.
+     * <p>addExcludedTags.</p>
+     *
+     * @param tags a {@link java.util.List} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
      */
     public MangaAction addExcludedTags(List<UUID> tags) {
         this.excludedTags.addAll(tags);
         return this;
     }
     /**
-     * @apiNote This method will be changed to accept MangaTag objects in the future.
+     * <p>addExcludedTags.</p>
+     *
+     * @param tags a {@link java.util.UUID} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
      */
     public MangaAction addExcludedTags(UUID... tags) {
         for (UUID tag : tags) {
@@ -187,16 +279,34 @@ public class MangaAction extends Action<List<Manga>>{
         return this;
     }
 
+    /**
+     * <p>Setter for the field <code>status</code>.</p>
+     *
+     * @param status a {@link java.lang.String} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
+     */
     public MangaAction setStatus(String status) {
         this.status = status;
         return this;
     }
 
+    /**
+     * <p>Setter for the field <code>demographic</code>.</p>
+     *
+     * @param demographic a {@link dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Demographic} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
+     */
     public MangaAction setDemographic(Demographic demographic) {
         this.demographic = demographic;
         return this;
     }
 
+    /**
+     * <p>addContentRating.</p>
+     *
+     * @param contentRating a {@link java.lang.String} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
+     */
     public MangaAction addContentRating(String contentRating) {
         if (!this.contentRatings.contains(contentRating)) {
             this.contentRatings.add(contentRating);
@@ -204,6 +314,12 @@ public class MangaAction extends Action<List<Manga>>{
         return this;
     }
 
+    /**
+     * <p>addContentRatings.</p>
+     *
+     * @param contentRatings a {@link java.util.List} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
+     */
     public MangaAction addContentRatings(List<String> contentRatings) {
         for (String contentRating : contentRatings) {
             if (!this.contentRatings.contains(contentRating)) {
@@ -213,94 +329,208 @@ public class MangaAction extends Action<List<Manga>>{
         return this;
     }
 
+    /**
+     * <p>setAvailableChapters.</p>
+     *
+     * @param hasAvailableChapters a boolean
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
+     */
     public MangaAction setAvailableChapters(boolean hasAvailableChapters) {
         this.hasAvailableChapters = hasAvailableChapters;
         return this;
     }
 
+    /**
+     * <p>Setter for the field <code>originalLanguages</code>.</p>
+     *
+     * @param originalLanguages a {@link java.util.List} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
+     */
     public MangaAction setOriginalLanguages(List<String> originalLanguages) {
         this.originalLanguages = originalLanguages;
         return this;
     }
 
+    /**
+     * <p>Setter for the field <code>availableTranslatedLanguages</code>.</p>
+     *
+     * @param availableTranslatedLanguages a {@link java.util.List} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
+     */
     public MangaAction setAvailableTranslatedLanguages(List<String> availableTranslatedLanguages) {
         this.availableTranslatedLanguages = availableTranslatedLanguages;
         return this;
     }
 
+    /**
+     * <p>Setter for the field <code>excludedLanguages</code>.</p>
+     *
+     * @param excludedLanguages a {@link java.util.List} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
+     */
     public MangaAction setExcludedLanguages(List<String> excludedLanguages) {
         this.excludedLanguages = excludedLanguages;
         return this;
     }
 
+    /**
+     * <p>Getter for the field <code>limit</code>.</p>
+     *
+     * @return a {@link java.lang.Integer} object
+     */
     public Integer getLimit() {
         return limit;
     }
 
+    /**
+     * <p>Getter for the field <code>offset</code>.</p>
+     *
+     * @return a {@link java.lang.Integer} object
+     */
     public Integer getOffset() {
         return offset;
     }
 
+    /**
+     * <p>getQuery.</p>
+     *
+     * @return a {@link java.lang.String} object
+     */
     public String getQuery() {
         return title;
     }
 
+    /**
+     * <p>Getter for the field <code>authorOrArtist</code>.</p>
+     *
+     * @return a {@link java.util.UUID} object
+     */
     public UUID getAuthorOrArtist() {
         return authorOrArtist;
     }
 
+    /**
+     * <p>Getter for the field <code>authors</code>.</p>
+     *
+     * @return a {@link java.util.List} object
+     */
     public List<UUID> getAuthors() {
         return authors;
     }
 
+    /**
+     * <p>Getter for the field <code>artists</code>.</p>
+     *
+     * @return a {@link java.util.List} object
+     */
     public List<UUID> getArtists() {
         return artists;
     }
 
+    /**
+     * <p>Getter for the field <code>year</code>.</p>
+     *
+     * @return a {@link java.lang.Integer} object
+     */
     public Integer getYear() {
         return year;
     }
 
+    /**
+     * <p>Getter for the field <code>includedTagsMode</code>.</p>
+     *
+     * @return a {@link java.lang.String} object
+     */
     public String getIncludedTagsMode() {
         return includedTagsMode;
     }
 
+    /**
+     * <p>Getter for the field <code>excludedTagsMode</code>.</p>
+     *
+     * @return a {@link java.lang.String} object
+     */
     public String getExcludedTagsMode() {
         return excludedTagsMode;
     }
 
+    /**
+     * <p>Getter for the field <code>includedTags</code>.</p>
+     *
+     * @return a {@link java.util.List} object
+     */
     public List<UUID> getIncludedTags() {
         return includedTags;
     }
 
+    /**
+     * <p>Getter for the field <code>excludedTags</code>.</p>
+     *
+     * @return a {@link java.util.List} object
+     */
     public List<UUID> getExcludedTags() {
         return excludedTags;
     }
 
+    /**
+     * <p>Getter for the field <code>status</code>.</p>
+     *
+     * @return a {@link java.lang.String} object
+     */
     public String getStatus() {
         return status;
     }
 
+    /**
+     * <p>Getter for the field <code>demographic</code>.</p>
+     *
+     * @return a {@link dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Demographic} object
+     */
     public Demographic getDemographic() {
         return demographic;
     }
 
+    /**
+     * <p>Getter for the field <code>contentRatings</code>.</p>
+     *
+     * @return a {@link java.util.List} object
+     */
     public List<String> getContentRatings() {
         return contentRatings;
     }
 
+    /**
+     * <p>hasAvailableChapters.</p>
+     *
+     * @return a {@link java.lang.Boolean} object
+     */
     public Boolean hasAvailableChapters() {
         return hasAvailableChapters;
     }
 
+    /**
+     * <p>Getter for the field <code>originalLanguages</code>.</p>
+     *
+     * @return a {@link java.util.List} object
+     */
     public List<String> getOriginalLanguages() {
         return originalLanguages;
     }
 
+    /**
+     * <p>Getter for the field <code>availableTranslatedLanguages</code>.</p>
+     *
+     * @return a {@link java.util.List} object
+     */
     public List<String> getAvailableTranslatedLanguages() {
         return availableTranslatedLanguages;
     }
 
+    /**
+     * <p>Getter for the field <code>excludedLanguages</code>.</p>
+     *
+     * @return a {@link java.util.List} object
+     */
     public List<String> getExcludedLanguages() {
         return excludedLanguages;
     }
@@ -324,7 +554,7 @@ public class MangaAction extends Action<List<Manga>>{
      * Completes the search request and retrieves the results.
      *
      * @return A list of Manga objects.
-     * @throws IOException if an error occurs during the request.
+     * @throws dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException if any.
      */
     public List<Manga> complete() throws HTTPRequestException {
         logger.debug("Submitting search request with parameters: {}", this);
@@ -442,6 +672,7 @@ public class MangaAction extends Action<List<Manga>>{
         return URLEncoder.encode(value, StandardCharsets.UTF_8);
     }
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return "SearchAction{" +

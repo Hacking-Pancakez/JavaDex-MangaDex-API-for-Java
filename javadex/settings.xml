@@ -1,0 +1,19 @@
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <servers>
+      <server>
+        <id>central</id>
+        <username>J2GGHogO</username>
+        <password>quSmu86S9Nwwr2erDBwbtDFwdbNpfTkpEv3mVAsiJt2B</password>
+    </server>
+    <server>
+      <id>gpg.passphrase</id>
+      <passphrase>gameband</passphrase>
+    </server>
+    <server>
+      <id>gpg.keyname</id>
+      <passphrase>56BC4A2D3C9A08593533C5FAEA94E58996877839</passphrase>
+      </server>
+  </servers>
+</settings>

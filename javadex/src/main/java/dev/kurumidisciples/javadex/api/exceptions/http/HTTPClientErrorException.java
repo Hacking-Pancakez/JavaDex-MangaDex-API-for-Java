@@ -6,8 +6,11 @@ import okhttp3.Response;
 /**
  * This exception is thrown when an HTTP request is made and a client error occurs.
  * This typically corresponds to HTTP 4xx status codes.
- * @since 0.1.1 
- * @see {@link HTTPRequestException}
+ *
+ * @since 0.1.1
+ * @see {@link dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException}
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 public class HTTPClientErrorException extends HTTPRequestException{
     

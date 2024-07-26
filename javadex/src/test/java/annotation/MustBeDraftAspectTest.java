@@ -25,6 +25,10 @@ public class MustBeDraftAspectTest {
     private MethodSignature signature;
     private Method method;
 
+    
+    /** 
+     * @throws NoSuchMethodException
+     */
     @BeforeEach
     public void setUp() throws NoSuchMethodException {
         aspect = new MustBeDraftAspect();

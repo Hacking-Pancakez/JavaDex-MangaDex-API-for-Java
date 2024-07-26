@@ -40,6 +40,10 @@ public class JavaDexTest {
         assertEquals(refreshRate, builder.getRefreshRate());
     }
 
+    
+    /** 
+     * @throws LoginException
+     */
     @Test
     public void testBuild() throws LoginException {
         Dotenv dotenv = Dotenv.configure().filename(".env").load();

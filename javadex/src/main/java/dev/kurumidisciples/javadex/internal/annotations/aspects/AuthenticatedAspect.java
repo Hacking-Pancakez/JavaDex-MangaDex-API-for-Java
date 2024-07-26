@@ -9,10 +9,22 @@ import dev.kurumidisciples.javadex.api.exceptions.AuthorizationException;
 import org.aspectj.lang.JoinPoint;
 
 
+/**
+ * <p>AuthenticatedAspect class.</p>
+ *
+ * @author Hacking Pancakez
+ * @version $Id: $Id
+ */
 @Aspect
 public class AuthenticatedAspect {
     
 
+    /**
+     * <p>validateAuthenticated.</p>
+     *
+     * @param joinPoint a {@link org.aspectj.lang.JoinPoint} object
+     * @throws java.lang.Throwable if any.
+     */
     @Before("execution(* *(..)) && @annotation(dev.kurumidisciples.javadex.internal.annotations.Authenticated)")
     public void validateAuthenticated(JoinPoint joinPoint) throws Throwable {
         // Retrieve the JavaDex instance from the JoinPoint's target (i.e., the object on which the method is being called)

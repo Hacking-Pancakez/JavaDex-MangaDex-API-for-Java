@@ -12,7 +12,10 @@ import dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap;
 
 /**
  * Represents a user in the MangaDex API.
+ *
  * @since 0.0.1
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 public class User extends Entity{
 
@@ -69,6 +72,11 @@ public class User extends Entity{
     private final String username;
     private final RelationshipMap relationshipMap;
 
+    /**
+     * <p>Constructor for User.</p>
+     *
+     * @param user a {@link com.google.gson.JsonObject} object
+     */
     public User(JsonObject user) {
         JsonObject original = user;
         try {
@@ -94,18 +102,38 @@ public class User extends Entity{
         return roles;
     }
 
+    /**
+     * <p>Getter for the field <code>roles</code>.</p>
+     *
+     * @return a {@link java.util.List} object
+     */
     public List<Role> getRoles() {
         return roles;
     }
 
+    /**
+     * <p>Getter for the field <code>id</code>.</p>
+     *
+     * @return a {@link java.util.UUID} object
+     */
     public UUID getId() {
         return id;
     }
 
+    /**
+     * <p>Getter for the field <code>username</code>.</p>
+     *
+     * @return a {@link java.lang.String} object
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * <p>Getter for the field <code>relationshipMap</code>.</p>
+     *
+     * @return a {@link dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap} object
+     */
     public RelationshipMap getRelationshipMap() {
         return relationshipMap;
     }

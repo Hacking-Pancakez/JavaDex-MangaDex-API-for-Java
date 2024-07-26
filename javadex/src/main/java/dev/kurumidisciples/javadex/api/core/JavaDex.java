@@ -45,6 +45,9 @@ import okhttp3.Response;
 
 /**
  * Main class for interacting with the MangaDex API.
+ *
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 public class JavaDex implements AutoCloseable{
 
@@ -101,6 +104,9 @@ public class JavaDex implements AutoCloseable{
         this.mode = Mode.AUTHORIZED;
     }
 
+    /**
+     * <p>Constructor for JavaDex.</p>
+     */
     protected JavaDex(){
         this.token = null;
         this.refreshRate = DEFAULT_REFRESH_RATE;
@@ -112,13 +118,15 @@ public class JavaDex implements AutoCloseable{
 
     /**
      * Returns the authorization mode of the JavaDex object.
+     *
      * @see Authenticated
+     * @return a {@link dev.kurumidisciples.javadex.api.core.JavaDex.Mode} object
      */
     public Mode getMode(){
         return mode;
     }
 
-     /**
+    /**
      * Initiates a search action with the provided query.
      *
      * This method creates a new SearchAction object with the provided query. The SearchAction object
@@ -126,8 +134,7 @@ public class JavaDex implements AutoCloseable{
      *
      * @param query The search query. This should be a non-null and non-empty string.
      * @return A new SearchAction object with the provided query.
-     *
-     * @throws IllegalArgumentException If the provided query is null or empty.
+     * @throws java.lang.IllegalArgumentException If the provided query is null or empty.
      */
     public MangaAction search(@NotNull String query) {
       return new MangaAction(query);
@@ -148,6 +155,7 @@ public class JavaDex implements AutoCloseable{
      * @param query The search query.
      * @param limit The number of results to return.
      * @return A SearchAction object.
+     * @param offset a int
      */
     public MangaAction search(@NotNull String query, @Size(min=1, max=100) int limit, @Size(min=0) int offset){
       return new MangaAction(query, limit, offset);
@@ -161,24 +169,26 @@ public class JavaDex implements AutoCloseable{
      *
      * @param id The ID of the manga to retrieve. This should be a non-null and non-empty string.
      * @return A CompletableFuture that will be completed with the Manga object when the API response is received and parsed.
-      */
+     */
     public CompletableFuture<Manga> getMangaById(@NotNull String id) {
         return MangaAction.getMangaById(id);
     }
 
     /**
-     * <h3>{@link Authenticated} Method</h3>
+     * <b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b>
      * <b>Returns the access token.</b>
-     * @throws AuthorizationException if the JavaDex object has not been authorized.
+     *
+     * @return a {@link java.lang.String} object
      */
     @Authenticated
     public synchronized String getAccessToken() {
         return token.getAccessToken();
     }
     /**
-     * <h3>{@link Authenticated} Method</h3>
+     * <b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b>
      * <b>Returns the refresh token.</b>
-     * @throws AuthorizationException if the JavaDex object has not been authorized.
+     *
+     * @return a {@link java.lang.String} object
      */
     @Authenticated
     public synchronized String getRefreshToken() {
@@ -200,22 +210,22 @@ public class JavaDex implements AutoCloseable{
     }
 
     /**
-     * <h3>{@link Authenticated} Method</h3>
+     * <b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b>
      * <b>Follows a specific manga.</b>
+     *
      * @param manga - Manga object to follow.
-     * @return CompletableFuture<Boolean> - true if the manga was successfully followed, false if error.
-     * @throws AuthorizationException if the JavaDex object has not been authorized.
+     * @return true if the manga was successfully followed, false if error.
      */
     @Authenticated
     public CompletableFuture<Boolean> followManga(@NotNull Manga manga) {
         return followManga(manga.getIdRaw());
     }
     /**
-     * <h3>{@link Authenticated} Method</h3>
+     * <b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b>
      * <b>Follows a specific manga.</b>
+     *
      * @param mangaId - UUID of the manga to follow.
-     * @return CompletableFuture<Boolean> - true if the manga was successfully followed, false if error.
-     * @throws AuthorizationException if the JavaDex object has not been authorized.
+     * @return true if the manga was successfully followed, false if error.
      */
     @Authenticated
     public CompletableFuture<Boolean> followManga(@NotNull UUID mangaId) {
@@ -223,10 +233,11 @@ public class JavaDex implements AutoCloseable{
     }
 
     /**
-     * <h3>{@link Authenticated} Method</h3>
      * <b>Follows a specific manga.</b>
+     * <p><b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b></p>
+     * 
+     *
      * @param mangaId - String of the manga to follow.
-     * @throws AuthorizationException if the JavaDex object has not been authorized.
      * @return CompletableFuture - true if the manga was successfully followed, false if error.
      */
     @Authenticated
@@ -251,7 +262,7 @@ public class JavaDex implements AutoCloseable{
     }
 
     /**
-     * <h3>{@link Authenticated} Method</h3>
+     * <b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b>
      * <b>Retrieves a list of UUIDs representing the chapters read for a specific manga.</b>
      *
      * <p>This method sends a GET request to the MangaDex API to retrieve the list of read chapters for the manga with the specified ID.
@@ -262,8 +273,6 @@ public class JavaDex implements AutoCloseable{
      *
      * @param mangaId The ID of the manga to retrieve the read chapters for. This should be a non-null and non-empty string.
      * @return A CompletableFuture that will be completed with the list of UUIDs representing the read chapters when the API response is received and parsed.
-     *
-     * @throws AuthorizationException if the JavaDex object has not been authorized.
      */
     @Authenticated
     public CompletableFuture<List<UUID>> retrieveReadChapters(@NotNull String mangaId) {
@@ -288,7 +297,7 @@ public class JavaDex implements AutoCloseable{
     }
 
     /**
-     * <h3>{@link Authenticated} Method</h3>
+     * <b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b>
      * <b>Marks a specific chapter as read.</b>
      *
      * <p>This method sends a POST request to the MangaDex API to mark the specified chapter as read.
@@ -297,9 +306,8 @@ public class JavaDex implements AutoCloseable{
      * This method is asynchronous and returns a CompletableFuture that will be completed when the
      * API response is received and parsed.
      *
-     * @param chapter A {@link NotNull} Chapter object to mark as read.
+     * @param chapter A {@link org.jetbrains.annotations.NotNull} Chapter object to mark as read.
      * @return A CompletableFuture that will be completed when the chapter is marked as read.
-     * @throws AuthorizationException if the JavaDex object has not been authorized.
      */
     @Authenticated
     public CompletableFuture<Void> markChapterAsRead(@NotNull Chapter chapter) {
@@ -322,6 +330,8 @@ public class JavaDex implements AutoCloseable{
 
     /**
      * Initiates a chapter search action.
+     *
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
      */
     public ChapterAction retrieveChapters(){
         return new ChapterAction();
@@ -349,7 +359,7 @@ public class JavaDex implements AutoCloseable{
     }
 
     /**
-     * <h3>{@link Authenticated} Method</h3>
+     * <b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b>
      * <b>Retrieves the list of Scanlation Groups that the user is following.</b>
      *
      * <p>This method sends a GET request to the MangaDex API and retrieves the list of Scanlation Groups
@@ -361,9 +371,7 @@ public class JavaDex implements AutoCloseable{
      *
      * @return A CompletableFuture that will be completed with the list of ScanlationGroup objects
      *         when the API response is received and parsed.
-     *
-     * @throws AuthorizationException if the JavaDex object has not been authorized.
-    */
+     */
     @Deprecated
     @Authenticated
     public CompletableFuture<List<ScanlationGroup>> retrieveFollowingGroupsOLD(){
@@ -390,7 +398,7 @@ public class JavaDex implements AutoCloseable{
     }
 
     /**
-     * <h3>{@link Authenticated} Method</h3>
+     * <b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b>
      * <b>Retrieves the list of Scanlation Groups that the user is following.</b>
      * <p>This method sends a GET request to the MangaDex API and retrieves the list of Scanlation Groups
      * that the user is currently following. The response from the API is a JSON object which is then
@@ -398,9 +406,8 @@ public class JavaDex implements AutoCloseable{
      *
      * <p>This method is asynchronous and returns a CompletableFuture that will be completed with the
      * list of ScanlationGroup objects when the API response is received and parsed.</p>
-     * 
+     *
      * @return FollowsAction object that will be completed with the list of ScanlationGroup objects
-     * @throws AuthorizationException if the JavaDex object has not been authorized.
      */
     @Authenticated
     public FollowsAction retrieveFollowingGroups(){
@@ -408,8 +415,8 @@ public class JavaDex implements AutoCloseable{
     }
     
     /**
-     * 
-     * <h3>{@link Authenticated} Method</h3>
+     *
+     * <b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b>
      * <b>Checks if self is following a specific group.</b>
      *
      * <p>This method sends a GET request to the MangaDex API and retrieves the list of Scanlation Groups
@@ -422,9 +429,7 @@ public class JavaDex implements AutoCloseable{
      * @return A CompletableFuture that will be completed with the list of ScanlationGroup objects
      *         when the API response is received and parsed.
      * @param group The ScanlationGroup object to check if self is following.
-     *
-     * @throws AuthorizationException if the JavaDex object has not been authorized.
-    */
+     */
     @Authenticated
     public CompletableFuture<Boolean> checkIfFollowingGroup(@NotNull ScanlationGroup group){
       return CompletableFuture.supplyAsync(() -> {
@@ -450,8 +455,9 @@ public class JavaDex implements AutoCloseable{
     }
 
     /**
-     * <h3>{@link Authenticated} Method</h3>
-     * @throws AuthorizationException if the JavaDex object has not been authorized.
+     * <b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b>
+     *
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.FollowsAction} object
      */
     @Authenticated
     public FollowsAction retrieveFollowingManga(){
@@ -459,15 +465,15 @@ public class JavaDex implements AutoCloseable{
     }
 
     /**
-     * <h3>{@link Authenticated} Method</h3>
+     * <b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b>
      * <b>Retrieves the current user's information from the MangaDex API.</b>
-     * 
+     *
      * <p>This method sends a GET request to the "/user/me" endpoint of the MangaDex API.
-     * The response is parsed into a {@link User} object and returned as a {@link CompletableFuture}.
-     * 
-     * <p>If an error occurs during the request or the parsing of the response, 
-     * a {@link CompletionException} is thrown with the original exception as the cause.
-     * @throws AuthorizationException if the JavaDex object has not been authorized.
+     * The response is parsed into a {@link dev.kurumidisciples.javadex.api.entities.User} object and returned as a {@link java.util.concurrent.CompletableFuture}.
+     *
+     * <p>If an error occurs during the request or the parsing of the response,
+     * a {@link java.util.concurrent.CompletionException} is thrown with the original exception as the cause.
+     *
      * @return a CompletableFuture that will complete with the User object for the current user
      */
     @Authenticated
@@ -527,6 +533,7 @@ public class JavaDex implements AutoCloseable{
         private String refresh_token;
     }
 
+    /** {@inheritDoc} */
     @Override
     public void close() throws IOException {
         scheduler.shutdown(); // Disable new tasks from being submitted

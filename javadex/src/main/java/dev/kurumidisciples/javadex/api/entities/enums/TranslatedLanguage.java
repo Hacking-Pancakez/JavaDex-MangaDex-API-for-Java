@@ -2,7 +2,11 @@ package dev.kurumidisciples.javadex.api.entities.enums;
 
 import dev.kurumidisciples.javadex.api.entities.enums.Locale; 
 /**
- * @deprecated This class will be removed by 0.2.0. Use {@link Locale} instead.
+ * <p>TranslatedLanguage class.</p>
+ *
+ * @deprecated This class will be removed by 0.2.0. Use {@link dev.kurumidisciples.javadex.api.entities.enums.Locale} instead.
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 @Deprecated
 @SuppressWarnings("unused")
@@ -30,10 +34,21 @@ public enum TranslatedLanguage {
     this.language = language;
   }
   
+  /**
+   * <p>Getter for the field <code>language</code>.</p>
+   *
+   * @return a {@link java.lang.String} object
+   */
   public String getLanguage() {
     return language;
   }
 
+  /**
+   * <p>getByLanguage.</p>
+   *
+   * @param language a {@link java.lang.String} object
+   * @return a {@link dev.kurumidisciples.javadex.api.entities.enums.TranslatedLanguage} object
+   */
   public static TranslatedLanguage getByLanguage(String language) {
     for (TranslatedLanguage translatedLanguage : TranslatedLanguage.values()) {
       if (translatedLanguage.getLanguage().equals(language)) {
@@ -43,6 +58,7 @@ public enum TranslatedLanguage {
     return null;
   }
   
+  /** {@inheritDoc} */
   @Override
   public String toString() {
     return language;

@@ -8,7 +8,10 @@ import java.lang.annotation.Target;
 /**
  * Requires a number to have a min and max size.
  * <p>{@code @Size(min = 1, max = 10)}</p>
+ *
  * @since 0.1.4
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)

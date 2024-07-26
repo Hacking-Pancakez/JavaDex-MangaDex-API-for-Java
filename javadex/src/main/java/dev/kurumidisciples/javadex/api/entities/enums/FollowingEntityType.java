@@ -4,7 +4,10 @@ import dev.kurumidisciples.javadex.internal.actions.retrieve.FollowsAction;
 
 /**
  * Represents the type of entity that is being followed.
- * @See {@link FollowsAction}
+ *
+ * @see {@link dev.kurumidisciples.javadex.internal.actions.retrieve.FollowsAction}
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 public enum FollowingEntityType {
     SELF_MANGA("/user/follows/manga", "manga"),
@@ -20,14 +23,30 @@ public enum FollowingEntityType {
         this.type = type;
     }
 
+    /**
+     * <p>Getter for the field <code>endpoint</code>.</p>
+     *
+     * @return a {@link java.lang.String} object
+     */
     public String getEndpoint() {
         return endpoint;
     }
 
+    /**
+     * <p>Getter for the field <code>type</code>.</p>
+     *
+     * @return a {@link java.lang.String} object
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * <p>fromEndpoint.</p>
+     *
+     * @param endpoint a {@link java.lang.String} object
+     * @return a {@link dev.kurumidisciples.javadex.api.entities.enums.FollowingEntityType} object
+     */
     public static FollowingEntityType fromEndpoint(String endpoint) {
         for (FollowingEntityType type : values()) {
             if (type.getEndpoint().equals(endpoint)) {
@@ -37,6 +56,12 @@ public enum FollowingEntityType {
         return null;
     }
 
+    /**
+     * <p>fromType.</p>
+     *
+     * @param type a {@link java.lang.String} object
+     * @return a {@link dev.kurumidisciples.javadex.api.entities.enums.FollowingEntityType} object
+     */
     public static FollowingEntityType fromType(String type) {
         for (FollowingEntityType entityType : values()) {
             if (entityType.getType().equals(type)) {

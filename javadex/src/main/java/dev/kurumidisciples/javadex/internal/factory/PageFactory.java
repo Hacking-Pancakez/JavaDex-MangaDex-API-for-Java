@@ -17,6 +17,12 @@ import dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestExce
 import dev.kurumidisciples.javadex.api.proxies.PageProxy;
 import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
 
+/**
+ * <p>PageFactory class.</p>
+ *
+ * @author Hacking Pancakez
+ * @version $Id: $Id
+ */
 public class PageFactory {
 
     private static final String API_SERVER = "https://api.mangadex.org/at-home/server/";
@@ -24,6 +30,13 @@ public class PageFactory {
     private static final Logger LOGGER = LogManager.getLogger(PageFactory.class);
     
     
+        /**
+         * <p>getPages.</p>
+         *
+         * @param chapter a {@link dev.kurumidisciples.javadex.api.entities.Chapter} object
+         * @return a {@link java.util.List} object
+         * @throws java.lang.InterruptedException if any.
+         */
         public static List<PageProxy> getPages(Chapter chapter) throws InterruptedException {
             try {
                 String jsonResponse = HTTPRequest.get(API_SERVER + chapter.getId());

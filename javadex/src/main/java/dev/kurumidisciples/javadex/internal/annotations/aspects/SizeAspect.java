@@ -7,9 +7,21 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import java.lang.reflect.Parameter;
 
+/**
+ * <p>SizeAspect class.</p>
+ *
+ * @author Hacking Pancakez
+ * @version $Id: $Id
+ */
 @Aspect
 public class SizeAspect {
 
+    /**
+     * <p>validateSize.</p>
+     *
+     * @param joinPoint a {@link org.aspectj.lang.JoinPoint} object
+     * @throws java.lang.Throwable if any.
+     */
     @Before("execution(* *(.., @dev.kurumidisciples.javadex.internal.annotations.Size (*), ..))")
     public void validateSize(JoinPoint joinPoint) throws Throwable {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();

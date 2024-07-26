@@ -21,6 +21,10 @@ public class NotLessThanOneAspectTest {
     private MethodSignature signature;
     private Method method;
 
+    
+    /** 
+     * @throws NoSuchMethodException
+     */
     @BeforeEach
     public void setUp() throws NoSuchMethodException {
         aspect = new NotLessThanOneAspect();

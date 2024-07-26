@@ -17,6 +17,9 @@ import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
 
 /**
  * Builder class for creating JavaDex instances with specified configurations.
+ *
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 public class JavaDexBuilder {
 
@@ -31,23 +34,34 @@ public class JavaDexBuilder {
     /**
      * Creates a new JavaDex instance with the default configurations.
      * <p>Guest access is used, <b>any methods that require authentication will not work and throw an exception.</b></p>
+     *
+     * @return a {@link dev.kurumidisciples.javadex.api.core.JavaDex} object
      */
     public static JavaDex createGuest(){
         return new JavaDex();
     }
     /**
      * Creates a new JavaDexBuilder instance with the default configurations.
-     * @param clientId
-     * @return
+     *
+     * @param clientId a {@link java.lang.String} object
+     * @return a {@link dev.kurumidisciples.javadex.api.core.JavaDexBuilder} object
      */
     public static JavaDexBuilder createDefault(String clientId){
         return new JavaDexBuilder().setClientId(clientId);
     }
 
+    /**
+     * <p>createDefault.</p>
+     *
+     * @return a {@link dev.kurumidisciples.javadex.api.core.JavaDexBuilder} object
+     */
     public static JavaDexBuilder createDefault(){
         return new JavaDexBuilder();
     }
 
+    /**
+     * <p>Constructor for JavaDexBuilder.</p>
+     */
     protected JavaDexBuilder() {
     }
 
@@ -95,6 +109,11 @@ public class JavaDexBuilder {
         return this;
     }
 
+    /**
+     * <p>Getter for the field <code>refreshRate</code>.</p>
+     *
+     * @return a {@link java.time.Duration} object
+     */
     public Duration getRefreshRate() {
         return refreshRate;
     }
@@ -115,7 +134,7 @@ public class JavaDexBuilder {
      * Builds a new JavaDex instance with the specified configurations.
      *
      * @return A new JavaDex instance.
-     * @throws IOException If an I/O error occurs during authentication.
+     * @throws javax.security.auth.login.LoginException if any.
      */
     public JavaDex build() throws LoginException {
         try{

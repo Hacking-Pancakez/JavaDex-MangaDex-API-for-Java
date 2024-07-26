@@ -7,7 +7,10 @@ import okhttp3.Response;
 
 /**
  * Is usaully thrown when the HTTP request times out.
- * @See {@link HTTPRequestException}
+ *
+ * @see {@link dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException}
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 public class HTTPTimeoutException extends HTTPRequestException{
 
@@ -26,6 +29,7 @@ public class HTTPTimeoutException extends HTTPRequestException{
 
     /**
      * Constructs a new HTTPTimeoutException with the specified detail message.
+     *
      * @param message the detail message (which is saved for later retrieval by the Throwable.getMessage() method).
      */
     public HTTPTimeoutException(@Nullable String message) {
@@ -35,6 +39,7 @@ public class HTTPTimeoutException extends HTTPRequestException{
 
     /**
      * Constructs a new HTTPTimeoutException with the specified detail message and cause.
+     *
      * @param message the detail message (which is saved for later retrieval by the Throwable.getMessage() method).
      * @param cause the cause (which is saved for later retrieval by the Throwable.getCause() method). (A null value is permitted, and indicates that the cause is nonexistent or unknown.)
      */
@@ -45,6 +50,8 @@ public class HTTPTimeoutException extends HTTPRequestException{
 
     /**
      * Returns the Response object associated with this exception.
+     *
+     * @return a {@link okhttp3.Response} object
      */
     @Nullable
     public Response getResponse() {

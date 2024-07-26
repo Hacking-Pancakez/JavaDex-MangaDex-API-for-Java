@@ -9,8 +9,11 @@ import dev.kurumidisciples.javadex.api.entities.enums.State;
 
 
 /**
- * Requires the Manga to be in a {@link State#DRAFT} and will throw an {@link IllegalArgumentException} if it is not.
+ * Requires the Manga to be in a {@link dev.kurumidisciples.javadex.api.entities.enums.State#DRAFT} and will throw an {@link java.lang.IllegalArgumentException} if it is not.
+ *
  * @since 0.1.4
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.PARAMETER)

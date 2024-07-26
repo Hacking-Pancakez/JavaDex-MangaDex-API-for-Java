@@ -13,6 +13,12 @@ import dev.kurumidisciples.javadex.api.entities.relationship.RelationshipData;
 import dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException;
 import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
 
+/**
+ * <p>GroupFactory class.</p>
+ *
+ * @author Hacking Pancakez
+ * @version $Id: $Id
+ */
 public class GroupFactory {
 
     private static final String GROUP_API = "https://api.mangadex.org/group/";
@@ -21,8 +27,11 @@ public class GroupFactory {
 
     /**
      * Builds a group from relationship data
-     * @param RelationshipData
+     *
      * @return ScanlationGroup object
+     * @param data a {@link dev.kurumidisciples.javadex.api.entities.relationship.RelationshipData} object
+     * @throws java.io.IOException if any.
+     * @throws java.lang.InterruptedException if any.
      */
     public static ScanlationGroup getScanlationGroup(RelationshipData data) throws IOException, InterruptedException{
             String groupId = data.getId().toString();

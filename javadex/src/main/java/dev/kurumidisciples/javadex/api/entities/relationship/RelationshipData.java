@@ -10,6 +10,9 @@ import dev.kurumidisciples.javadex.api.entities.relationship.enums.RelationshipR
 /**
  * This class represents the relationship data in the application.
  * It contains the ID of the relationship and the related entity.
+ *
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 public class RelationshipData {
     

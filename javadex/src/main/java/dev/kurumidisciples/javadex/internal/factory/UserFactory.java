@@ -14,6 +14,12 @@ import dev.kurumidisciples.javadex.api.entities.relationship.enums.RelationshipT
 import dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException;
 import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
 
+/**
+ * <p>UserFactory class.</p>
+ *
+ * @author Hacking Pancakez
+ * @version $Id: $Id
+ */
 public class UserFactory {
     
     private static final String USER_API = "https://api.mangadex.org/user/";
@@ -22,6 +28,7 @@ public class UserFactory {
 
     /**
      * Builds a User object from the given Chapter object.
+     *
      * @param chapter The Chapter object from which to build the User object.
      * @return The uploader of the chapter object.
      */

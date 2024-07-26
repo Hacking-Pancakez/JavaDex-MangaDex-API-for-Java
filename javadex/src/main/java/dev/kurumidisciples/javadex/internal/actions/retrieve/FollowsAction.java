@@ -31,7 +31,10 @@ import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
 
 /**
  * <p>FollowsAction is responsible for handling the follow actions for different entities
- * such as {@link Manga}, {@link ScanlationGroup}, {@link User}, and Lists on the MangaDex platform.</p>
+ * such as {@link dev.kurumidisciples.javadex.api.entities.content.Manga}, {@link dev.kurumidisciples.javadex.api.entities.ScanlationGroup}, {@link dev.kurumidisciples.javadex.api.entities.User}, and Lists on the MangaDex platform.</p>
+ *
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 @SuppressWarnings("unused")
 public class FollowsAction extends Action<List<EntityMiddleman>> {
@@ -62,6 +65,7 @@ public class FollowsAction extends Action<List<EntityMiddleman>> {
 
     /**
      * Constructs a new FollowsAction with the provided entity and authorization.
+     *
      * @param entity the entity to follow.
      * @param authorization the authorization token.
      */
@@ -73,9 +77,9 @@ public class FollowsAction extends Action<List<EntityMiddleman>> {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Sets the limit for the number of entities to fetch.
-     * @param limit the limit.
-     * @return the updated FollowsAction instance.
      */
     @Override
     public FollowsAction setLimit(Integer limit) {
@@ -84,9 +88,9 @@ public class FollowsAction extends Action<List<EntityMiddleman>> {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Sets the offset for fetching entities.
-     * @param offset the offset.
-     * @return the updated FollowsAction instance.
      */
     @Override
     public FollowsAction setOffset(Integer offset) {
@@ -95,11 +99,10 @@ public class FollowsAction extends Action<List<EntityMiddleman>> {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Sets the includes types for the follow request.
-     * @param includes the includes types.
-     * @return the updated FollowsAction instance.
-     * @throws IllegalArgumentException if an invalid includes type is provided.
-     * @apiNote See the <a href="https://api.mangadex.org/docs/swagger.html#/Follows">MangaDex API documentation</a> for more information on available includes.
+     * <p>See the <a href="https://api.mangadex.org/docs/swagger.html#/Follows">MangaDex API documentation</a> for more information on available includes.</p>
      */
     @Override
     public FollowsAction setIncludes(@NotNull IncludesType... includes) {
@@ -140,10 +143,9 @@ public class FollowsAction extends Action<List<EntityMiddleman>> {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Completes the follow action synchronously.
-     * @return a list of EntityMiddleman objects representing the followed entities.
-     * @throws IOException if an I/O error occurs.
-     * @throws HTTPRequestException if an HTTP request error occurs.
      */
     @Override
     public List<EntityMiddleman> complete() throws HTTPRequestException {
@@ -183,8 +185,9 @@ public class FollowsAction extends Action<List<EntityMiddleman>> {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Submits the follow action asynchronously.
-     * @return a CompletableFuture representing the result of the follow action.
      */
     @Override
     public CompletableFuture<List<EntityMiddleman>> submit() {
@@ -199,8 +202,9 @@ public class FollowsAction extends Action<List<EntityMiddleman>> {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Converts the follow action parameters to a URL query string.
-     * @return the URL query string.
      */
     @Override
     public String toString() {

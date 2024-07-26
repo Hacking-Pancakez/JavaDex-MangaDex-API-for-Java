@@ -3,10 +3,13 @@ package dev.kurumidisciples.javadex.api.entities.relationship.enums;
 import dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap;
 
 /**
- * Represents the type of relationship that is being used in {@link RelationshipMap}'s attributes.
+ * Represents the type of relationship that is being used in {@link dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap}'s attributes.
  * <p><b>NOTE:</b></p>
  * <p>The JavaDoc for the enums are taken from <a href="https://api.mangadex.org/docs/3-enumerations/#manga-related-enum">MangaDex API - Manga Related Enum.</a></p>
+ *
  * @since 0.1.2
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 public enum RelationshipRelated {
     /**A self-published derivative work based on this manga*/
@@ -52,10 +55,21 @@ public enum RelationshipRelated {
     }
 
 
+    /**
+     * <p>Getter for the field <code>related</code>.</p>
+     *
+     * @return a {@link java.lang.String} object
+     */
     public String getRelated() {
         return related;
     }
 
+    /**
+     * <p>fromString.</p>
+     *
+     * @param text a {@link java.lang.String} object
+     * @return a {@link dev.kurumidisciples.javadex.api.entities.relationship.enums.RelationshipRelated} object
+     */
     public static RelationshipRelated fromString(String text) {
         for (RelationshipRelated b : RelationshipRelated.values()) {
             if (b.getRelated() != null && b.getRelated().equals(text)) {

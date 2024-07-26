@@ -27,8 +27,11 @@ import okhttp3.Response;
 
 /**
  * Utility class for making HTTP requests.
- * @apiNote This class is an internal utility class and should not be used directly.
+ *
+ * <p>This class is an internal utility class and should not be used directly.</p>
  * @since 0.0.1
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 @SuppressWarnings("unused")
 public class HTTPRequest {
@@ -49,26 +52,36 @@ public class HTTPRequest {
 
     /**
      * Sends a POST request to the specified URL with the specified JSON payload.
+     *
      * @param url the URL to send the request to
      * @param json the JSON payload to send with the request
      * @return the response body as a string
-     * @throws HTTPRequestException if the request fails
+     * @throws dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException if the request fails
      */
     public static String post(String url, String json) throws HTTPRequestException{
         return postWithBearer(url, json, Optional.empty());
     }
 
+    /**
+     * <p>post.</p>
+     *
+     * @param url a {@link java.lang.String} object
+     * @param bearer a {@link java.util.Optional} object
+     * @return a {@link java.lang.String} object
+     * @throws dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException if any.
+     */
     public static String post(String url, Optional<String> bearer) throws HTTPRequestException {
         return postWithBearer(url, "", bearer);
     }
 
     /**
      * Sends a POST request to the specified URL with the specified JSON payload and bearer token.
+     *
      * @param url the URL to send the request to
      * @param json the JSON payload to send with the request
      * @param bearer the bearer token to use for authorization
      * @return the response body as a string
-     * @throws HTTPRequestException if the request fails
+     * @throws dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException if the request fails
      */
     public static String post(String url, String json, Optional<String> bearer) throws HTTPRequestException {
         return postWithBearer(url, json, bearer);
@@ -123,11 +136,12 @@ public class HTTPRequest {
 
     /**
      * Sends a POST request to the specified URL with the specified JSON payload and bearer token, returning the raw response.
+     *
      * @param url the URL to send the request to
      * @param json the JSON payload to send with the request
      * @param bearer the bearer token to use for authorization
      * @return the raw response object
-     * @throws InterruptedException if the request is interrupted
+     * @throws dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException if any.
      */
     public static Response postResponse(String url, String json, Optional<String> bearer) throws HTTPRequestException {
         try {
@@ -151,10 +165,11 @@ public class HTTPRequest {
 
     /**
      * Sends a GET request to the specified URL with the specified JSON payload.
+     *
      * @param url the URL to send the request to
      * @param json the JSON payload to send with the request
      * @return the response body as a string
-     * @throws HTTPRequestException if the request fails
+     * @throws dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException if the request fails
      */
     public static String get(String url, String json) throws HTTPRequestException {
         return getWithBearer(url, Optional.of(json), Optional.empty());
@@ -162,9 +177,10 @@ public class HTTPRequest {
 
     /**
      * Sends a GET request to the specified URL.
+     *
      * @param url the URL to send the request to
      * @return the response body as a string
-     * @throws HTTPRequestException if the request fails
+     * @throws dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException if the request fails
      */
     public static String get(String url) throws HTTPRequestException {
         return getWithBearer(url, Optional.empty(), Optional.empty());
@@ -172,10 +188,11 @@ public class HTTPRequest {
 
     /**
      * Sends a GET request to the specified URL with the specified bearer token.
+     *
      * @param url the URL to send the request to
      * @param bearer the bearer token to use for authorization
      * @return the response body as a string
-     * @throws HTTPRequestException if the request fails
+     * @throws dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException if the request fails
      */
     public static String get(String url, Optional<String> bearer) throws HTTPRequestException {
         return getWithBearer(url, Optional.empty(), bearer);
@@ -211,10 +228,11 @@ public class HTTPRequest {
 
     /**
      * Sends a GET request to the specified URL with the specified bearer token, returning the raw response.
+     *
      * @param url the URL to send the request to
      * @param bearer the bearer token to use for authorization
      * @return the raw response object
-     * @throws HTTPRequestException if the request fails
+     * @throws dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException if the request fails
      */
     public static Response getResponse(String url, Optional<String> bearer) throws HTTPRequestException {
         try {
@@ -237,10 +255,11 @@ public class HTTPRequest {
 
     /**
      * Sends a POST request to the specified URL with the specified form data. Is mostly used for access token requests.
+     *
      * @param url the URL to send the request to
      * @param formData the form data to send with the request
      * @return the response body as a string
-     * @throws HTTPRequestException if the request fails
+     * @throws dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException if the request fails
      */
     public static String postForm(String url, Map<String, String> formData) throws HTTPRequestException {
         try {

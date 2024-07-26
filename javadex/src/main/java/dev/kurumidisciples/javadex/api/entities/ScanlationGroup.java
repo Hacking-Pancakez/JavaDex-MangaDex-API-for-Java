@@ -18,6 +18,9 @@ import dev.kurumidisciples.javadex.api.entities.relationship.enums.RelationshipT
 
 /**
  * Represents a ScanlationGroup entity.
+ *
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 public class ScanlationGroup extends Entity implements ISnowflake {
 
@@ -41,6 +44,11 @@ public class ScanlationGroup extends Entity implements ISnowflake {
     private final OffsetDateTime updatedAt;
     private final RelationshipMap relationshipMap;
 
+    /**
+     * <p>Constructor for ScanlationGroup.</p>
+     *
+     * @param data a {@link com.google.gson.JsonObject} object
+     */
     public ScanlationGroup(JsonObject data) {
         this.id = UUID.fromString(data.get("id").getAsString());
         JsonObject attributes = data.getAsJsonObject("attributes");
@@ -65,29 +73,37 @@ public class ScanlationGroup extends Entity implements ISnowflake {
 
     /**
      * Returns the relationship map of the group. This map contains the relationships of the group with other entities.
+     *
+     * @return a {@link dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap} object
      */
     public RelationshipMap getRelationshipMap() {
         return relationshipMap;
     }
 
     /**
-     * Returns the UUID of the group as a string. 
+     * Returns the UUID of the group as a string.
+     *
+     * @return a {@link java.lang.String} object
      */
     public String getIdRaw() {
         return id.toString();
     }
 
+    /** {@inheritDoc} */
     @Override
     public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
+    /** {@inheritDoc} */
     @Override
     public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Returns the UUID of the group.
      */
     @Override
@@ -97,71 +113,134 @@ public class ScanlationGroup extends Entity implements ISnowflake {
 
     /**
      * Returns the website as set by the group.
+     *
+     * @return a {@link java.lang.String} object
      */
     public String getWebsite() {
         return website;
     }
 
+    /**
+     * <p>Getter for the field <code>ircServer</code>.</p>
+     *
+     * @return a {@link java.lang.String} object
+     */
     public String getIrcServer() {
         return ircServer;
     }
 
+    /**
+     * <p>Getter for the field <code>ircChannel</code>.</p>
+     *
+     * @return a {@link java.lang.String} object
+     */
     public String getIrcChannel() {
         return ircChannel;
     }
 
     /**
      * Returns the invite code for the discord server provided by the group.
+     *
+     * @return a {@link java.lang.String} object
      */
     public String getDiscord() {
         return discord;
     }
 
+    /**
+     * <p>Getter for the field <code>name</code>.</p>
+     *
+     * @return a {@link java.lang.String} object
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * <p>Getter for the field <code>contactEmail</code>.</p>
+     *
+     * @return a {@link java.lang.String} object
+     */
     public String getContactEmail() {
         return contactEmail;
     }
 
+    /**
+     * <p>Getter for the field <code>description</code>.</p>
+     *
+     * @return a {@link java.lang.String} object
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * <p>Getter for the field <code>twitter</code>.</p>
+     *
+     * @return a {@link java.lang.String} object
+     */
     public String getTwitter() {
         return twitter;
     }
 
+    /**
+     * <p>Getter for the field <code>mangaUpdates</code>.</p>
+     *
+     * @return a {@link java.lang.String} object
+     */
     public String getMangaUpdates() {
         return mangaUpdates;
     }
 
+    /**
+     * <p>Getter for the field <code>focusedLanguage</code>.</p>
+     *
+     * @return a {@link java.util.List} object
+     */
     public List<String> getFocusedLanguage() {
         return focusedLanguage;
     }
 
     /**
      * Returns whether the group is locked. This usually means that no one besides group members can upload chapters.
+     *
+     * @return a boolean
      */
     public boolean isLocked() {
         return locked;
     }
     
+    /**
+     * <p>isOfficial.</p>
+     *
+     * @return a boolean
+     */
     public boolean isOfficial() {
         return official;
     }
 
+    /**
+     * <p>isExLicensed.</p>
+     *
+     * @return a boolean
+     */
     public boolean isExLicensed() {
         return exLicensed;
     }
 
+    /**
+     * <p>isInactive.</p>
+     *
+     * @return a boolean
+     */
     public boolean isInactive() {
         return inactive;
     }
 
     /**
      * Returns the version of the entity. Indicating how many times the group has been updated.
+     *
+     * @return a {@link java.lang.Integer} object
      */
     public Integer getVersion() {
         return version;
@@ -169,6 +248,7 @@ public class ScanlationGroup extends Entity implements ISnowflake {
 
     /**
      * Returns the members of the group. <b>This includes both members and the leader.</b>
+     *
      * @return A list of UUIDs of the members of the group.
      */
     public List<UUID> getMembers() {
@@ -185,6 +265,7 @@ public class ScanlationGroup extends Entity implements ISnowflake {
     }
     /**
      * Returns the leader of the group.
+     *
      * @return The UUID of the leader of the group.
      */
     public UUID getLeader(){

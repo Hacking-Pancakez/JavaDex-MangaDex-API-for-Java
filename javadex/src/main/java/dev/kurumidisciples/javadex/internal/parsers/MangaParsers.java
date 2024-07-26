@@ -13,8 +13,21 @@ import com.google.gson.JsonObject;
 import dev.kurumidisciples.javadex.api.entities.content.Manga.Tag;
 import dev.kurumidisciples.javadex.api.entities.enums.Locale;
 
+/**
+ * <p>MangaParsers class.</p>
+ *
+ * @author Hacking Pancakez
+ * @version $Id: $Id
+ */
 public class MangaParsers {
     
+    
+    /**
+     * <p>parseAvailableTranslatedLanguages.</p>
+     *
+     * @param availableTranslatedLanguagesArray a {@link com.google.gson.JsonArray} object
+     * @return List of available translated languages.
+     */
     public static List<String> parseAvailableTranslatedLanguages(JsonArray availableTranslatedLanguagesArray) {
         List<String> languages = new ArrayList<>();
         for (JsonElement langElement : availableTranslatedLanguagesArray) {
@@ -23,6 +36,12 @@ public class MangaParsers {
         return languages;
     }
 
+    /**
+     * <p>parseTags.</p>
+     *
+     * @param tagsArray a {@link com.google.gson.JsonArray} object
+     * @return List of tags.
+     */
     public static List<Tag> parseTags(JsonArray tagsArray) {
         List<Tag> tags = new ArrayList<>();
         for (JsonElement tagElement : tagsArray) {
@@ -33,6 +52,12 @@ public class MangaParsers {
         return tags;
     }
 
+    /**
+     * <p>parseAltTitles.</p>
+     *
+     * @param altTitlesArray a {@link com.google.gson.JsonArray} object
+     * @return a {@link java.util.Map} object
+     */
     public static Map<Locale, List<String>> parseAltTitles(JsonArray altTitlesArray) {
         Map<Locale, List<String>> altTitles = new HashMap<>();
         for (JsonElement altTitleElement : altTitlesArray) {
@@ -45,6 +70,12 @@ public class MangaParsers {
         return altTitles;
     }
 
+    /**
+     * <p>parseDescription.</p>
+     *
+     * @param descriptionObject a {@link com.google.gson.JsonObject} object
+     * @return a {@link java.util.Map} object
+     */
     public static Map<Locale, String> parseDescription(JsonObject descriptionObject) {
         Map<Locale, String> descriptions = new HashMap<>();
         for (Map.Entry<String, JsonElement> entry : descriptionObject.entrySet()) {

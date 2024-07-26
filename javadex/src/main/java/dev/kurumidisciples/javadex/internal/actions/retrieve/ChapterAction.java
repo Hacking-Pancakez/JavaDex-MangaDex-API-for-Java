@@ -27,8 +27,11 @@ import dev.kurumidisciples.javadex.internal.annotations.Size;
 import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
 
 /**
- * <p>ChapterAction is responsible for handling GET chapter endpoints on the MangaDex platform.</p> 
- * @apiNote See <a href="https://api.mangadex.org/docs/swagger.html#/Chapter/get-chapter">/chapter</a>
+ * <p>ChapterAction is responsible for handling GET chapter endpoints on the MangaDex platform.</p>
+ *
+ * See <a href="https://api.mangadex.org/docs/swagger.html#/Chapter/get-chapter"> MangaDex Chapter Endpoint</a>
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 public class ChapterAction extends Action<List<Chapter>> {
     
@@ -68,66 +71,141 @@ public class ChapterAction extends Action<List<Chapter>> {
 
     private final static Logger logger = LogManager.getLogger(ChapterAction.class);
 
+    /**
+     * <p>Constructor for ChapterAction.</p>
+     */
     public ChapterAction() {
         this.limit = 10;
         this.offset = 0;
     }
 
+    /**
+     * <p>addCreatedAtSince.</p>
+     *
+     * @param createdAtSince a {@link java.time.OffsetDateTime} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addCreatedAtSince(@NotNull OffsetDateTime createdAtSince){
         this.createdAtSince = createdAtSince;
         return this;
     }
 
+    /**
+     * <p>addUpdatedAtSince.</p>
+     *
+     * @param updatedAtSince a {@link java.time.OffsetDateTime} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addUpdatedAtSince(@NotNull OffsetDateTime updatedAtSince){
         this.updatedAtSince = updatedAtSince;
         return this;
     }
 
+    /**
+     * <p>addPublishAtSince.</p>
+     *
+     * @param publishAtSince a {@link java.time.OffsetDateTime} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addPublishAtSince(@NotNull OffsetDateTime publishAtSince){
         this.publishAtSince = publishAtSince;
         return this;
     }
 
+    /**
+     * <p>includeFutureUpdates.</p>
+     *
+     * @param includeFutureUpdates a boolean
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction includeFutureUpdates(boolean includeFutureUpdates){
         this.includeFutureUpdates = includeFutureUpdates;
         return this;
     }
 
+    /**
+     * <p>Setter for the field <code>chapter</code>.</p>
+     *
+     * @param chapter a {@link java.lang.Short} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction setChapter(Short chapter){
         this.chapter = chapter;
         return this;
     }
 
+    /**
+     * <p>includeEmptyPages.</p>
+     *
+     * @param includeEmptyPages a boolean
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction includeEmptyPages(boolean includeEmptyPages){
         this.includeEmptyPages = includeEmptyPages;
         return this;
     }
 
+    /**
+     * <p>includeFuturePublishAt.</p>
+     *
+     * @param includeFuturePublishAt a boolean
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction includeFuturePublishAt(boolean includeFuturePublishAt){
         this.includeFuturePublishAt = includeFuturePublishAt;
         return this;
     }
 
+    /**
+     * <p>includeExternalUrl.</p>
+     *
+     * @param includeExternalUrl a boolean
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction includeExternalUrl(boolean includeExternalUrl){
         this.includeExternalUrl = includeExternalUrl;
         return this;
     }
 
+    /**
+     * <p>addExcludedGroup.</p>
+     *
+     * @param groupId a {@link java.util.UUID} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addExcludedGroup(@NotNull UUID groupId){
         if (!this.excludedGroupIds.contains(groupId.toString())) this.excludedGroupIds.add(groupId.toString());
         return this;
     }
 
+    /**
+     * <p>addExcludedGroup.</p>
+     *
+     * @param groupId a {@link java.lang.String} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addExcludedGroup(@NotNull String groupId){
         if (!this.excludedGroupIds.contains(groupId)) this.excludedGroupIds.add(groupId);
         return this;
     }
 
+    /**
+     * <p>addExcludedOriginalLanguage.</p>
+     *
+     * @param language a {@link dev.kurumidisciples.javadex.api.entities.enums.Locale} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addExcludedOriginalLanguage(@NotNull Locale language){
         if (!this.excludedOriginalLanguages.contains(language)) this.excludedOriginalLanguages.add(language);
         return this;
     }
 
+    /**
+     * <p>addExcludedOriginalLanguages.</p>
+     *
+     * @param languages a {@link java.util.List} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addExcludedOriginalLanguages(@NotNull List<Locale> languages){
         languages.forEach(language -> {
             if (!this.excludedOriginalLanguages.contains(language)) this.excludedOriginalLanguages.add(language);
@@ -135,11 +213,23 @@ public class ChapterAction extends Action<List<Chapter>> {
         return this;
     }
 
+    /**
+     * <p>addOriginalLanguage.</p>
+     *
+     * @param language a {@link dev.kurumidisciples.javadex.api.entities.enums.Locale} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addOriginalLanguage(@NotNull Locale language){
         if (!this.originalLanguage.contains(language)) this.originalLanguage.add(language);
         return this;
     }
 
+    /**
+     * <p>addOriginalLanguages.</p>
+     *
+     * @param languages a {@link java.util.List} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addOriginalLanguages(@NotNull List<Locale> languages){
         languages.forEach(language -> {
             if (!this.originalLanguage.contains(language)) this.originalLanguage.add(language);
@@ -147,11 +237,23 @@ public class ChapterAction extends Action<List<Chapter>> {
         return this;
     }
 
+    /**
+     * <p>addTranslatedLanguage.</p>
+     *
+     * @param language a {@link dev.kurumidisciples.javadex.api.entities.enums.Locale} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addTranslatedLanguage(@NotNull Locale language){
         if (!this.translatedLanguages.contains(language)) this.translatedLanguages.add(language);
         return this;
     }
 
+    /**
+     * <p>addTranslatedLanguages.</p>
+     *
+     * @param languages a {@link java.util.List} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addTranslatedLanguages(@NotNull List<Locale> languages){
         languages.forEach(language -> {
             if (!this.translatedLanguages.contains(language)) this.translatedLanguages.add(language);
@@ -159,16 +261,34 @@ public class ChapterAction extends Action<List<Chapter>> {
         return this;
     }
 
+    /**
+     * <p>addChapter.</p>
+     *
+     * @param chapterId a {@link java.util.UUID} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addChapter(@NotNull UUID chapterId){
         if (!this.chapterIds.contains(chapterId.toString())) this.chapterIds.add(chapterId.toString());
         return this;
     }
 
+    /**
+     * <p>addChapter.</p>
+     *
+     * @param chapterId a {@link java.lang.String} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addChapter(@NotNull String chapterId){
         if (!this.chapterIds.contains(chapterId)) this.chapterIds.add(chapterId);
         return this;
     }
 
+    /**
+     * <p>addChapters.</p>
+     *
+     * @param chapterIds a {@link java.util.List} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addChapters(@NotNull List<String> chapterIds){
         chapterIds.forEach(chapterId -> {
             if (!this.chapterIds.contains(chapterId)) this.chapterIds.add(chapterId);
@@ -176,11 +296,23 @@ public class ChapterAction extends Action<List<Chapter>> {
         return this;
     }
 
+    /**
+     * <p>addVolume.</p>
+     *
+     * @param volume a {@link java.lang.Integer} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addVolume(@NotNull Integer volume){
         if (!this.volume.contains(volume)) this.volume.add(volume);
         return this;
     }
 
+    /**
+     * <p>addVolumes.</p>
+     *
+     * @param volumes a {@link java.util.List} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addVolumes(@NotNull List<Integer> volumes){
         volumes.forEach(volume -> {
             if (!this.volume.contains(volume)) this.volume.add(volume);
@@ -188,11 +320,23 @@ public class ChapterAction extends Action<List<Chapter>> {
         return this;
     }
 
+    /**
+     * <p>addContentRating.</p>
+     *
+     * @param rating a {@link dev.kurumidisciples.javadex.api.entities.enums.manga.filters.ContentRating} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addContentRating(@NotNull ContentRating rating){
         if (!this.contentRating.contains(rating)) this.contentRating.add(rating);
         return this;
     }
 
+    /**
+     * <p>addContentRatings.</p>
+     *
+     * @param ratings a {@link java.util.List} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addContentRatings(@NotNull List<ContentRating> ratings){
         ratings.forEach(rating -> {
             if (!this.contentRating.contains(rating)) this.contentRating.add(rating);
@@ -200,26 +344,56 @@ public class ChapterAction extends Action<List<Chapter>> {
         return this;
     }
 
+    /**
+     * <p>addGroup.</p>
+     *
+     * @param groupId a {@link java.util.UUID} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addGroup(@NotNull UUID groupId){
         this.groupIds.add(groupId.toString());
         return this;
     }
 
+    /**
+     * <p>addGroup.</p>
+     *
+     * @param groupId a {@link java.lang.String} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addGroup(@NotNull String groupId){
         this.groupIds.add(groupId);
         return this;
     }
 
+    /**
+     * <p>addGroup.</p>
+     *
+     * @param group a {@link dev.kurumidisciples.javadex.api.entities.ScanlationGroup} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addGroup(@NotNull ScanlationGroup group){
         this.groupIds.add(group.getId().toString());
         return this;
     }
 
+    /**
+     * <p>addGroups.</p>
+     *
+     * @param groupIds a {@link java.util.List} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction addGroups(@NotNull List<String> groupIds){
         this.groupIds.addAll(groupIds);
         return this;
     }
 
+    /**
+     * <p>Setter for the field <code>mangaId</code>.</p>
+     *
+     * @param mangaId a {@link java.util.UUID} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction setMangaId(@NotNull UUID mangaId){
         this.mangaId = mangaId.toString();
         return this;
@@ -227,7 +401,9 @@ public class ChapterAction extends Action<List<Chapter>> {
 
     /**
      * Sets the manga id to search for.
+     *
      * @param manga the manga object thats contains the id.
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
      */
     public ChapterAction setMangaId(@NotNull Manga manga){
         this.mangaId = manga.getId().toString();
@@ -235,19 +411,23 @@ public class ChapterAction extends Action<List<Chapter>> {
     }
     /**
      * Sets the title of the chapter to search for.
+     *
      * @param title the title of the chapter.
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
      */
     public ChapterAction setTitle(@NotNull String title){
         this.title = title;
         return this;
     }
 
+    /** {@inheritDoc} */
     @Override
     public ChapterAction setLimit(@Size(min=0, max=100) Integer limit) {
         this.limit = limit;
         return this;
     }
 
+    /** {@inheritDoc} */
     @Override
     public ChapterAction setOffset(@Size Integer offset) {
         if (offset < 0) throw new IllegalArgumentException("Offset must be greater than 0");
@@ -255,6 +435,7 @@ public class ChapterAction extends Action<List<Chapter>> {
         return this;
     }
 
+    /** {@inheritDoc} */
     @Override
     public ChapterAction setIncludes(IncludesType... includes) {
         for (IncludesType include : includes) {
@@ -271,21 +452,40 @@ public class ChapterAction extends Action<List<Chapter>> {
         return false;
     }
 
+    /**
+     * <p>setUploader.</p>
+     *
+     * @param uploader a {@link java.util.UUID} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction setUploader(@NotNull UUID uploader) {
         this.uploaderId = uploader.toString();
         return this;
     }
 
+    /**
+     * <p>setUploader.</p>
+     *
+     * @param uploader a {@link dev.kurumidisciples.javadex.api.entities.User} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction setUploader(@NotNull User uploader){
         this.uploaderId = uploader.getId().toString();
         return this;
     }
 
+    /**
+     * <p>setUploader.</p>
+     *
+     * @param uploader a {@link java.lang.String} object
+     * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction} object
+     */
     public ChapterAction setUploader(@NotNull String uploader){
         this.uploaderId = uploader;
         return this;
     }
 
+    /** {@inheritDoc} */
     @Override
     public List<Chapter> complete() throws HTTPRequestException{
         String response = HTTPRequest.get(API_ENDPOINT + toQuery());
@@ -297,6 +497,7 @@ public class ChapterAction extends Action<List<Chapter>> {
         return chapters;
     }
 
+    /** {@inheritDoc} */
     @Override
     public CompletableFuture<List<Chapter>> submit() {
         return CompletableFuture.supplyAsync(() -> {
@@ -309,6 +510,11 @@ public class ChapterAction extends Action<List<Chapter>> {
         });
     }
     //TODO fix this
+    /**
+     * <p>toQuery.</p>
+     *
+     * @return a {@link java.lang.String} object
+     */
     public String toQuery(){
         StringBuilder query = new StringBuilder("?");
         query.append("limit=").append(limit).append("&");

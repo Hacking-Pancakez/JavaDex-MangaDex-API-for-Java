@@ -14,6 +14,9 @@ import okhttp3.Response;
 
 /**
  * Checks if the response is an error response.
+ *
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 public class ErrorResponseChecker {
     
@@ -39,6 +42,13 @@ public class ErrorResponseChecker {
         }
     }
 
+    
+    /**
+     * <p>retrieveCorrectIOException.</p>
+     *
+     * @param e a {@link java.io.IOException} object
+     * @return Exception
+     */
     public static Exception retrieveCorrectIOException(IOException e) {
         if (isNetworkError(e)) {
             return new NetworkErrorException("Network error", e);
@@ -51,7 +61,8 @@ public class ErrorResponseChecker {
 
     /**
      * Checks if the response is a network error.
-     * @param e
+     *
+     * @param e a {@link java.io.IOException} object
      * @return true if the response is a network error, false otherwise.
      */
     public static boolean isNetworkError(IOException e){
@@ -66,8 +77,9 @@ public class ErrorResponseChecker {
     
     /**
      * Checks if the response is an unauthorized response.
-     * @param response
-     * @return
+     *
+     * @param response a {@link okhttp3.Response} object
+     * @return a boolean
      */
     @Deprecated
     public static boolean isUnauthorizedResponse(Response response) {

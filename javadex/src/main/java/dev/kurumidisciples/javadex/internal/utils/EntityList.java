@@ -7,11 +7,15 @@ import dev.kurumidisciples.javadex.api.entities.intermediate.middlemen.EntityMid
 
 /**
  * Represents a list of entities.
+ *
+ * @author Hacking Pancakez
+ * @version $Id: $Id
  */
 public class EntityList<T> extends ArrayList<T> {
 
     /**
      * Transforms the EntityMiddleman objects into their correct subclasses.
+     *
      * @return a List of the correct subclasses.
      */
     public List<Object> toCorrectSubclasses() {
