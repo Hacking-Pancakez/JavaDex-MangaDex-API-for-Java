@@ -1,4 +1,5 @@
 [![JavaDex Latest - 0.1.4.4](https://img.shields.io/badge/JavaDex_Latest-0.1.4.4-2ea44f?style=for-the-badge)](https://)
+[![javadoc](https://javadoc.io/badge2/dev.kurumidisciples/javadex/javadoc.svg)](https://javadoc.io/doc/dev.kurumidisciples/javadex)
 # JavaDex: MangaDex API for Java
 
 JavaDex is a wrapper for managing and interacting with manga chapters and related entities. This project provides a comprehensive API to handle various operations such as retrieving manga information, managing chapters, and handling user interactions.
