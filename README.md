@@ -40,7 +40,7 @@ import dev.kurumidisciples.javadex.api.core.*;
 
 public class Main {
     public static void main(String[] args) throws LoginException {
-        JavaDex javadex = JavaDexBuilder.createDefault()
+        JavaDex javadex = JavaDexBuilder.createPersonal()
                 .setClientId("your_client_id")
                 .setClientSecret("your_client_secret")
                 .setUsername("your_username")
