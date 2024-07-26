@@ -23,12 +23,12 @@ public class MustBeDraftAspect {
     
 
     /**
-     * <p>validateMustBeDraft.</p>
+     * Validates that the {@link Manga} is in a draft state.
      *
-     * @param joinPoint a {@link org.aspectj.lang.JoinPoint} object
-     * @throws java.lang.Throwable if any.
-     */
-    @Before("execution(* *(.., @dev.kurumidisciples.javadex.api.internal.annotations.MustBeDraft (*), ..))")
+     * @param joinPoint a {@link JoinPoint} object
+     * @throws Throwable if any.
+     */ //TODO fix advice aspect
+    @Before("execution(* *(.., @dev.kurumidisciples.javadex.internal.annotations.MustBeDraft (*), ..))")
     public void validateMustBeDraft(JoinPoint joinPoint) throws Throwable {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
@@ -40,8 +40,8 @@ public class MustBeDraftAspect {
                 if (annotation instanceof MustBeDraft) {
                     if (args[i] instanceof Manga) {
                         Manga manga = (Manga) args[i];
-                        if (!manga.getState().equals(State.DRAFT)) {
-                            throw new IllegalArgumentException("Manga must be in a draft state: " + manga.getState());
+                        if (manga.getState() != State.DRAFT) {
+                            throw new IllegalArgumentException("Manga must be in a draft state.");
                         }
                     } else {
                         throw new IllegalArgumentException("@MustBeDraft can only be applied to Manga: " + args[i]);

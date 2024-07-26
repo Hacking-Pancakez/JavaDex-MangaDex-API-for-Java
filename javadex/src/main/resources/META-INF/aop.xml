@@ -1,6 +1,6 @@
 <aspectj>
     <weaver>
-        <include within="dev.kurumidisciples..*"/>
+        <include within="*"/>
     </weaver>
     <aspects>
         <aspect name="dev.kurumidisciples.javadex.api.internal.annotations.aspects.NotLessThanOneAspect"/>

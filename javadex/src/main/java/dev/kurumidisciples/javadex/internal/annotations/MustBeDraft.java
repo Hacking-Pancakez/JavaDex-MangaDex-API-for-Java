@@ -1,5 +1,6 @@
 package dev.kurumidisciples.javadex.internal.annotations;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -15,7 +16,8 @@ import dev.kurumidisciples.javadex.api.entities.enums.State;
  * @author Hacking Pancakez
  * @version $Id: $Id
  */
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.PARAMETER)
+@Target({ElementType.PARAMETER, ElementType.TYPE})
 public @interface MustBeDraft {
 }

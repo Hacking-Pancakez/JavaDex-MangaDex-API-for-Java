@@ -5,7 +5,7 @@
 
     <groupId>dev.kurumidisciples</groupId>
     <artifactId>javadex</artifactId>
-    <version>0.1.4.1</version>
+    <version>0.1.4.2</version>
     <packaging>jar</packaging>
 
     <name>JavaDex</name>
@@ -68,12 +68,12 @@
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
-            <version>1.9.6</version>
+            <version>1.9.7</version>
         </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-            <version>1.9.6</version>
+            <version>1.9.7</version>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
@@ -115,7 +115,27 @@
     </distributionManagement>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>META-INF/**</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
             <!-- GPG Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -140,16 +160,17 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.3.1</version>
                 <executions>
-                    <execution>
-                        <goals>
-                            <goal>javadoc</goal>
-                        </goals>
-                    </execution>
+                <execution>
+                    <goals>
+                    <goal>javadoc</goal>
+                    </goals>
+                </execution>
                 </executions>
                 <configuration>
-                    <additionalOptions>-Xdoclint:none</additionalOptions>
+                <additionalOptions>-Xdoclint:none</additionalOptions>
                 </configuration>
             </plugin>
+
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -202,6 +223,31 @@
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>aspectj-maven-plugin</artifactId>
+            <version>1.15.0</version>
+            <configuration>
+            <complianceLevel>11</complianceLevel>
+                <source>11</source>
+                <target>11</target>
+                <release>17</release>
+                <aspectLibraries>
+                    <aspectLibrary>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjrt</artifactId>
+                    </aspectLibrary>
+                </aspectLibraries>
+            </configuration>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>compile</goal>
+                        <goal>test-compile</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
         </plugins>
     </build>
 
@@ -222,6 +268,16 @@
                 <artifactId>okhttp</artifactId>
                 <version>5.0.0-alpha.14</version>
             </dependency>
+            <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.9.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.6</version>
+        </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

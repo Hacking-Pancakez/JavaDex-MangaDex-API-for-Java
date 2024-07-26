@@ -25,7 +25,7 @@ public class NotLessThanOneAspect {
      * @param joinPoint a {@link org.aspectj.lang.JoinPoint} object
      * @throws java.lang.Throwable if any.
      */
-    @Before("execution(* *(.., @dev.kurumidisciples.javadex.api.internal.annotations.NotLessThanOne (*), ..))")
+    @Before("execution(* *(.., @dev.kurumidisciples.javadex.internal.annotations.NotLessThanOne (*), ..))")
     public void validateNotLessThanOne(JoinPoint joinPoint) throws Throwable {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
