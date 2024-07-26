@@ -21,6 +21,8 @@ target/
 
 settings.xml
 
+source-code.zip
+
 # Ingore logback file
 javadex/src/main/resources/log4j2.xml
 

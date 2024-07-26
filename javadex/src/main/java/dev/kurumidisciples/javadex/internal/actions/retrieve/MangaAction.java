@@ -315,7 +315,7 @@ public class MangaAction extends Action<List<Manga>>{
      * @param demographic a {@link dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Demographic} object
      * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
      */
-    public MangaAction add(Demographic demographic) {
+    public MangaAction addDemographic(Demographic demographic) {
         this.demographic.add(demographic);
         return this;
     }

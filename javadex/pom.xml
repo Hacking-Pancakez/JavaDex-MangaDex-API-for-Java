@@ -5,7 +5,7 @@
 
     <groupId>dev.kurumidisciples</groupId>
     <artifactId>javadex</artifactId>
-    <version>0.1.4.2</version>
+    <version>0.1.4.3</version>
     <packaging>jar</packaging>
 
     <name>JavaDex</name>
@@ -46,7 +46,6 @@
             <artifactId>dotenv-java</artifactId>
             <version>3.0.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.maven/maven-settings -->
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-settings</artifactId>
@@ -134,6 +133,9 @@
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         </manifest>
                     </archive>
+                    <excludes>
+                        <exclude>**/builddef.lst</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
             <!-- GPG Plugin -->
@@ -193,17 +195,23 @@
                 </executions>
             </plugin>
 
-            <!-- Shade Plugin -->
+            <!-- Assembly Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
+                        <id>make-assembly</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>shade</goal>
+                            <goal>single</goal>
                         </goals>
+                        <configuration>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -215,9 +223,9 @@
                 <version>0.3.0</version>
                 <extensions>true</extensions>
                 <configuration>
-                <publishingServerId>central</publishingServerId>
-                <autoPublish>true</autoPublish>
-                <waitUntil>published</waitUntil>
+                    <publishingServerId>central</publishingServerId>
+                    <autoPublish>true</autoPublish>
+                    <waitUntil>published</waitUntil>
                 </configuration>
             </plugin>
 
@@ -230,31 +238,31 @@
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
-        <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>aspectj-maven-plugin</artifactId>
-            <version>1.15.0</version>
-            <configuration>
-            <complianceLevel>11</complianceLevel>
-                <source>11</source>
-                <target>11</target>
-                <release>17</release>
-                <aspectLibraries>
-                    <aspectLibrary>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjrt</artifactId>
-                    </aspectLibrary>
-                </aspectLibraries>
-            </configuration>
-            <executions>
-                <execution>
-                    <goals>
-                        <goal>compile</goal>
-                        <goal>test-compile</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <version>1.15.0</version>
+                <configuration>
+                    <complianceLevel>11</complianceLevel>
+                    <source>11</source>
+                    <target>11</target>
+                    <release>17</release>
+                    <aspectLibraries>
+                        <aspectLibrary>
+                            <groupId>org.aspectj</groupId>
+                            <artifactId>aspectjrt</artifactId>
+                        </aspectLibrary>
+                    </aspectLibraries>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -276,15 +284,15 @@
                 <version>5.0.0-alpha.14</version>
             </dependency>
             <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>1.9.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-            <version>1.9.6</version>
-        </dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>1.9.7</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>1.9.7</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>
