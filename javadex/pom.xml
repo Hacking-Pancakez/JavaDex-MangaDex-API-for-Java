@@ -176,6 +176,11 @@
                             <placement>a</placement>
                             <head>Issue Prone:</head>
                         </tag>
+                        <tag>
+                        <name>warn</name>
+                        <placement>a</placement>
+                        <head>Warning:</head>
+                        </tag>
                     </tags>
                 </configuration>
             </plugin>

@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 
 import dev.kurumidisciples.javadex.api.entities.content.Manga.Tag;
 import dev.kurumidisciples.javadex.api.entities.enums.Locale;
+import dev.kurumidisciples.javadex.api.entities.enums.manga.LinkType;
 
 /**
  * <p>MangaParsers class.</p>
@@ -83,5 +84,18 @@ public class MangaParsers {
             descriptions.put(Locale.getByLanguage(entry.getKey()), entry.getValue().getAsString());
         }
         return descriptions;
+    }
+
+    /**
+     * Pareses links into a map of {@link LinkType} and {@link String}.
+     * @param linksObject jsonobject of links.
+     * @return Map of links.
+     */
+    public static Map<LinkType, String> parseLinks(JsonObject linksObject) {
+        Map<LinkType, String> links = new HashMap<>();
+        for (Map.Entry<String, JsonElement> entry : linksObject.entrySet()) {
+            links.put(LinkType.getByType(entry.getKey()), entry.getValue().getAsString());
+        }
+        return links;
     }
 }
