@@ -17,6 +17,13 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
+    - name: Extract project version
+      id: extract_version
+      run: |
+        version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        echo "PROJECT_VERSION=$version" >> $GITHUB_ENV
+      working-directory: javadex
+
     - name: Build with Maven
       run: mvn clean package
       working-directory: javadex
@@ -57,7 +64,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        release_name: JavaDex v${{ env.PROJECT_VERSION }}
         body: |
           Release notes for ${{ github.ref }}
         draft: false
