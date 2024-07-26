@@ -22,6 +22,8 @@ target/
 # Ingore logback file
 javadex/src/main/resources/log4j2.xml
 
+dependency-reduced-pom.xml
+
 # Ignore Maven build files
 pom.xml.tag
 pom.xml.releaseBackup
