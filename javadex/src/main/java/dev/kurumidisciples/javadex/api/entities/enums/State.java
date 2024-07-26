@@ -3,11 +3,13 @@ package dev.kurumidisciples.javadex.api.entities.enums;
 import dev.kurumidisciples.javadex.api.entities.content.Manga;
 
 /**
- * <p>State class.</p>
+ * <p>Defines the state of a {@link Manga}.</p>
+ * <p>State is a property that indicates whether the manga object is visible on the MangaDex website.
+ *  Drafts are incomplete manga objects that are not visible to the public and are only visible to the creator.
+ * </p>
  *
- * @deprecated This class will be moved into {@link dev.kurumidisciples.javadex.api.entities.content.Manga} by 0.2.0.
+ * @warn This class will be moved into {@link Manga} by 0.2.0.
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
 public enum State {
   DRAFT("draft"),

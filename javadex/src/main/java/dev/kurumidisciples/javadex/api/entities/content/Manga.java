@@ -19,6 +19,7 @@ import com.google.gson.JsonObject;
 import dev.kurumidisciples.javadex.api.entities.Chapter;
 import dev.kurumidisciples.javadex.api.entities.enums.*;
 import dev.kurumidisciples.javadex.api.entities.enums.Locale;
+import dev.kurumidisciples.javadex.api.entities.enums.manga.LinkType;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.ContentRating;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Demographic;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Status;
@@ -467,6 +468,7 @@ public class Manga extends Entity implements ISnowflake {
     private static final Logger logger = LogManager.getLogger(Manga.class);
     private static final Gson gson = new Gson();
 
+    private final Map<LinkType, String> links;
     private final UUID id;
     private final List<Tag> tags;
     private final String title;
@@ -511,6 +513,7 @@ public class Manga extends Entity implements ISnowflake {
         this.year = attributes.has("year") && !attributes.get("year").isJsonNull() ? attributes.get("year").getAsLong() : null;
         this.contentRating = ContentRating.getContentRating(attributes.get("contentRating").getAsString());
         this.state = State.getByValue(attributes.get("state").getAsString());
+        this.links = MangaParsers.parseLinks(attributes.getAsJsonObject("links"));
         this.chapterNumbersResetOnNewVolume = attributes.get("chapterNumbersResetOnNewVolume").getAsBoolean();
         this.createdAt = OffsetDateTime.parse(attributes.get("createdAt").getAsString());
         this.updatedAt = OffsetDateTime.parse(attributes.get("updatedAt").getAsString());
@@ -624,12 +627,27 @@ public class Manga extends Entity implements ISnowflake {
     }
 
     /**
-     * <p>getDefaultTitle.</p>
+     * The title of the manga found in the <code>title</code> property of the api response. 
+     * <p><prev><code>
+     * "title": {
+     *           "en": "One Piece"
+     *      },</code></prev></p>
+     * <p>This is typically in the English language or in Japanese romanization.</p>
      *
-     * @return a {@link java.lang.String} object
+     * @return a {@link String} the default title of the manga
      */
     public String getDefaultTitle() {
         return title;
+    }
+
+    /**
+     * <p>Links to outside resources connected with the manga.</p>
+     * <p>These could be links to the official website, the author's website, or the manga's page on other websites.</p>
+     * @return
+     * @warn Not all links have the full URL, some are just the IDs or SLUGs of the resource.
+     */
+    public Map<LinkType, String> getLinks() {
+        return links;
     }
 
     /**
@@ -661,18 +679,20 @@ public class Manga extends Entity implements ISnowflake {
     }
 
     /**
-     * <p>Getter for the field <code>altTitles</code>.</p>
+     * <p>All other possible titles for the manga.</p>
+     * <p>These could be in different languages and have different translations of the title.</p>
      *
-     * @return a {@link java.util.Map} object
+     * @return a {@link Map} object
      */
     public Map<Locale, List<String>> getAltTitles() {
         return altTitles;
     }
 
     /**
-     * <p>isLocked.</p>
+     * <p>Defines whether the manga can be uploaded to by anyone.</p>
+     * <p>Manga are typically locked because it has been requested by the official publisher.</p>
      *
-     * @return a boolean
+     * @return true if the manga is locked, false otherwise
      */
     public boolean isLocked() {
         return isLocked;

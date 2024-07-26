@@ -3,12 +3,11 @@ package dev.kurumidisciples.javadex.api.entities.enums.manga;
 import dev.kurumidisciples.javadex.api.entities.content.Manga;
 
 /**
- * Represents the type of link that is being used in {@link dev.kurumidisciples.javadex.api.entities.content.Manga}'s attributes.
+ * Represents the type of link that is being used in {@link Manga}'s attributes.
  *
  * @see <a href="https://api.mangadex.org/docs/3-enumerations/#manga-links-data">MangaDex API - Manga Links Static Data</a>
  * @since 0.1.3
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
 public enum LinkType {
     
