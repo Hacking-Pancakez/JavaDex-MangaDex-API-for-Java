@@ -19,15 +19,17 @@ jobs:
 
     - name: Build with Maven
       run: mvn clean package
+      working-directory: javadex
 
     - name: Package Javadoc
       run: mvn javadoc:javadoc
+      working-directory: javadex
 
     - name: Create release artifacts
       run: |
         mkdir -p release
-        cp target/*.jar release/
-        cp target/site/apidocs/*.jar release/
+        cp project/target/*.jar release/
+        cp project/target/site/apidocs/*.jar release/
         tar -czvf release/source-code.tar.gz .
         zip -r release/source-code.zip .
 
