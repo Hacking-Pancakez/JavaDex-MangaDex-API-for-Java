@@ -21,6 +21,8 @@ import com.google.gson.JsonObject;
 import dev.kurumidisciples.javadex.api.entities.content.Manga;
 import dev.kurumidisciples.javadex.api.entities.enums.IncludesType;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Demographic;
+import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Status;
+import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Mode;
 import dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException;
 import dev.kurumidisciples.javadex.internal.actions.Action;
 import dev.kurumidisciples.javadex.internal.annotations.Size;
@@ -49,7 +51,7 @@ public class MangaAction extends Action<List<Manga>>{
     private String includedTagsMode;
     private List<UUID> excludedTags = new ArrayList<>();
     private String excludedTagsMode;
-    private String status;
+    private Status status;
     private List<String> originalLanguages = new ArrayList<>();
     private List<String> excludedLanguages = new ArrayList<>();
     private List<String> availableTranslatedLanguages = new ArrayList<>();
@@ -111,7 +113,7 @@ public class MangaAction extends Action<List<Manga>>{
     /**
      * {@inheritDoc}
      *
-     * This method is not supported for this action.
+     * <p><b>This method is not supported for this action.</b></p>
      */
     @Override
     public MangaAction setIncludes(IncludesType... includes) {
@@ -123,13 +125,13 @@ public class MangaAction extends Action<List<Manga>>{
      * Set the limit for the amount of results returned by the mangadex api
      */
     @Override
-    public MangaAction setLimit(@Size(min=1, max=100) Integer limit) {
+    public MangaAction setLimit(@Size(min=0, max=100) Integer limit) {
         this.limit = limit;
         return this;
     }
 
     /**
-     * <p>setQuery.</p>
+     * 
      *
      * @param query a {@link java.lang.String} object
      * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
@@ -195,7 +197,8 @@ public class MangaAction extends Action<List<Manga>>{
 
     /**
      * <p>Setter for the field <code>includedTagsMode</code>.</p>
-     *
+     * 
+     * @issueProne This method has not been fully tested yet.
      * @param mode a {@link java.lang.String} object
      * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
      */
@@ -206,7 +209,8 @@ public class MangaAction extends Action<List<Manga>>{
 
     /**
      * <p>Setter for the field <code>excludedTagsMode</code>.</p>
-     *
+     * @issueProne This method has not been fully tested yet.
+     * @see Mode
      * @param mode a {@link java.lang.String} object
      * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
      */
@@ -215,7 +219,7 @@ public class MangaAction extends Action<List<Manga>>{
         return this;
     }
     /**
-     * <p>addTag.</p>
+     * Adds a tag to the included tags list.
      *
      * @param tag a {@link java.util.UUID} object
      * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
@@ -237,17 +241,17 @@ public class MangaAction extends Action<List<Manga>>{
         return this;
     }
     /**
-     * <p>addTags.</p>
+     * Adds tags to include in the search results.
      *
      * @param tags a {@link java.util.List} object
      * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
      */
-    public MangaAction addTags(List<UUID> tags) {
-        this.includedTags.addAll(tags);
+    public MangaAction addTags(List<UUID> tags /* TODO switch to Manga.Tag */) {
+        this.includedTags.addAll(tags); //TODO avoid duplicates
         return this;
     }
     /**
-     * <p>addExcludedTag.</p>
+     * Adds a tag to exclude from the search results.
      *
      * @param tag a {@link java.util.UUID} object
      * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
@@ -285,7 +289,7 @@ public class MangaAction extends Action<List<Manga>>{
      * @param status a {@link java.lang.String} object
      * @return a {@link dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction} object
      */
-    public MangaAction setStatus(String status) {
+    public MangaAction setStatus(Status status) {
         this.status = status;
         return this;
     }
@@ -477,7 +481,7 @@ public class MangaAction extends Action<List<Manga>>{
      *
      * @return a {@link java.lang.String} object
      */
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
@@ -612,7 +616,7 @@ public class MangaAction extends Action<List<Manga>>{
         if (limit != null) queryString.append("limit=").append(limit).append("&");
         if (offset != null) queryString.append("offset=").append(offset).append("&");
         if (year != null) queryString.append("year=").append(year).append("&");
-        if (status != null) queryString.append("status=").append(encodeValue(status)).append("&");
+        if (status != null) queryString.append("status=").append(encodeValue(status.getValue())).append("&");
         if (demographic != null) queryString.append("demographic=").append(encodeValue(demographic.getValue())).append("&");
         if (hasAvailableChapters != null) queryString.append("hasAvailableChapters=").append(hasAvailableChapters).append("&");
 

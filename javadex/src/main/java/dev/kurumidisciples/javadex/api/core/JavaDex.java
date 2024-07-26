@@ -157,7 +157,7 @@ public class JavaDex implements AutoCloseable{
      * @return A SearchAction object.
      * @param offset a int
      */
-    public MangaAction search(@NotNull String query, @Size(min=1, max=100) int limit, @Size(min=0) int offset){
+    public MangaAction search(@NotNull String query, @Size(min=0, max=100) int limit, @Size(min=0) int offset){
       return new MangaAction(query, limit, offset);
     }
 
