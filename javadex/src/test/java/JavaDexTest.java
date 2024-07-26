@@ -93,7 +93,7 @@ public class JavaDexTest {
         assertNotNull(javaDex);
 
         User user = javaDex.retrieveSelf().get();
-        assertEquals("Hacking_Pancakez", user.getUsername());
+        assertEquals(dotenv.get("MANGADEX_USERNAME"), user.getUsername());
         assertNotNull(user.getRoles());
     }
 
