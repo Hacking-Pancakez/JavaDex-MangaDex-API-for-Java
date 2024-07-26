@@ -42,24 +42,24 @@ public class JavaDexBuilder {
     /**
      * Creates a new JavaDexBuilder instance with the default configurations.
      *
-     * @param clientId a {@link java.lang.String} object
-     * @return a {@link dev.kurumidisciples.javadex.api.core.JavaDexBuilder} object
+     * @param clientId a {@link String} object
+     * @return a {@link JavaDexBuilder} object
      */
-    public static JavaDexBuilder createDefault(String clientId){
+    public static JavaDexBuilder createPersonal(String clientId){
         return new JavaDexBuilder().setClientId(clientId);
     }
 
     /**
-     * <p>createDefault.</p>
+     * Creates a new JavaDexBuilder instance with the default configurations.
      *
-     * @return a {@link dev.kurumidisciples.javadex.api.core.JavaDexBuilder} object
+     * @return a {@link JavaDexBuilder} object
      */
-    public static JavaDexBuilder createDefault(){
+    public static JavaDexBuilder createPersonal(){
         return new JavaDexBuilder();
     }
 
     /**
-     * <p>Constructor for JavaDexBuilder.</p>
+     * Contronstructor for JavaDexBuilder.
      */
     protected JavaDexBuilder() {
     }
