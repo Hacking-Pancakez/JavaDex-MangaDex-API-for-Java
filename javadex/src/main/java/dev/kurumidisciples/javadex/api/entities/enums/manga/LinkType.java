@@ -22,7 +22,7 @@ public enum LinkType {
     /** Represents a link to <a href="https://www.novelupdates.com/series/slug">MangaDex</a>; stored as slug. */
     NOVEL_UPDATES("nu"),
     /** Represents a link to <a href="https://kitsu.io/api/edge/manga/id">Kitsu (INTEGER)</a> or <a href="https://kitsu.io/api/edge/manga?filterslug=slug">Kitsu (SLUG)</a>. If integer, use id version of the URL, otherwise use slug one. */
-    KITSU("kT"),
+    KITSU("kt"),
     /** Represents a link to <a href="https://www.amazon.co.jp/">Amazon JP</a>; stored as full url. */
     AMAZON("amz"),
     /** Represents a link to <a href="https://www.ebookjapan.yahoo.co.jp">eBook Japan</a>; stored as full url. */
