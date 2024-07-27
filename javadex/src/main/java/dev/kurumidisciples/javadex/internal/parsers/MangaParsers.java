@@ -10,9 +10,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import dev.kurumidisciples.javadex.api.entities.content.Manga.Tag;
 import dev.kurumidisciples.javadex.api.entities.enums.Locale;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.LinkType;
+import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Tag;
 
 /**
  * <p>MangaParsers class.</p>

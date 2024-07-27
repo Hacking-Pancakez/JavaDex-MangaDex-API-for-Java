@@ -7,6 +7,7 @@ import javax.security.auth.login.LoginException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
@@ -31,6 +32,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class JavaDexTest {
 
     private static final Logger logger = LogManager.getLogger(JavaDexTest.class);
+    private static final Dotenv dotenv = Dotenv.configure().filename(".env").load();
 
     @Test
     public void testSetRefreshRate() {
@@ -38,6 +40,20 @@ public class JavaDexTest {
         Duration refreshRate = Duration.ofSeconds(30);
         builder.setRefreshRate(refreshRate);
         assertEquals(refreshRate, builder.getRefreshRate());
+    }
+
+    @Test
+    public void testIfRefreshUpdatedAccess(){
+       JavaDex javaDex = loginToJavaDex();
+       assertNotNull(javaDex);
+       String accessToken = javaDex.getAccessToken();
+       //wait 5 secs
+         try {
+              Thread.sleep(10000);
+         } catch (InterruptedException e) {
+              e.printStackTrace();
+         }
+         assertNotEquals(accessToken, javaDex.getAccessToken());
     }
 
     
@@ -150,5 +166,20 @@ public class JavaDexTest {
         assertNotNull(mangaAction);
         // Assuming MangaAction has a method to get the query, which might not be the case. This is just an example.
         // assertEquals("query", mangaAction.getQuery());
+    }
+
+    private static JavaDex loginToJavaDex(){
+        try {
+            return JavaDexBuilder.createPersonal()
+                .setClientId(dotenv.get("MANGADEX_CLIENT_ID"))
+                .setClientSecret(dotenv.get("MANGADEX_CLIENT_SECRET"))
+                .setUsername(dotenv.get("MANGADEX_USERNAME"))
+                .setPassword(dotenv.get("MANGADEX_PASSWORD"))
+                .setRefreshRate(Duration.ofSeconds(5))
+                .build();
+        } catch (LoginException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

@@ -12,13 +12,13 @@ import com.google.errorprone.annotations.DoNotCall;
 import dev.kurumidisciples.javadex.api.core.authentication.Token;
 import dev.kurumidisciples.javadex.api.entities.Author;
 import dev.kurumidisciples.javadex.api.entities.content.Manga;
-import dev.kurumidisciples.javadex.api.entities.content.Manga.Tag;
 import dev.kurumidisciples.javadex.api.entities.enums.IncludesType;
 import dev.kurumidisciples.javadex.api.entities.enums.Locale;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.LinkType;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.ContentRating;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Demographic;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Status;
+import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Tag;
 import dev.kurumidisciples.javadex.internal.actions.Action;
 import dev.kurumidisciples.javadex.internal.annotations.MustNotBeUnknown;
 
