@@ -46,7 +46,7 @@ import dev.kurumidisciples.javadex.internal.parsers.MangaParsers;
  * @author Hacking Pancakez
  * @version $Id: $Id
  */
-public class Manga extends Entity implements ISnowflake {
+public class Manga extends Entity {
 
     
 
