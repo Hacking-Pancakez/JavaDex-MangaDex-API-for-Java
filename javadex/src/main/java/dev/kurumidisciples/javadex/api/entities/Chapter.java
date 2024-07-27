@@ -36,9 +36,8 @@ import dev.kurumidisciples.javadex.internal.factory.UserFactory;
  * Implements {@link dev.kurumidisciples.javadex.api.entities.intermediate.ISnowflake} and {@link dev.kurumidisciples.javadex.api.entities.intermediate.IPublishable} interfaces for ID and publication time handling.
  *
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
-public class Chapter extends Entity implements ISnowflake, IPublishable {
+public class Chapter extends Entity implements IPublishable {
 
     private static final Logger logger = LogManager.getLogger(Chapter.class);
 
