@@ -38,6 +38,8 @@ import dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction;
 import dev.kurumidisciples.javadex.internal.actions.retrieve.FollowsAction;
 import dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction;
 import dev.kurumidisciples.javadex.internal.annotations.Size;
+import dev.kurumidisciples.javadex.internal.auth.Authenticator;
+import dev.kurumidisciples.javadex.internal.auth.ClientCredentialsAuthenticator;
 import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
 import dev.kurumidisciples.javadex.internal.utils.ErrorResponseChecker;
 import dev.kurumidisciples.javadex.internal.annotations.Authenticated;
@@ -77,12 +79,10 @@ public class JavaDex implements AutoCloseable{
     private static final Duration DEFAULT_REFRESH_RATE = Duration.ofMinutes(15);
     private static final Gson GSON = new Gson();
 
-    private final Token token;
     private final Duration refreshRate;
-    private final String clientId;
-    private final String clientSecret;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final Mode mode;
+    private final Authenticator authenticator;
 
     /**
      * Constructs a new JavaDex instance.
@@ -92,12 +92,10 @@ public class JavaDex implements AutoCloseable{
      * @param clientId The client ID.
      * @param clientSecret The client secret.
      */
-    protected JavaDex(String[] tokens, Duration refreshRate, String clientId, String clientSecret) {
-        this.token = new Token(tokens[0], tokens[1]);
+    protected JavaDex(Authenticator authenticator, Duration refreshRate) {
+        this.authenticator = authenticator;
         this.refreshRate = (refreshRate != null) ? refreshRate : DEFAULT_REFRESH_RATE;
-        this.clientId = clientId;
-        this.clientSecret = clientSecret;
-        logger.debug("JavaDex instance created with access token: {}", token.getAccessToken());
+        logger.debug("JavaDex instance created with access token: {}", authenticator.getToken().getAccessToken());
         logger.info("JavaDex Object Built Successfully");
         scheduleTokenRefresh();
         this.mode = Mode.AUTHORIZED;
@@ -107,10 +105,8 @@ public class JavaDex implements AutoCloseable{
      * <p>Constructor for JavaDex.</p>
      */
     protected JavaDex(){
-        this.token = null;
+        this.authenticator = null;
         this.refreshRate = DEFAULT_REFRESH_RATE;
-        this.clientId = null;
-        this.clientSecret = null;
         logger.info("JavaDex Guest Object Built Successfully");
         this.mode = Mode.GUEST;
     }
@@ -179,9 +175,10 @@ public class JavaDex implements AutoCloseable{
      *
      * @return a {@link java.lang.String} object
      */
+    @Deprecated
     @Authenticated
     public synchronized String getAccessToken() {
-        return token.getAccessToken();
+        return authenticator.getToken().getAccessToken();
     }
     /**
      * <b>{@link dev.kurumidisciples.javadex.internal.annotations.Authenticated} Method</b>
@@ -189,9 +186,10 @@ public class JavaDex implements AutoCloseable{
      *
      * @return a {@link java.lang.String} object
      */
+    @Deprecated
     @Authenticated
     public synchronized String getRefreshToken() {
-        return token.getRefreshToken();
+        return authenticator.getToken().getRefreshToken();
     }
 
     /**
@@ -242,7 +240,7 @@ public class JavaDex implements AutoCloseable{
         
         return CompletableFuture.supplyAsync(() -> {
             try {
-                String response = HTTPRequest.post(url, Optional.of(token.getAccessToken()));
+                String response = HTTPRequest.post(url, Optional.of(authenticator.getToken().getAccessToken()));
                 boolean success = response.contains("ok");
                 if (success) {
                     logger.debug("Successfully followed manga {}", mangaId);
@@ -275,7 +273,7 @@ public class JavaDex implements AutoCloseable{
         
         return CompletableFuture.supplyAsync(() -> {
             try {
-                String jsonResponse = HTTPRequest.get(url, Optional.of(token.getAccessToken()));
+                String jsonResponse = HTTPRequest.get(url, Optional.of(getAccessToken()));
                 JsonArray chapters = JsonParser.parseString(jsonResponse)
                                                 .getAsJsonObject()
                                                 .getAsJsonArray("data");
@@ -312,7 +310,7 @@ public class JavaDex implements AutoCloseable{
             requestBody.add("chapterIdsRead", read);
             requestBody.add("chapterIdsUnread", new JsonArray());
             try {
-                String response = HTTPRequest.post("https://api.mangadex.org/manga/" + chapter.getRelationshipMap().get(RelationshipType.MANGA) + "/read", requestBody.toString(), Optional.of(token.getAccessToken()));
+                String response = HTTPRequest.post("https://api.mangadex.org/manga/" + chapter.getRelationshipMap().get(RelationshipType.MANGA) + "/read", requestBody.toString(), Optional.of(getAccessToken()));
                 logger.debug("Chapter {} marked as read with response {}", chapter.getId(), response);
             } catch (HTTPRequestException e) {
                 logger.error("An error occured when attempting to mark the chapter as read", e);
@@ -362,12 +360,9 @@ public class JavaDex implements AutoCloseable{
     @Deprecated
     @Authenticated
     public CompletableFuture<List<ScanlationGroup>> retrieveFollowingGroupsOLD(){
-        if (token == null) {
-            throw new AuthorizationException("Cannot retrieve following groups without authorization.");
-        }
         return CompletableFuture.supplyAsync(() -> {
             try {
-                JsonObject response = GSON.fromJson(HTTPRequest.get("https://api.mangadex.org/user/follows/group", Optional.of(token.getAccessToken())), JsonObject.class);
+                JsonObject response = GSON.fromJson(HTTPRequest.get("https://api.mangadex.org/user/follows/group", Optional.of(authenticator.getToken().getAccessToken())), JsonObject.class);
                 JsonArray groups = response.getAsJsonArray("data");
 
                 // Use Stream API to transform JsonArray to List<ScanlationGroup>
@@ -391,7 +386,7 @@ public class JavaDex implements AutoCloseable{
      */
     @Authenticated
     public FollowsAction retrieveFollowingGroups(){
-        return new FollowsAction(FollowingEntityType.SELF_GROUP, token);
+        return new FollowsAction(FollowingEntityType.SELF_GROUP, authenticator.getToken());
     }
     
     /**
@@ -406,7 +401,7 @@ public class JavaDex implements AutoCloseable{
       return CompletableFuture.supplyAsync(() -> {
           try {
               String url = String.format("https://api.mangadex.org/user/follows/group/%s", group.getId());
-              Response response = HTTPRequest.getResponse(url, Optional.of(token.getAccessToken()));
+              Response response = HTTPRequest.getResponse(url, Optional.of(getAccessToken()));
               int responseCode = response.code();
   
               switch (responseCode) {
@@ -431,7 +426,7 @@ public class JavaDex implements AutoCloseable{
      */
     @Authenticated
     public FollowsAction retrieveFollowingManga(){
-        return new FollowsAction(FollowingEntityType.SELF_MANGA, token);
+        return new FollowsAction(FollowingEntityType.SELF_MANGA, authenticator.getToken());
     }
 
     /**
@@ -446,7 +441,7 @@ public class JavaDex implements AutoCloseable{
     public CompletableFuture<User> retrieveSelf(){
         return CompletableFuture.supplyAsync(() -> {
             try {
-                JsonObject response = GSON.fromJson(HTTPRequest.get("https://api.mangadex.org/user/me", Optional.of(token.getAccessToken())), JsonObject.class);
+                JsonObject response = GSON.fromJson(HTTPRequest.get("https://api.mangadex.org/user/me", Optional.of(authenticator.getToken().getAccessToken())), JsonObject.class);
                 return new User(response);
             } catch (HTTPRequestException e) {
                 logger.error("Unable to retrieve self user.", e);
@@ -468,22 +463,23 @@ public class JavaDex implements AutoCloseable{
    * @throws CompletionException If an InterruptedException is thrown when waiting for the API response.
    *         The CompletionException will contain the original InterruptedException as its cause.
    */
+  @Deprecated
   private synchronized void refreshAccessToken() {
     logger.debug("Refreshing access token using refresh token: {}", getRefreshToken());
     String refreshUrl = "https://auth.mangadex.org/realms/mangadex/protocol/openid-connect/token";
     Map<String, String> formData = Map.of(
         "grant_type", "refresh_token",
         "refresh_token", getRefreshToken(),
-        "client_id", clientId,
-        "client_secret", clientSecret
+        "client_id", authenticator.getClientId(),
+        "client_secret", authenticator.getClientSecret()
     );
 
     try {
         String jsonResponse = HTTPRequest.postForm(refreshUrl, formData);
         RefreshResponse refreshResponse = new Gson().fromJson(jsonResponse, RefreshResponse.class);
-        token.setAccessToken(refreshResponse.access_token);
-        token.setRefreshToken(refreshResponse.refresh_token);
-        logger.debug("Access token refreshed successfully. New access token: {}", token.getAccessToken());
+        authenticator.getToken().setAccessToken(refreshResponse.access_token);
+        authenticator.getToken().setRefreshToken(refreshResponse.refresh_token);
+        logger.debug("Access token refreshed successfully. New access token: {}", authenticator.getToken().getAccessToken());
     } catch (HTTPRequestException e) {
         logger.fatal("Access token was not able to be refreshed. Check your credentials and/or Mangadex API status.", e);
         throw new CompletionException(e);
