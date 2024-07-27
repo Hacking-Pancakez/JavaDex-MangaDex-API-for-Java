@@ -1,5 +1,6 @@
 package dev.kurumidisciples.javadex.api.entities;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -120,6 +121,11 @@ public class User extends Entity{
         return id;
     }
 
+    @Override
+    public String getIdRaw(){
+        return id.toString();
+    }
+
     /**
      * <p>Getter for the field <code>username</code>.</p>
      *
@@ -136,5 +142,15 @@ public class User extends Entity{
      */
     public RelationshipMap getRelationshipMap() {
         return relationshipMap;
+    }
+
+    @Override
+    public OffsetDateTime getCreatedAt() {
+        throw new UnsupportedOperationException("Not supported for this entity.");
+    }
+
+    @Override
+    public OffsetDateTime getUpdatedAt() {
+        throw new UnsupportedOperationException("Not supported for this entity.");
     }
 }
