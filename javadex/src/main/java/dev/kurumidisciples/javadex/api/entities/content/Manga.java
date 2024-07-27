@@ -44,7 +44,6 @@ import dev.kurumidisciples.javadex.internal.parsers.MangaParsers;
  * @see <a href="https://api.mangadex.org/docs/03-manga/creation/#creation">Creation</a>
  * @see <a href="https://api.mangadex.org/docs/03-manga/search/">Search</a>
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
 public class Manga extends Entity {
 
