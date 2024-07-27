@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.LogManager;
@@ -25,6 +26,7 @@ public class HTTPRequest {
 
     private static final Logger logger = LogManager.getLogger(HTTPRequest.class);
     private static final Pattern UUID_PATTERN = Pattern.compile("[0-9a-fA-F-]{36}");
+    private static final String BASE_URL = "https://api.mangadex.org";
 
     public static String post(String url, String json) throws HTTPRequestException {
         return postWithBearer(url, json, Optional.empty());
@@ -194,18 +196,27 @@ public class HTTPRequest {
     }
 
     private static EndpointLimits getEndpointLimit(String url, EndpointLimits.Method method) {
-        // Pattern to match UUID
-        String uuidPattern = "[0-9a-fA-F-]{36}";
+        // Remove base URL and UUID from URL to match against endpoint patterns
+        String sanitizedUrl = removeBaseUrlAndUUIDs(url);
 
         // Replace UUID placeholders with actual pattern
         for (EndpointLimits limit : EndpointLimits.values()) {
-            String endpointPattern = limit.getEndpoint().replace("{id}", uuidPattern);
-            if (url.matches(endpointPattern) && limit.getMethod() == method) {
+            String endpointPattern = limit.getEndpoint().replace("{id}", UUID_PATTERN.pattern());
+            if (sanitizedUrl.matches(endpointPattern) && limit.getMethod() == method) {
                 return limit;
             }
         }
 
         // Default rate limit if no specific limit is found (5 requests per second)
         return EndpointLimits.DEFAULT;
+    }
+
+    private static String removeBaseUrlAndUUIDs(String url) {
+        // Remove base URL
+        String sanitizedUrl = url.replace(BASE_URL, "");
+
+        // Replace UUIDs with {id}
+        Matcher matcher = UUID_PATTERN.matcher(sanitizedUrl);
+        return matcher.replaceAll("{id}");
     }
 }

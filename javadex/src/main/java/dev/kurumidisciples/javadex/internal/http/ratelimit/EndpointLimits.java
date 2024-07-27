@@ -1,6 +1,7 @@
 package dev.kurumidisciples.javadex.internal.http.ratelimit;
 
 public enum EndpointLimits {
+    //TODO create a method so that when one of these limit is needed the {id} doesn't get in the way of its detection
     AUTH_LOGIN("/auth/login", 30, 60, Method.POST),
     AUTH_REFRESH("/auth/refresh", 60, 60, Method.POST),
 
