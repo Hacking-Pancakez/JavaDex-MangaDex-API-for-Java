@@ -4,8 +4,7 @@ package dev.kurumidisciples.javadex.api.entities.intermediate;
  * All entities should extend this class.
  *
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
-public abstract class Entity {
+public abstract class Entity implements ISnowflake {
     
 }
