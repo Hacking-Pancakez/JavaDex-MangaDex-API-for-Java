@@ -25,9 +25,8 @@ import dev.kurumidisciples.javadex.api.entities.relationship.enums.RelationshipT
  *
  * @since 0.1.2
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
-public class MDList extends Entity implements ISnowflake {
+public class MDList extends Entity implements {
     
     private final OffsetDateTime createdAt;
     private final OffsetDateTime updatedAt;
