@@ -8,18 +8,16 @@ import java.util.UUID;
 import com.google.gson.JsonObject;
 
 import dev.kurumidisciples.javadex.api.entities.intermediate.Entity;
-import dev.kurumidisciples.javadex.api.entities.intermediate.ISnowflake;
 
 // TODO CreateUrl should be apart of its own utility class, add biography field
 
 /**
  * Represents an author and artist of a manga.
  *
- * @see In the MangaDex API, an author and an artist are one and the same. There are no separate entities for authors and artists.
+ * <p>The MangaDex API, an author and an artist are one and the same. There are no separate entities for authors and artists.</p>
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
-public class Author extends Entity implements ISnowflake {
+public class Author extends Entity {
 
     private final UUID id;
     private final OffsetDateTime createdAt;
