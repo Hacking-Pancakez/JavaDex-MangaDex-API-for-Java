@@ -26,7 +26,7 @@ import dev.kurumidisciples.javadex.api.entities.relationship.enums.RelationshipT
  * @since 0.1.2
  * @author Hacking Pancakez
  */
-public class MDList extends Entity implements {
+public class MDList extends Entity {
     
     private final OffsetDateTime createdAt;
     private final OffsetDateTime updatedAt;
