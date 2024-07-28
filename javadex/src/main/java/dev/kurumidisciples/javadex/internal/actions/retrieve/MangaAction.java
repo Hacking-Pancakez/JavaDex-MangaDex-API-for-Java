@@ -1,6 +1,5 @@
 package dev.kurumidisciples.javadex.internal.actions.retrieve;
 
-import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;

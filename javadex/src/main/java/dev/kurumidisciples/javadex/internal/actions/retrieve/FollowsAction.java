@@ -146,7 +146,6 @@ public class FollowsAction extends Action<List<EntityMiddleman>> {
     /**
      * {@inheritDoc}
      *
-     * Completes the follow action synchronously.
      */
     @Override
     public List<EntityMiddleman> complete() throws HTTPRequestException {
