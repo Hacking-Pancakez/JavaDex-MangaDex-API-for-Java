@@ -18,6 +18,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import dev.kurumidisciples.javadex.api.core.authentication.Token;
+import dev.kurumidisciples.javadex.api.entities.MDList;
 import dev.kurumidisciples.javadex.api.entities.ScanlationGroup;
 import dev.kurumidisciples.javadex.api.entities.User;
 import dev.kurumidisciples.javadex.api.entities.content.Manga;
@@ -177,8 +178,13 @@ public class FollowsAction extends Action<List<EntityMiddleman>> {
                 }
                 return userList;
             case SELF_LIST:
-                // TODO implement list support
-                throw new UnsupportedOperationException("Lists are not supported yet.");
+                JsonObject listResponse = JsonParser.parseString(response).getAsJsonObject();
+                JsonArray listData = listResponse.getAsJsonArray("data");
+                List<EntityMiddleman> listList = new ArrayList<>();
+                for (JsonElement list : listData) {
+                    listList.add(new EntityMiddleman(new MDList(list.getAsJsonObject())));
+                }
+                return listList;
             default:
                 return null;
         }
