@@ -20,9 +20,8 @@ import dev.kurumidisciples.javadex.api.entities.relationship.enums.RelationshipT
  * Represents a ScanlationGroup entity.
  *
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
-public class ScanlationGroup extends Entity implements ISnowflake {
+public class ScanlationGroup extends Entity {
 
     private final UUID id;
     private final String name;
