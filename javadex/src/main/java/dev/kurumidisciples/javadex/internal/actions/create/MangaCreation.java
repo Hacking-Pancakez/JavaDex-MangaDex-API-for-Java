@@ -2,12 +2,17 @@ package dev.kurumidisciples.javadex.internal.actions.create;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import com.google.errorprone.annotations.DoNotCall;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import dev.kurumidisciples.javadex.api.core.authentication.Token;
 import dev.kurumidisciples.javadex.api.entities.Author;
@@ -19,9 +24,14 @@ import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.ContentRatin
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Demographic;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Status;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Tag;
+import dev.kurumidisciples.javadex.api.exceptions.MangaCreationException;
 import dev.kurumidisciples.javadex.internal.actions.Action;
 import dev.kurumidisciples.javadex.api.entities.enums.State;
 import dev.kurumidisciples.javadex.internal.annotations.MustNotBeUnknown;
+import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * <p>MangaCreation class.</p>
@@ -30,6 +40,11 @@ import dev.kurumidisciples.javadex.internal.annotations.MustNotBeUnknown;
  * @version $Id: $Id
  */
 public class MangaCreation extends Action<Manga> {
+
+    private static final String MANGA_CREATION_URL = "https://api.mangadex.org/manga";
+    private static final MediaType JSON_MEDIA_TYPE = MediaType.parse("application/json; charset=utf-8");
+
+    private static final Logger logger = LogManager.getLogger(MangaCreation.class);
 
     private Map<Locale, List<String>> titles;
     private Map<Locale, List<String>> altTitles;
@@ -55,9 +70,9 @@ public class MangaCreation extends Action<Manga> {
      * @param locale a {@link dev.kurumidisciples.javadex.api.entities.enums.Locale} object
      * @param title a {@link java.lang.String} object
      */
-    public MangaCreation(@MustNotBeUnknown Locale locale, String title) {
+    public MangaCreation(Token auth, @MustNotBeUnknown Locale locale, String title) {
         this.titles.put(locale, List.of(title));
-        //TODO: Implement Token
+        this.authorization = auth;
     }
 
 
@@ -66,9 +81,9 @@ public class MangaCreation extends Action<Manga> {
      *
      * @param titles a {@link java.util.Map} object
      */
-    public MangaCreation(Map<Locale, List<String>> titles) {
+    public MangaCreation(Token auth, Map<Locale, List<String>> titles) {
         this.titles = titles;
-        this.authorization = Token.getInstance();
+        this.authorization = auth;
     }
 
     
@@ -341,18 +356,104 @@ public class MangaCreation extends Action<Manga> {
     */
     @Override
     public CompletableFuture<Manga> submit(){
-        CompletableFuture<Manga> future = new CompletableFuture<>();
-        future.completeExceptionally(new UnsupportedOperationException("This action is not yet supported."));
-        return future;
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                return complete();
+            } catch (MangaCreationException e) {
+                logger.error("Failed to create manga.", e);
+                return null;
+            }
+        });
     }
 
     /** {@inheritDoc} 
      * 
      * @return will return a manga object in the {@link State.DRAFT} state if successful.
+     * @throws MangaCreationException if the manga creation fails such as if the request fails or the user lacks permissions for such operation.
     */
     @Override
-    public Manga complete() {
-        throw new UnsupportedOperationException("This action is not yet supported.");
+    public Manga complete() throws MangaCreationException{
+        Gson gson = new Gson();
+        validate();
+        RequestBody body = RequestBody.create(toJson().toString(), JSON_MEDIA_TYPE);
+
+        try {
+            Response response = HTTPRequest.postResponse(MANGA_CREATION_URL, toJson().toString(), Optional.of("Bearer " + authorization.getAccessToken()));
+            if (response.isSuccessful()) {
+                JsonObject responseData = gson.fromJson(response.body().string(), JsonObject.class);
+                Manga manga = new Manga(responseData);
+                return manga;
+            } else {
+                logger.error("Failed to create manga. Response: " + response.body().string());
+                throw new MangaCreationException("Failed to create manga.", new Exception(response.body().string()));
+            }
+        } catch (Exception e) {
+            throw new MangaCreationException("Failed to create manga.", e);
+        }
+    }
+
+    private void validate() {
+        if (titles.isEmpty()) {
+            throw new IllegalArgumentException("Titles cannot be empty.");
+        }
+        if (descriptions.isEmpty()) {
+            throw new IllegalArgumentException("Descriptions cannot be empty.");
+        }
+        if (authors.isEmpty()) {
+            throw new IllegalArgumentException("Authors cannot be empty.");
+        }
+        if (artists.isEmpty()) {
+            throw new IllegalArgumentException("Artists cannot be empty.");
+        }
+        if (links.isEmpty()) {
+            throw new IllegalArgumentException("Links cannot be empty.");
+        }
+        if (tags.isEmpty()) {
+            throw new IllegalArgumentException("Tags cannot be empty.");
+        }
+        if (year == 0) {
+            throw new IllegalArgumentException("Year cannot be 0.");
+        }
+        if (originalLanguage == null) {
+            throw new IllegalArgumentException("Original language cannot be null.");
+        }
+        if (contentRating == null) {
+            throw new IllegalArgumentException("Content rating cannot be null.");
+        }
+        if (lastVolume == null) {
+            throw new IllegalArgumentException("Last volume cannot be null.");
+        }
+        if (lastChapter == null) {
+            throw new IllegalArgumentException("Last chapter cannot be null.");
+        }
+        if (demographic == null) {
+            throw new IllegalArgumentException("Demographic cannot be null.");
+        }
+        if (status == null) {
+            throw new IllegalArgumentException("Status cannot be null.");
+        }
+    }
+
+
+    private JsonObject toJson(){
+        Gson gson = new Gson();
+        JsonObject json = new JsonObject();
+        json.add("title", gson.toJsonTree(titles));
+        json.add("altTitles", gson.toJsonTree(altTitles));
+        json.add("description", gson.toJsonTree(descriptions));
+        json.add("authors", gson.toJsonTree(authors));
+        json.add("artists", gson.toJsonTree(artists));
+        json.add("links", gson.toJsonTree(links));
+        json.add("tags", gson.toJsonTree(tags));
+        json.addProperty("year", year);
+        json.addProperty("originalLanguage", originalLanguage.getLanguage());
+        json.addProperty("contentRating", contentRating.toString());
+        json.addProperty("lastVolume", lastVolume.toString());
+        json.addProperty("lastChapter", lastChapter.toString());
+        json.addProperty("demographic", demographic.toString());
+        json.addProperty("status", status.toString());
+        json.addProperty("version", version);
+        return json;
     }
 
 

@@ -10,8 +10,6 @@ package dev.kurumidisciples.javadex.api.core.authentication;
  */
 public class Token {
 
-    private static Token instance; // TODO look into multiple concurrent javadex objects and how this will work
-
     private String accessToken;
     private String refreshToken;
 
@@ -24,7 +22,6 @@ public class Token {
     public Token(String accessToken, String refreshToken) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
-        instance = this;
     }
 
     /**
@@ -43,15 +40,6 @@ public class Token {
      */
     public synchronized void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
-    }
-
-    /**
-     * <p>Getter for the field <code>instance</code>.</p>
-     *
-     * @return a {@link dev.kurumidisciples.javadex.api.core.authentication.Token} object
-     */
-    public synchronized static Token getInstance() {
-        return instance;
     }
 
     /**
