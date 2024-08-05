@@ -39,7 +39,6 @@ import dev.kurumidisciples.javadex.internal.actions.retrieve.FollowsAction;
 import dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction;
 import dev.kurumidisciples.javadex.internal.annotations.Size;
 import dev.kurumidisciples.javadex.internal.auth.Authenticator;
-import dev.kurumidisciples.javadex.internal.auth.ClientCredentialsAuthenticator;
 import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
 import dev.kurumidisciples.javadex.internal.utils.ErrorResponseChecker;
 import dev.kurumidisciples.javadex.internal.annotations.Authenticated;
