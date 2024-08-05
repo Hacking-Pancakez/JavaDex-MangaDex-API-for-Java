@@ -31,9 +31,11 @@ import dev.kurumidisciples.javadex.api.entities.ScanlationGroup;
 import dev.kurumidisciples.javadex.api.entities.User;
 import dev.kurumidisciples.javadex.api.entities.content.Manga;
 import dev.kurumidisciples.javadex.api.entities.enums.FollowingEntityType;
+import dev.kurumidisciples.javadex.api.entities.enums.Locale;
 import dev.kurumidisciples.javadex.api.entities.relationship.enums.RelationshipType;
 import dev.kurumidisciples.javadex.api.exceptions.AuthorizationException;
 import dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException;
+import dev.kurumidisciples.javadex.internal.actions.create.MangaCreation;
 import dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction;
 import dev.kurumidisciples.javadex.internal.actions.retrieve.FollowsAction;
 import dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction;
@@ -224,6 +226,11 @@ public class JavaDex implements AutoCloseable{
     @Authenticated
     public CompletableFuture<Boolean> followManga(@NotNull UUID mangaId) {
         return followManga(mangaId.toString());
+    }
+
+    @Authenticated
+    public MangaCreation createManga(Locale locale, String title){
+        return new MangaCreation(authenticator.getToken(), locale, title);
     }
 
     /**

@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.time.Duration;
+import java.util.Collections;
 import java.util.List;
 
 import javax.security.auth.login.LoginException;
@@ -21,8 +22,11 @@ import dev.kurumidisciples.javadex.api.core.authentication.Token;
 import dev.kurumidisciples.javadex.api.entities.Chapter;
 import dev.kurumidisciples.javadex.api.entities.User;
 import dev.kurumidisciples.javadex.api.entities.content.Manga;
+import dev.kurumidisciples.javadex.api.entities.enums.Locale;
+import dev.kurumidisciples.javadex.api.entities.enums.State;
 import dev.kurumidisciples.javadex.api.entities.intermediate.middlemen.EntityMiddleman;
 import dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException;
+import dev.kurumidisciples.javadex.internal.actions.create.MangaCreation;
 import dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction;
 import dev.kurumidisciples.javadex.internal.actions.retrieve.FollowsAction;
 import dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction;

@@ -1,5 +1,6 @@
 package dev.kurumidisciples.javadex.internal.actions.create;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.google.errorprone.annotations.DoNotCall;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import dev.kurumidisciples.javadex.api.core.authentication.Token;
@@ -35,9 +37,31 @@ import okhttp3.Response;
 
 /**
  * <p>MangaCreation class.</p>
+ * 
+ * <p>This class handles the creation of a new Manga entity using the MangaDex API. It collects all necessary information
+ * such as titles, descriptions, authors, artists, and other attributes required for manga creation. It then submits the
+ * request to the API and returns the created Manga object if successful.</p>
  *
+ * <p>Example usage:</p>
+ * <pre>{@code
+ * MangaCreation mangaCreation = javadex.createManga(Locale.ENGLISH, "My Manga Title");
+ * mangaCreation.setYear(2021)
+ *              .setOriginalLanguage(Locale.JAPANESE)
+ *              .setContentRating(ContentRating.SAFE)
+ *              .setDemographic(Demographic.SHOUNEN)
+ *              .setStatus(Status.ONGOING)
+ *              .addAuthor("author_id")
+ *              .addArtist("artist_id")
+ *              .addTag(Tag.SUPERNATURAL)
+ *              .submit()
+ *              .thenAccept(manga -> {
+ *                  // Handle the created manga object
+ *              });
+ * }</pre>
+ * 
  * @author Hacking Pancakez
- * @version $Id: $Id
+ * @since 0.1.5.0.BETA.1
+ * @warn This class is not complete and may break unexpectedly during use.
  */
 public class MangaCreation extends Action<Manga> {
 
@@ -46,12 +70,12 @@ public class MangaCreation extends Action<Manga> {
 
     private static final Logger logger = LogManager.getLogger(MangaCreation.class);
 
-    private Map<Locale, List<String>> titles;
-    private Map<Locale, List<String>> altTitles;
-    private Map<Locale, String> descriptions;
-    private List<String> authors;
-    private List<String> artists;
-    private Map<LinkType, String> links;
+    private Map<Locale, List<String>> titles = new HashMap<>();
+    private Map<Locale, List<String>> altTitles = new HashMap<>();
+    private Map<Locale, String> descriptions = new HashMap<>();
+    private List<String> authors = List.of();
+    private List<String> artists = List.of();
+    private Map<LinkType, String> links = new HashMap<>();
     private List<Tag> tags;
     private int year;
     private Locale originalLanguage;
@@ -65,33 +89,33 @@ public class MangaCreation extends Action<Manga> {
     private Token authorization;
 
     /**
-     * <p>Constructor for MangaCreation.</p>
+     * Constructs a MangaCreation instance with a single title.
      *
-     * @param locale a {@link dev.kurumidisciples.javadex.api.entities.enums.Locale} object
-     * @param title a {@link java.lang.String} object
+     * @param auth   The authorization token required for the API call.
+     * @param locale The locale of the manga title.
+     * @param title  The title of the manga.
      */
     public MangaCreation(Token auth, @MustNotBeUnknown Locale locale, String title) {
         this.titles.put(locale, List.of(title));
         this.authorization = auth;
     }
 
-
     /**
-     * <p>Constructor for MangaCreation.</p>
+     * Constructs a MangaCreation instance with multiple titles.
      *
-     * @param titles a {@link java.util.Map} object
+     * @param auth   The authorization token required for the API call.
+     * @param titles A map of locales and their corresponding titles.
      */
     public MangaCreation(Token auth, Map<Locale, List<String>> titles) {
         this.titles = titles;
         this.authorization = auth;
     }
 
-    
     /**
-     * <p>addAltTitle.</p>
+     * Adds an alternative title for the manga.
      *
-     * @param locale a {@link dev.kurumidisciples.javadex.api.entities.enums.Locale} object
-     * @param title a {@link java.lang.String} object
+     * @param locale The locale of the alternative title.
+     * @param title  The alternative title.
      * @return MangaCreation
      */
     public MangaCreation addAltTitle(@MustNotBeUnknown Locale locale, String title) {
@@ -103,11 +127,10 @@ public class MangaCreation extends Action<Manga> {
         return this;
     }
 
-    
     /**
-     * <p>Setter for the field <code>altTitles</code>.</p>
+     * Sets alternative titles for the manga.
      *
-     * @param altTitles a {@link java.util.Map} object
+     * @param altTitles A map of locales and their corresponding alternative titles.
      * @return MangaCreation
      */
     public MangaCreation setAltTitles(Map<@MustNotBeUnknown Locale, List<String>> altTitles) {
@@ -115,12 +138,11 @@ public class MangaCreation extends Action<Manga> {
         return this;
     }
 
-    
     /**
-     * <p>addDescription.</p>
+     * Adds a description for the manga.
      *
-     * @param locale a {@link dev.kurumidisciples.javadex.api.entities.enums.Locale} object
-     * @param description a {@link java.lang.String} object
+     * @param locale      The locale of the description.
+     * @param description The description.
      * @return MangaCreation
      */
     public MangaCreation addDescription(@MustNotBeUnknown Locale locale, String description) {
@@ -128,11 +150,10 @@ public class MangaCreation extends Action<Manga> {
         return this;
     }
 
-    
     /**
-     * <p>Setter for the field <code>descriptions</code>.</p>
+     * Sets descriptions for the manga.
      *
-     * @param descriptions a {@link java.util.Map} object
+     * @param descriptions A map of locales and their corresponding descriptions.
      * @return MangaCreation
      */
     public MangaCreation setDescriptions(Map<@MustNotBeUnknown Locale, String> descriptions) {
@@ -141,10 +162,10 @@ public class MangaCreation extends Action<Manga> {
     }
 
     /**
-     * <p>addAuthor.</p>
+     * Adds an author to the manga.
      *
-     * @param author a {@link java.lang.String} object
-     * @return a {@link dev.kurumidisciples.javadex.internal.actions.create.MangaCreation} object
+     * @param author The ID of the author.
+     * @return MangaCreation
      */
     public MangaCreation addAuthor(String author) {
         this.authors.add(author);
@@ -152,10 +173,10 @@ public class MangaCreation extends Action<Manga> {
     }
 
     /**
-     * <p>Setter for the field <code>authors</code>.</p>
+     * Sets authors for the manga.
      *
-     * @param authors a {@link java.util.List} object
-     * @return a {@link dev.kurumidisciples.javadex.internal.actions.create.MangaCreation} object
+     * @param authors A list of author IDs.
+     * @return MangaCreation
      */
     public MangaCreation setAuthors(List<String> authors) {
         this.authors = authors;
@@ -163,31 +184,30 @@ public class MangaCreation extends Action<Manga> {
     }
 
     /**
-     * <p>addAuthor.</p>
+     * Adds an author to the manga by UUID.
      *
-     * @param authorId a {@link java.util.UUID} object
-     * @return a {@link dev.kurumidisciples.javadex.internal.actions.create.MangaCreation} object
+     * @param authorId The UUID of the author.
+     * @return MangaCreation
      */
     public MangaCreation addAuthor(UUID authorId) {
-       return addAuthor(authorId.toString());
+        return addAuthor(authorId.toString());
     }
 
     /**
-     * <p>addAuthor.</p>
+     * Adds an author to the manga by Author object.
      *
-     * @param author a {@link dev.kurumidisciples.javadex.api.entities.Author} object
-     * @return a {@link dev.kurumidisciples.javadex.internal.actions.create.MangaCreation} object
+     * @param author The Author object.
+     * @return MangaCreation
      */
     public MangaCreation addAuthor(Author author) {
         return addAuthor(author.getId());
     }
 
-
     /**
-     * <p>addArtist.</p>
+     * Adds an artist to the manga.
      *
-     * @param artist a {@link java.lang.String} object
-     * @return a {@link dev.kurumidisciples.javadex.internal.actions.create.MangaCreation} object
+     * @param artist The ID of the artist.
+     * @return MangaCreation
      */
     public MangaCreation addArtist(String artist) {
         this.artists.add(artist);
@@ -195,10 +215,10 @@ public class MangaCreation extends Action<Manga> {
     }
 
     /**
-     * <p>Setter for the field <code>artists</code>.</p>
+     * Sets artists for the manga.
      *
-     * @param artists a {@link java.util.List} object
-     * @return a {@link dev.kurumidisciples.javadex.internal.actions.create.MangaCreation} object
+     * @param artists A list of artist IDs.
+     * @return MangaCreation
      */
     public MangaCreation setArtists(List<String> artists) {
         this.artists = artists;
@@ -206,31 +226,31 @@ public class MangaCreation extends Action<Manga> {
     }
 
     /**
-     * <p>addArtist.</p>
+     * Adds an artist to the manga by UUID.
      *
-     * @param artistId a {@link java.util.UUID} object
-     * @return a {@link dev.kurumidisciples.javadex.internal.actions.create.MangaCreation} object
+     * @param artistId The UUID of the artist.
+     * @return MangaCreation
      */
     public MangaCreation addArtist(UUID artistId) {
         return addArtist(artistId.toString());
     }
 
     /**
-     * <p>addArtist.</p>
+     * Adds an artist to the manga by Author object.
      *
-     * @param artist a {@link dev.kurumidisciples.javadex.api.entities.Author} object
-     * @return a {@link dev.kurumidisciples.javadex.internal.actions.create.MangaCreation} object
+     * @param artist The Author object.
+     * @return MangaCreation
      */
     public MangaCreation addArtist(Author artist) {
         return addArtist(artist.getId());
     }
 
     /**
-     * <p>addLink.</p>
+     * Adds a link to the manga.
      *
-     * @param type a {@link dev.kurumidisciples.javadex.api.entities.enums.manga.LinkType} object
-     * @param link a {@link java.lang.String} object
-     * @return a {@link dev.kurumidisciples.javadex.internal.actions.create.MangaCreation} object
+     * @param type The type of the link.
+     * @param link The URL of the link.
+     * @return MangaCreation
      */
     public MangaCreation addLink(@MustNotBeUnknown LinkType type, @NotNull String link) {
         this.links.put(type, link);
@@ -238,10 +258,10 @@ public class MangaCreation extends Action<Manga> {
     }
 
     /**
-     * <p>Setter for the field <code>links</code>.</p>
+     * Sets links for the manga.
      *
-     * @param links a {@link java.util.Map} object
-     * @return a {@link dev.kurumidisciples.javadex.internal.actions.create.MangaCreation} object
+     * @param links A map of link types and their corresponding URLs.
+     * @return MangaCreation
      */
     public MangaCreation setLinks(Map<@MustNotBeUnknown LinkType, String> links) {
         this.links = links;
@@ -249,10 +269,10 @@ public class MangaCreation extends Action<Manga> {
     }
 
     /**
-     * <p>addTag.</p>
+     * Adds a tag to the manga.
      *
-     * @param tag a {@link dev.kurumidisciples.javadex.api.entities.content.Manga.Tag} object
-     * @return a {@link dev.kurumidisciples.javadex.internal.actions.create.MangaCreation} object
+     * @param tag The tag to be added.
+     * @return MangaCreation
      */
     public MangaCreation addTag(Tag tag) {
         this.tags.add(tag);
@@ -260,10 +280,10 @@ public class MangaCreation extends Action<Manga> {
     }
 
     /**
-     * <p>Setter for the field <code>tags</code>.</p>
+     * Sets tags for the manga.
      *
-     * @param tags a {@link java.util.List} object
-     * @return a {@link dev.kurumidisciples.javadex.internal.actions.create.MangaCreation} object
+     * @param tags A list of tags.
+     * @return MangaCreation
      */
     public MangaCreation setTags(List<Tag> tags) {
         this.tags = tags;
@@ -271,10 +291,10 @@ public class MangaCreation extends Action<Manga> {
     }
 
     /**
-     * <p>Setter for the field <code>year</code>.</p>
+     * Sets the year for the manga.
      *
-     * @param year a int
-     * @return a {@link dev.kurumidisciples.javadex.internal.actions.create.MangaCreation} object
+     * @param year The year of publication.
+     * @return MangaCreation
      */
     public MangaCreation setYear(int year) {
         this.year = year;
@@ -282,10 +302,10 @@ public class MangaCreation extends Action<Manga> {
     }
 
     /**
-     * <p>Setter for the field <code>originalLanguage</code>.</p>
+     * Sets the original language of the manga.
      *
-     * @param originalLanguage a {@link dev.kurumidisciples.javadex.api.entities.enums.Locale} object
-     * @return a {@link dev.kurumidisciples.javadex.internal.actions.create.MangaCreation} object
+     * @param originalLanguage The original language.
+     * @return MangaCreation
      */
     public MangaCreation setOriginalLanguage(@MustNotBeUnknown Locale originalLanguage) {
         this.originalLanguage = originalLanguage;
@@ -293,10 +313,10 @@ public class MangaCreation extends Action<Manga> {
     }
 
     /**
-     * <p>Setter for the field <code>contentRating</code>.</p>
+     * Sets the content rating for the manga.
      *
-     * @param contentRating a {@link dev.kurumidisciples.javadex.api.entities.enums.manga.filters.ContentRating} object
-     * @return a {@link dev.kurumidisciples.javadex.internal.actions.create.MangaCreation} object
+     * @param contentRating The content rating.
+     * @return MangaCreation
      */
     public MangaCreation setContentRating(ContentRating contentRating) {
         this.contentRating = contentRating;
@@ -304,10 +324,10 @@ public class MangaCreation extends Action<Manga> {
     }
 
     /**
-     * <p>Setter for the field <code>lastVolume</code>.</p>
+     * Sets the last volume number for the manga.
      *
-     * @param lastVolume a {@link java.lang.Number} object
-     * @return a {@link dev.kurumidisciples.javadex.internal.actions.create.MangaCreation} object
+     * @param lastVolume The last volume number.
+     * @return MangaCreation
      */
     public MangaCreation setLastVolume(Number lastVolume) {
         this.lastVolume = lastVolume;
@@ -315,10 +335,10 @@ public class MangaCreation extends Action<Manga> {
     }
 
     /**
-     * <p>Setter for the field <code>lastChapter</code>.</p>
+     * Sets the last chapter number for the manga.
      *
-     * @param lastChapter a {@link java.lang.Number} object
-     * @return a {@link dev.kurumidisciples.javadex.internal.actions.create.MangaCreation} object
+     * @param lastChapter The last chapter number.
+     * @return MangaCreation
      */
     public MangaCreation setLastChapter(Number lastChapter) {
         this.lastChapter = lastChapter;
@@ -326,10 +346,10 @@ public class MangaCreation extends Action<Manga> {
     }
 
     /**
-     * <p>Setter for the field <code>demographic</code>.</p>
+     * Sets the demographic for the manga.
      *
-     * @param demographic a {@link dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Demographic} object
-     * @return a {@link dev.kurumidisciples.javadex.internal.actions.create.MangaCreation} object
+     * @param demographic The publication demographic.
+     * @return MangaCreation
      */
     public MangaCreation setDemographic(Demographic demographic) {
         this.demographic = demographic;
@@ -337,25 +357,23 @@ public class MangaCreation extends Action<Manga> {
     }
 
     /**
-     * <p>Setter for the field <code>status</code>.</p>
+     * Sets the status for the manga.
      *
-     * @param status a {@link dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Status} object
-     * @return a {@link dev.kurumidisciples.javadex.internal.actions.create.MangaCreation} object
+     * @param status The status of the manga.
+     * @return MangaCreation
      */
     public MangaCreation setStatus(Status status) {
         this.status = status;
         return this;
     }
 
-
-    
-
-    /** {@inheritDoc} 
-     * 
-     * @return will return a manga object in the {@link State.DRAFT} state if successful.
-    */
+    /**
+     * Submits the manga creation request asynchronously.
+     *
+     * @return A CompletableFuture containing the created Manga object.
+     */
     @Override
-    public CompletableFuture<Manga> submit(){
+    public CompletableFuture<Manga> submit() {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 return complete();
@@ -366,13 +384,14 @@ public class MangaCreation extends Action<Manga> {
         });
     }
 
-    /** {@inheritDoc} 
-     * 
-     * @return will return a manga object in the {@link State.DRAFT} state if successful.
-     * @throws MangaCreationException if the manga creation fails such as if the request fails or the user lacks permissions for such operation.
-    */
+    /**
+     * Completes the manga creation request and returns the created Manga object.
+     *
+     * @return The created Manga object.
+     * @throws MangaCreationException if the manga creation fails.
+     */
     @Override
-    public Manga complete() throws MangaCreationException{
+    public Manga complete() throws MangaCreationException {
         Gson gson = new Gson();
         validate();
         RequestBody body = RequestBody.create(toJson().toString(), JSON_MEDIA_TYPE);
@@ -381,17 +400,22 @@ public class MangaCreation extends Action<Manga> {
             Response response = HTTPRequest.postResponse(MANGA_CREATION_URL, toJson().toString(), Optional.of("Bearer " + authorization.getAccessToken()));
             if (response.isSuccessful()) {
                 JsonObject responseData = gson.fromJson(response.body().string(), JsonObject.class);
-                Manga manga = new Manga(responseData);
-                return manga;
+                return new Manga(responseData);
             } else {
                 logger.error("Failed to create manga. Response: " + response.body().string());
                 throw new MangaCreationException("Failed to create manga.", new Exception(response.body().string()));
             }
         } catch (Exception e) {
+            e.printStackTrace();
             throw new MangaCreationException("Failed to create manga.", e);
         }
     }
 
+    /**
+     * Validates the fields before making the request.
+     *
+     * @throws IllegalArgumentException if any required field is missing or invalid.
+     */
     private void validate() {
         if (titles.isEmpty()) {
             throw new IllegalArgumentException("Titles cannot be empty.");
@@ -434,36 +458,61 @@ public class MangaCreation extends Action<Manga> {
         }
     }
 
-
-    private JsonObject toJson(){
+    /**
+     * Converts the MangaCreation object to a JSON representation.
+     *
+     * @return A JsonObject representing the MangaCreation object.
+     */
+    private JsonObject toJson() {
         Gson gson = new Gson();
         JsonObject json = new JsonObject();
-        json.add("title", gson.toJsonTree(titles));
-        json.add("altTitles", gson.toJsonTree(altTitles));
-        json.add("description", gson.toJsonTree(descriptions));
-        json.add("authors", gson.toJsonTree(authors));
-        json.add("artists", gson.toJsonTree(artists));
-        json.add("links", gson.toJsonTree(links));
-        json.add("tags", gson.toJsonTree(tags));
+        if (titles != null) {
+            json.add("title", gson.toJsonTree(titles));
+        }
+        if (altTitles != null) {
+            json.add("altTitles", gson.toJsonTree(altTitles));
+        }
+        if (descriptions != null) {
+            json.add("description", gson.toJsonTree(descriptions));
+        }
+        if (authors != null) {
+            json.add("authors", gson.toJsonTree(authors));
+        }
+        if (artists != null) {
+            json.add("artists", gson.toJsonTree(artists));
+        }
+        if (links != null) {
+            json.add("links", gson.toJsonTree(links));
+        }
+        if (tags != null) {
+            JsonArray tagsArray = new JsonArray();
+            for (Tag tag : tags) {
+                tagsArray.add(tag.getId().toString());
+            }
+            json.add("tags", tagsArray);
+        }
         json.addProperty("year", year);
-        json.addProperty("originalLanguage", originalLanguage.getLanguage());
-        json.addProperty("contentRating", contentRating.toString());
-        json.addProperty("lastVolume", lastVolume.toString());
-        json.addProperty("lastChapter", lastChapter.toString());
-        json.addProperty("demographic", demographic.toString());
-        json.addProperty("status", status.toString());
+        if (originalLanguage != null) {
+            json.addProperty("originalLanguage", originalLanguage.getLanguage());
+        }
+        if (contentRating != null) {
+            json.addProperty("contentRating", contentRating.toString());
+        }
+        if (lastVolume != null) {
+            json.addProperty("lastVolume", lastVolume.toString());
+        }
+        if (lastChapter != null) {
+            json.addProperty("lastChapter", lastChapter.toString());
+        }
+        if (demographic != null) {
+            json.addProperty("demographic", demographic.toString());
+        }
+        if (status != null) {
+            json.addProperty("status", status.toString());
+        }
         json.addProperty("version", version);
         return json;
     }
-
-
-
-
-
-
-
-
-
 
     /** {@inheritDoc} */
     @Override
@@ -482,7 +531,4 @@ public class MangaCreation extends Action<Manga> {
     public MangaCreation setIncludes(IncludesType... includes) {
         throw new UnsupportedOperationException("This action does not support setting includes.");
     }
-
-
-
 }
