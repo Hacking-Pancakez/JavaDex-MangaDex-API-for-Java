@@ -20,6 +20,7 @@ import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Demographic;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Status;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Tag;
 import dev.kurumidisciples.javadex.internal.actions.Action;
+import dev.kurumidisciples.javadex.api.entities.enums.State;
 import dev.kurumidisciples.javadex.internal.annotations.MustNotBeUnknown;
 
 /**
@@ -69,11 +70,6 @@ public class MangaCreation extends Action<Manga> {
         this.titles = titles;
         this.authorization = Token.getInstance();
     }
-
-
-
-
-
 
     
     /**
@@ -339,7 +335,10 @@ public class MangaCreation extends Action<Manga> {
 
     
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc} 
+     * 
+     * @return will return a manga object in the {@link State.DRAFT} state if successful.
+    */
     @Override
     public CompletableFuture<Manga> submit(){
         CompletableFuture<Manga> future = new CompletableFuture<>();
@@ -347,7 +346,10 @@ public class MangaCreation extends Action<Manga> {
         return future;
     }
 
-    /** {@inheritDoc} */
+    /** {@inheritDoc} 
+     * 
+     * @return will return a manga object in the {@link State.DRAFT} state if successful.
+    */
     @Override
     public Manga complete() {
         throw new UnsupportedOperationException("This action is not yet supported.");
