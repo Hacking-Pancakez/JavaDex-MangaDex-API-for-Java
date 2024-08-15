@@ -456,6 +456,18 @@ public class JavaDex implements AutoCloseable{
         });
     }
 
+    public CompletableFuture<User> retrieveUser(@NotNull UUID userId){
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                JsonObject response = GSON.fromJson(HTTPRequest.get("https://api.mangadex.org/user/" + userId), JsonObject.class);
+                return new User(response);
+            } catch (HTTPRequestException e) {
+                logger.error("Unable to retrieve user with ID: {}", userId, e);
+                throw new CompletionException(e);
+            }
+        });
+    }
+
    /**
    * Refreshes the access token using the refresh token.
    *
