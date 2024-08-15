@@ -468,6 +468,10 @@ public class JavaDex implements AutoCloseable{
         });
     }
 
+    public CompletableFuture<User> retrieveUser(@NotNull String userId){
+        return retrieveUser(UUID.fromString(userId));
+    }
+
    /**
    * Refreshes the access token using the refresh token.
    *

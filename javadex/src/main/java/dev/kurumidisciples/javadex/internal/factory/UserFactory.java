@@ -34,7 +34,7 @@ public class UserFactory {
      */
     public static User retrieveUploader(@NotNull Chapter chapter){
         RelationshipMap relationshipMap = chapter.getRelationshipMap();
-        String uploaderId = relationshipMap.get(RelationshipType.USER).get(0).toString();
+        String uploaderId = relationshipMap.get(RelationshipType.USER).get(0).getId().toString();
         String jsonResponse = null;
         try {
             jsonResponse = HTTPRequest.get(USER_API + uploaderId);
