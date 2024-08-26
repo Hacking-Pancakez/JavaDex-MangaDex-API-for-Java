@@ -7,7 +7,6 @@ package dev.kurumidisciples.javadex.api.entities.relationship.enums;
  *
  * @since 0.1.2
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
 public enum RelationshipRelated {
     /**A self-published derivative work based on this manga*/
