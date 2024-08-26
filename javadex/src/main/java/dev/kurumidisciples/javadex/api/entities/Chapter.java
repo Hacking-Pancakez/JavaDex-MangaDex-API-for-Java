@@ -1,7 +1,6 @@
 package dev.kurumidisciples.javadex.api.entities;
 
 import java.io.IOException;
-import java.math.BigInteger;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -134,10 +133,6 @@ public class Chapter extends Entity implements IPublishable {
 
     public int getPages() {
         return pages;
-    }
-
-    private static boolean isChapterData(JsonObject data) {
-        return data.get("type").getAsString().equals("chapter");
     }
 
     public CompletableFuture<List<PageProxy>> retrievePages() throws ExecutionException {
