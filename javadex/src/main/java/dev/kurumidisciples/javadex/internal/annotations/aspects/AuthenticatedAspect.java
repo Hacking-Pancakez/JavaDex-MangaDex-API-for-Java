@@ -30,6 +30,7 @@ public class AuthenticatedAspect {
                 javaDex.close();
                 throw new AuthorizationException("The JavaDex instance is not authenticated.");
             }
+            javaDex.close();
         } else {
             throw new AuthorizationException("No JavaDex instance found in method target.");
         }
