@@ -4,7 +4,6 @@ package dev.kurumidisciples.javadex.api.entities.enums;
  * Represents the type of includes that can be requested from the API.
  *
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
 public enum IncludesType {
     MANGA("manga"),
