@@ -78,7 +78,7 @@ public class MDList extends Entity {
     }
 
     /**
-     * <p>getIdRaw.</p>
+     * Get the Unique ID of the list as a string.
      *
      * @return a {@link java.lang.String} object
      */
@@ -87,7 +87,7 @@ public class MDList extends Entity {
     }
 
     /**
-     * <p>Getter for the field <code>name</code>.</p>
+     * Get the name of the list.
      *
      * @return a {@link java.lang.String} object
      */
@@ -96,7 +96,7 @@ public class MDList extends Entity {
     }
 
     /**
-     * <p>Getter for the field <code>version</code>.</p>
+     * Get the version of the list. Can indicate how many times the list has been modified.
      *
      * @return a int
      */
@@ -105,7 +105,7 @@ public class MDList extends Entity {
     }
 
     /**
-     * <p>Getter for the field <code>relationshipMap</code>.</p>
+     * Returns the relationship map of the list which contains the Manga Ids in of the list and sometimes other objects.
      *
      * @return a {@link dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap} object
      */
@@ -114,7 +114,7 @@ public class MDList extends Entity {
     }
 
     /**
-     * <p>Getter for the field <code>visibility</code>.</p>
+     * Returns the visibility of the list. If the list is public, it is visible to the public. If the list is private, it is not visible to the public.
      *
      * @return a {@link dev.kurumidisciples.javadex.api.entities.MDList.Visibility} object
      */
@@ -123,7 +123,7 @@ public class MDList extends Entity {
     }
 
     /**
-     * <p>isPublic.</p>
+     * If the list is public and, therefore, visible to the public.
      *
      * @return a boolean
      */
@@ -132,7 +132,7 @@ public class MDList extends Entity {
     }
 
     /**
-     * <p>isPrivate.</p>
+     * If the list is private and, therefore, not visible to the public.
      *
      * @return a boolean
      */
@@ -141,7 +141,7 @@ public class MDList extends Entity {
     }
 
     /**
-     * <p>getCreatorId.</p>
+     * Getter for the ID of the creator of the list.
      *
      * @return a {@link java.util.UUID} object
      */
@@ -151,7 +151,7 @@ public class MDList extends Entity {
     }
 
     /**
-     * <p>getCreatorIdRaw.</p>
+     * Getter for the ID of the creator of the list as a string.
      *
      * @return a {@link java.lang.String} object
      */
@@ -160,7 +160,7 @@ public class MDList extends Entity {
     }
     
     /**
-     * <p>getMangaIds.</p>
+     * Get IDs of all manga in the list.
      *
      * @return a {@link java.util.List} object
      */

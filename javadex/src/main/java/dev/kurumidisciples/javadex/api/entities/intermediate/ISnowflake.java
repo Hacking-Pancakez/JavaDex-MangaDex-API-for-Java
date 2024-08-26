@@ -12,28 +12,28 @@ import java.util.UUID;
 public interface ISnowflake {
 
   /**
-   * <p>getIdRaw.</p>
+   * The unique identifier of the entity in raw form.
    *
    * @return a {@link java.lang.String} object
    */
   String getIdRaw();
   
   /**
-   * <p>getId.</p>
+   * The unique identifier of the entity.
    *
    * @return a {@link java.util.UUID} object
    */
   UUID getId();
 
   /**
-   * <p>getCreatedAt.</p>
+   * The creation date of the entity.
    *
    * @return a {@link java.time.OffsetDateTime} object
    */
   OffsetDateTime getCreatedAt();
 
   /**
-   * <p>getUpdatedAt.</p>
+   * The last update date of the entity.
    *
    * @return a {@link java.time.OffsetDateTime} object
    */
