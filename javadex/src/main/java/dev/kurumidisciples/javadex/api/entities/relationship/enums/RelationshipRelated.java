@@ -1,7 +1,5 @@
 package dev.kurumidisciples.javadex.api.entities.relationship.enums;
 
-import dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap;
-
 /**
  * Represents the type of relationship that is being used in {@link dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap}'s attributes.
  * <p><b>NOTE:</b></p>
