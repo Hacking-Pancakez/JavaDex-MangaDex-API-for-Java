@@ -11,7 +11,6 @@ import java.util.stream.Stream;
 import com.google.gson.JsonObject;
 
 import dev.kurumidisciples.javadex.api.entities.intermediate.Entity;
-import dev.kurumidisciples.javadex.api.entities.intermediate.ISnowflake;
 import dev.kurumidisciples.javadex.api.entities.relationship.RelationshipData;
 import dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap;
 import dev.kurumidisciples.javadex.api.entities.relationship.enums.RelationshipType;
