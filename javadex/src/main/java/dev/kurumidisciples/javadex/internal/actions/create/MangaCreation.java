@@ -36,7 +36,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
- * <p>MangaCreation class.</p>
  * 
  * <p>This class handles the creation of a new Manga entity using the MangaDex API. It collects all necessary information
  * such as titles, descriptions, authors, artists, and other attributes required for manga creation. It then submits the
@@ -58,6 +57,13 @@ import okhttp3.Response;
  *                  // Handle the created manga object
  *              });
  * }</pre>
+ * 
+ * <p><b>From MangaDex's API documentation:</b></p>
+ * <blockquote>
+ * Similar to how the Chapter Upload works, after a Mangas creation with the Manga Create endpoint it is in a "draft" state, needs to be submitted (committed) and get either approved or rejected by Staff.
+ * The purpose of this is to force at least one CoverArt uploaded in the original language for the Manga Draft and to discourage troll entries. You can use the list-drafts endpoint to investigate the status of your submitted Manga Drafts. Rejected Drafts are occasionally cleaned up at an irregular interval. You can edit Drafts at any time, even after they have been submitted. 
+ * Because a Manga that is in the draft state is not available through the search, there are slightly different endpoints to list or retrieve Manga Drafts, but outside from that the schema is identical to a Manga that is published.
+ * </blockquote>
  * 
  * @author Hacking Pancakez
  * @since 0.1.5.0.BETA.1

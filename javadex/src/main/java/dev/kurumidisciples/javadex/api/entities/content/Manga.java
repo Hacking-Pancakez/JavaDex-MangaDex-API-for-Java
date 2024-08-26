@@ -25,11 +25,11 @@ import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Demographic;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Status;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Tag;
 import dev.kurumidisciples.javadex.api.entities.intermediate.Entity;
-import dev.kurumidisciples.javadex.api.entities.intermediate.ISnowflake;
 import dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap;
 import dev.kurumidisciples.javadex.api.entities.relationship.enums.RelationshipType;
 import dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException;
 import dev.kurumidisciples.javadex.api.proxies.CoverProxy;
+import dev.kurumidisciples.javadex.api.statistics.StatisticsData;
 import dev.kurumidisciples.javadex.internal.annotations.MustNotBeUnknown;
 import dev.kurumidisciples.javadex.internal.annotations.NotLessThanOne;
 import dev.kurumidisciples.javadex.internal.annotations.Size;
@@ -199,7 +199,7 @@ public class Manga extends Entity {
     }
 
     /**
-     * <p>getIdRaw.</p>
+     * <p>Getter for the field <code>id</code>.</p>
      *
      * @return a {@link java.lang.String} object
      */
@@ -236,7 +236,6 @@ public class Manga extends Entity {
     /**
      * <p>Links to outside resources connected with the manga.</p>
      * <p>These could be links to the official website, the author's website, or the manga's page on other websites.</p>
-     * @return
      * @warn Not all links have the full URL, some are just the IDs or SLUGs of the resource.
      */
     public Map<LinkType, String> getLinks() {
@@ -263,7 +262,8 @@ public class Manga extends Entity {
     }
 
     /**
-     * <p>getDescriptions.</p>
+     * <p>Getter for the field <code>description</code>.</p>
+     * <p>A manga can have multiple descriptions in different languages.</p>
      *
      * @return a {@link java.util.Map} object
      */
@@ -509,6 +509,18 @@ public class Manga extends Entity {
                 return new CoverProxy(response.getAsJsonObject("data"));
             } catch (HTTPRequestException e) {
                 logger.error("Could not retrieve all covers for manga " + id, e);
+                throw new CompletionException(e);
+            }
+        });
+    }
+
+    public CompletableFuture<StatisticsData> retrieveStatistics(){
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                JsonObject response = gson.fromJson(HTTPRequest.get("https://api.mangadex.org/statistics/manga/" + id.toString()), JsonObject.class);
+                return new StatisticsData(response.getAsJsonObject("data"));
+            } catch (HTTPRequestException e) {
+                logger.error("Could not retrieve statistics for manga " + id, e);
                 throw new CompletionException(e);
             }
         });
