@@ -5,9 +5,8 @@ import dev.kurumidisciples.javadex.internal.actions.retrieve.FollowsAction;
 /**
  * Represents the type of entity that is being followed.
  *
- * @see {@link dev.kurumidisciples.javadex.internal.actions.retrieve.FollowsAction}
+ * @see {@link FollowsAction}
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
 public enum FollowingEntityType {
     SELF_MANGA("/user/follows/manga", "manga"),
