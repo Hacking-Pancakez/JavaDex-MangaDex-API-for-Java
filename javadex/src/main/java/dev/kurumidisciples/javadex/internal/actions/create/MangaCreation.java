@@ -27,6 +27,7 @@ import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Status;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Tag;
 import dev.kurumidisciples.javadex.api.exceptions.MangaCreationException;
 import dev.kurumidisciples.javadex.internal.actions.Action;
+import dev.kurumidisciples.javadex.internal.annotations.Incomplete;
 import dev.kurumidisciples.javadex.internal.annotations.MustNotBeUnknown;
 import dev.kurumidisciples.javadex.internal.factories.entities.MangaFactory;
 import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
@@ -68,6 +69,7 @@ import okhttp3.Response;
  * @since 0.1.5.0.BETA.1
  * @warn This class is not complete and may break unexpectedly during use.
  */
+@Incomplete
 public class MangaCreation extends Action<Manga> {
 
     private static final String MANGA_CREATION_URL = "https://api.mangadex.org/manga";
