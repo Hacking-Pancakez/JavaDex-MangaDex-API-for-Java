@@ -17,7 +17,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import dev.kurumidisciples.javadex.api.entities.content.Manga;
+import dev.kurumidisciples.javadex.api.entities.Manga;
 import dev.kurumidisciples.javadex.api.entities.enums.IncludesType;
 import dev.kurumidisciples.javadex.api.entities.enums.Locale;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Demographic;
@@ -26,6 +26,7 @@ import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Mode;
 import dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException;
 import dev.kurumidisciples.javadex.internal.actions.Action;
 import dev.kurumidisciples.javadex.internal.annotations.Size;
+import dev.kurumidisciples.javadex.internal.factories.entities.MangaFactory;
 import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
 import dev.kurumidisciples.javadex.internal.http.adapters.OffsetDateTimeTypeAdapter;
 
@@ -593,7 +594,7 @@ public class MangaAction extends Action<List<Manga>>{
         JsonArray data = response.getAsJsonArray("data");
         List<Manga> mangaList = new ArrayList<>();
 
-        data.forEach(element -> mangaList.add(new Manga(element.getAsJsonObject())));
+        data.forEach(element -> mangaList.add(MangaFactory.createEntity(element.getAsJsonObject())));
 
         if (mangaList.isEmpty()) {
             logger.warn("No manga entities found for the search query: {}", title);
@@ -611,7 +612,7 @@ public class MangaAction extends Action<List<Manga>>{
      * @param id A String representing the manga ID.
      * @return A CompletableFuture containing the Manga object.
      */
-    public static CompletableFuture<Manga> getMangaById(String id) {
+    public static CompletableFuture<Manga> retrieveMangaById(String id) {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 logger.debug("Retrieving manga by ID: {}", id);
@@ -619,7 +620,7 @@ public class MangaAction extends Action<List<Manga>>{
                         .registerTypeAdapter(OffsetDateTime.class, new OffsetDateTimeTypeAdapter())
                         .create();
                 JsonObject response = gson.fromJson(HTTPRequest.get("https://api.mangadex.org/manga/" + id), JsonObject.class);
-                return new Manga(response.getAsJsonObject("data"));
+                return MangaFactory.createEntity(response.getAsJsonObject("data"));
             } catch (Exception e) {
                 logger.error("Unable to retrieve Manga with ID: {}", id, e);
                 return null;

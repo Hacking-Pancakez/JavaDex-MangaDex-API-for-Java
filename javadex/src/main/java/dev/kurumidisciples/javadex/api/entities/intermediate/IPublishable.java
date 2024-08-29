@@ -6,18 +6,17 @@ import java.time.OffsetDateTime;
  * Provides an interface for an entity that has a publish date and a readableAt date.
  *
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
 public interface IPublishable {
 
   /**
-   * <p>getPublishAt.</p>
+   * Returns the publish date of the entity.
    *
    * @return a {@link java.time.OffsetDateTime} object
    */
   OffsetDateTime getPublishAt();
   /**
-   * <p>getReadableAt.</p>
+   * Returns the date that the entity was viewable to the public.
    *
    * @return a {@link java.time.OffsetDateTime} object
    */

@@ -1,6 +1,6 @@
 package dev.kurumidisciples.javadex.api.entities.enums.manga;
 
-import dev.kurumidisciples.javadex.api.entities.content.Manga;
+import dev.kurumidisciples.javadex.api.entities.Manga;
 
 /**
  * Represents the type of link that is being used in {@link Manga}'s attributes.

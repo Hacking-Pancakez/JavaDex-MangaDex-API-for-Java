@@ -7,7 +7,6 @@ import java.util.UUID;
  * Provides an interface for an entity that has a unique identifier, creation date, and update date.
  *
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
 public interface ISnowflake {
 
@@ -30,12 +29,21 @@ public interface ISnowflake {
    *
    * @return a {@link java.time.OffsetDateTime} object
    */
-  OffsetDateTime getCreatedAt();
+  default OffsetDateTime getCreatedAt(){
+    throw new UnsupportedOperationException("Not supported for this entity.");
+  }
 
   /**
    * The last update date of the entity.
    *
    * @return a {@link java.time.OffsetDateTime} object
    */
-  OffsetDateTime getUpdatedAt();
+  default OffsetDateTime getUpdatedAt(){
+    throw new UnsupportedOperationException("Not supported for this entity.");
+  }
+
+  /**
+   * The version of the entity. Indicates how many times the entity has been modified.
+   */
+  Integer getVersion();
 }

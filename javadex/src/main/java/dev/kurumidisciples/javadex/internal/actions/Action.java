@@ -9,7 +9,6 @@ import dev.kurumidisciples.javadex.api.entities.enums.IncludesType;
  *
  * @param <T> the type of the action.
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
 // TODO Add Order to actions
 public abstract class Action<T> {

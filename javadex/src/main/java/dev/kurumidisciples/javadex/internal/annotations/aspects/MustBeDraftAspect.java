@@ -8,7 +8,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
-import dev.kurumidisciples.javadex.api.entities.content.Manga;
+import dev.kurumidisciples.javadex.api.entities.Manga;
 import dev.kurumidisciples.javadex.api.entities.enums.State;
 import dev.kurumidisciples.javadex.internal.annotations.MustBeDraft;
 

@@ -1,28 +1,17 @@
 package dev.kurumidisciples.javadex.api.entities;
 
-import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
-import dev.kurumidisciples.javadex.api.entities.intermediate.Entity;
+import dev.kurumidisciples.javadex.api.entities.intermediate.IRelationHolder;
+import dev.kurumidisciples.javadex.api.entities.intermediate.ISnowflake;
 import dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap;
 
-/**
- * Represents a user in the MangaDex API.
- *
- * @since 0.0.1
- * @author Hacking Pancakez
- * @version $Id: $Id
- */
-public class User extends Entity{
+import java.util.List;
 
-    /**
-     * All possible roles a user can have within the MangaDex API.
-     */
+/**
+ * Represent a user on the MangaDex platform.
+ * @author Hacking Pancakez
+ */
+public interface User extends ISnowflake, IRelationHolder{
+    
     public enum Role {
         GROUP_MEMBER("ROLE_GROUP_MEMBER"),
         GROUP_OWNER("ROLE_GROUP_LEADER"),
@@ -40,6 +29,9 @@ public class User extends Entity{
         UNVERIFIED("ROLE_UNVERIFIED"),
         STAFF("ROLE_STAFF"),
         FORUM_MODERATOR("ROLE_FORUM_MODERATOR"),
+        /**
+         * Reserved for roles that are not yet implemented in the current version.
+         */
         UNKNOWN("unknown");
       
       
@@ -59,7 +51,7 @@ public class User extends Entity{
               return role;
             }
           }
-          return UNKNOWN;
+          return UNKNOWN; // when the role is not yet implemented
         }
       
         @Override
@@ -68,89 +60,12 @@ public class User extends Entity{
         }
     }
 
-    private final List<Role> roles;
-    private UUID id;
-    private final String username;
-    private final RelationshipMap relationshipMap;
-
     /**
-     * <p>Constructor for User.</p>
-     *
-     * @param user a {@link com.google.gson.JsonObject} object
+     * Returns the roles assigned to the user
      */
-    public User(JsonObject user) {
-        JsonObject original = user;
-        try {
-            user = user.getAsJsonObject("data");
-            this.id = UUID.fromString(user.get("id").getAsString());
-        } catch (Exception e) {
-            user = original;
-            this.id = UUID.fromString(user.get("id").getAsString());
-        }
-
-        JsonObject attributes = user.getAsJsonObject("attributes");
-
-        this.username = attributes.get("username").getAsString();
-        this.roles = getRoles(attributes.getAsJsonArray("roles"));
-        this.relationshipMap = new RelationshipMap(user.getAsJsonArray("relationships"));
-    }
-
-    private static List<Role> getRoles(JsonArray jsonArray) {
-        List<Role> roles = new ArrayList<>();
-        for (int i = 0; i < jsonArray.size(); i++) {
-            roles.add(Role.getRole(jsonArray.get(i).getAsString()));
-        }
-        return roles;
-    }
-
+    List<Role> getRoles();
     /**
-     * <p>Getter for the field <code>roles</code>.</p>
-     *
-     * @return a {@link java.util.List} object
+     * Returns the username of the user
      */
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    /**
-     * <p>Getter for the field <code>id</code>.</p>
-     *
-     * @return a {@link java.util.UUID} object
-     */
-    public UUID getId() {
-        return id;
-    }
-
-    @Override
-    public String getIdRaw(){
-        return id.toString();
-    }
-
-    /**
-     * <p>Getter for the field <code>username</code>.</p>
-     *
-     * @return a {@link java.lang.String} object
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * <p>Getter for the field <code>relationshipMap</code>.</p>
-     *
-     * @return a {@link dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap} object
-     */
-    public RelationshipMap getRelationshipMap() {
-        return relationshipMap;
-    }
-
-    @Override
-    public OffsetDateTime getCreatedAt() {
-        throw new UnsupportedOperationException("Not supported for this entity.");
-    }
-
-    @Override
-    public OffsetDateTime getUpdatedAt() {
-        throw new UnsupportedOperationException("Not supported for this entity.");
-    }
+    String getUsername();
 }

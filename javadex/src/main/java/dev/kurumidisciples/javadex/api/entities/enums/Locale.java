@@ -13,8 +13,7 @@ package dev.kurumidisciples.javadex.api.entities.enums;
  * System.out.println(locale); // Output: en
  * }</pre>
  * 
- * <p>Author: Hacking Pancakez</p>
- * <p>Version: $Id: $Id</p>
+ * @author Hacking Pancakez
  */
 public enum Locale {
     /** Simplified Chinese */

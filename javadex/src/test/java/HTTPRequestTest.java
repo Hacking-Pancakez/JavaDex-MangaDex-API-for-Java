@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 
 import dev.kurumidisciples.javadex.api.core.JavaDex;
 import dev.kurumidisciples.javadex.api.core.JavaDexBuilder;
-import dev.kurumidisciples.javadex.api.entities.content.Manga;
+import dev.kurumidisciples.javadex.api.entities.Manga;
 import dev.kurumidisciples.javadex.api.exceptions.http.HTTPClientErrorException;
 import dev.kurumidisciples.javadex.api.exceptions.http.HTTPTimeoutException;
 import dev.kurumidisciples.javadex.api.exceptions.http.HTTPUnauthorizedException;

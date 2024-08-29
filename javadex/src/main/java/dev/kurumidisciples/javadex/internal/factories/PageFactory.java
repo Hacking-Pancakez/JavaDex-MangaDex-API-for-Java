@@ -1,4 +1,4 @@
-package dev.kurumidisciples.javadex.internal.factory;
+package dev.kurumidisciples.javadex.internal.factories;
 
 import java.util.Collections;
 import java.util.List;
@@ -12,6 +12,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import dev.kurumidisciples.javadex.api.entities.Chapter;
 import dev.kurumidisciples.javadex.api.entities.Chapter;
 import dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException;
 import dev.kurumidisciples.javadex.api.proxies.PageProxy;

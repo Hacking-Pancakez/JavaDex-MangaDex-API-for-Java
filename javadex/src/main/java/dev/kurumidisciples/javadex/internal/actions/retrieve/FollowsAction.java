@@ -1,6 +1,5 @@
 package dev.kurumidisciples.javadex.internal.actions.retrieve;
 
-import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -19,26 +18,25 @@ import com.google.gson.JsonParser;
 
 import dev.kurumidisciples.javadex.api.core.authentication.Token;
 import dev.kurumidisciples.javadex.api.entities.MDList;
+import dev.kurumidisciples.javadex.api.entities.Manga;
 import dev.kurumidisciples.javadex.api.entities.ScanlationGroup;
 import dev.kurumidisciples.javadex.api.entities.User;
-import dev.kurumidisciples.javadex.api.entities.content.Manga;
 import dev.kurumidisciples.javadex.api.entities.enums.FollowingEntityType;
 import dev.kurumidisciples.javadex.api.entities.enums.IncludesType;
-import dev.kurumidisciples.javadex.api.entities.intermediate.Entity;
-import dev.kurumidisciples.javadex.api.entities.intermediate.middlemen.EntityMiddleman;
 import dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException;
 import dev.kurumidisciples.javadex.internal.actions.Action;
+import dev.kurumidisciples.javadex.internal.factories.entities.GroupFactory;
+import dev.kurumidisciples.javadex.internal.factories.entities.MDListFactory;
+import dev.kurumidisciples.javadex.internal.factories.entities.MangaFactory;
+import dev.kurumidisciples.javadex.internal.factories.entities.UserFactory;
 import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
 
 /**
  * <p>FollowsAction is responsible for handling the follow actions for different entities
- * such as {@link dev.kurumidisciples.javadex.api.entities.content.Manga}, {@link dev.kurumidisciples.javadex.api.entities.ScanlationGroup}, {@link dev.kurumidisciples.javadex.api.entities.User}, and Lists on the MangaDex platform.</p>
- *
- * @author Hacking Pancakez
- * @version $Id: $Id
+ * such as {@link dev.kurumidisciples.javadex.api.entities.Manga}, {@link dev.kurumidisciples.javadex.api.entities.ScanlationGroup}, {@link dev.kurumidisciples.javadex.api.entities.User}, and Lists on the MangaDex platform.</p>
  */
 @SuppressWarnings("unused")
-public class FollowsAction extends Action<List<EntityMiddleman>> {
+public class FollowsAction extends Action<List<?>> {
 
     private int limit;
     private int offset;
@@ -103,7 +101,6 @@ public class FollowsAction extends Action<List<EntityMiddleman>> {
      * {@inheritDoc}
      *
      * Sets the includes types for the follow request.
-     * <p>See the <a href="https://api.mangadex.org/docs/swagger.html#/Follows">MangaDex API documentation</a> for more information on available includes.</p>
      */
     @Override
     public FollowsAction setIncludes(@NotNull IncludesType... includes) {
@@ -123,22 +120,23 @@ public class FollowsAction extends Action<List<EntityMiddleman>> {
      */
     private boolean isValidInclude(@NotNull IncludesType include) {
         switch (followingType) {
-            case SELF_MANGA:
+            case SELF_MANGA -> {
                 for (IncludesType availableInclude : AVAILABLE_INCLUDES_TYPES_MANGA) {
                     if (availableInclude == include) {
                         return true;
                     }
                 }
-                break;
-            case SELF_GROUP:
+            }
+            case SELF_GROUP -> {
                 for (IncludesType availableInclude : AVAILABLE_INCLUDES_TYPES_GROUP) {
                     if (availableInclude == include) {
                         return true;
                     }
                 }
-                break;
-            default:
+            }
+            default -> {
                 return false;
+            }
         }
         return false;
     }
@@ -148,45 +146,67 @@ public class FollowsAction extends Action<List<EntityMiddleman>> {
      *
      */
     @Override
-    public List<EntityMiddleman> complete() throws HTTPRequestException {
+    public List<?> complete() throws HTTPRequestException {
         String query = toString();
         String response = HTTPRequest.get(query, Optional.of(authorization.getAccessToken()));
         switch (followingType) {
-            case SELF_MANGA:
-                JsonObject mangaResponse = JsonParser.parseString(response).getAsJsonObject();
-                JsonArray mangaData = mangaResponse.getAsJsonArray("data");
-                List<EntityMiddleman> mangaList = new ArrayList<>();
-                for (JsonElement manga : mangaData) {
-                    mangaList.add(new EntityMiddleman(new Manga(manga.getAsJsonObject())));
-                }
-                return mangaList;
-            case SELF_GROUP:
-                JsonObject groupResponse = JsonParser.parseString(response).getAsJsonObject();
-                JsonArray groupData = groupResponse.getAsJsonArray("data");
-                List<EntityMiddleman> groupList = new ArrayList<>();
-                for (JsonElement group : groupData) {
-                    groupList.add(new EntityMiddleman(new ScanlationGroup(group.getAsJsonObject())));
-                }
-                return groupList;
-            case SELF_USER:
-                JsonObject userResponse = JsonParser.parseString(response).getAsJsonObject();
-                JsonArray userData = userResponse.getAsJsonArray("data");
-                List<EntityMiddleman> userList = new ArrayList<>();
-                for (JsonElement user : userData) {
-                    userList.add(new EntityMiddleman(new User(user.getAsJsonObject())));
-                }
-                return userList;
-            case SELF_LIST:
-                JsonObject listResponse = JsonParser.parseString(response).getAsJsonObject();
-                JsonArray listData = listResponse.getAsJsonArray("data");
-                List<EntityMiddleman> listList = new ArrayList<>();
-                for (JsonElement list : listData) {
-                    listList.add(new EntityMiddleman(new MDList(list.getAsJsonObject())));
-                }
-                return listList;
-            default:
+            case SELF_MANGA -> {
+                return parseMangaResponse(response);
+            }
+            case SELF_GROUP -> {
+                return parseGroupResponse(response);
+            }
+            case SELF_USER -> {
+                return parseUserResponse(response);
+            }
+            case SELF_LIST -> {
+                return parseListResponse(response);
+            }
+            default -> {
                 return null;
+            }
         }
+    }
+
+    private List<Manga> parseMangaResponse(String response) {
+        JsonObject mangaResponse = JsonParser.parseString(response).getAsJsonObject();
+        JsonArray mangaData = mangaResponse.getAsJsonArray("data");
+        List<Manga> mangaList = new ArrayList<>();
+        for (JsonElement manga : mangaData) {
+            Manga mangaEntity = MangaFactory.createEntity(manga.getAsJsonObject());
+            mangaList.add(mangaEntity);
+        }
+        return mangaList;
+    }
+
+    private List<ScanlationGroup> parseGroupResponse(String response) {
+        JsonObject groupResponse = JsonParser.parseString(response).getAsJsonObject();
+        JsonArray groupData = groupResponse.getAsJsonArray("data");
+        List<ScanlationGroup> groupList = new ArrayList<>();
+        for (JsonElement group : groupData) {
+            groupList.add(GroupFactory.createEntity(group.getAsJsonObject()));
+        }
+        return groupList;
+    }
+
+    private List<User> parseUserResponse(String response) {
+        JsonObject userResponse = JsonParser.parseString(response).getAsJsonObject();
+        JsonArray userData = userResponse.getAsJsonArray("data");
+        List<User> userList = new ArrayList<>();
+        for (JsonElement user : userData) {
+            userList.add(UserFactory.createEntity(user.getAsJsonObject()));
+        }
+        return userList;
+    }
+
+    private List<MDList> parseListResponse(String response) {
+        JsonObject listResponse = JsonParser.parseString(response).getAsJsonObject();
+        JsonArray listData = listResponse.getAsJsonArray("data");
+        List<MDList> listList = new ArrayList<>();
+        for (JsonElement list : listData) {
+            listList.add(MDListFactory.createEntity(list.getAsJsonObject()));
+        }
+        return listList;
     }
 
     /**
@@ -195,7 +215,7 @@ public class FollowsAction extends Action<List<EntityMiddleman>> {
      * Submits the follow action asynchronously.
      */
     @Override
-    public CompletableFuture<List<EntityMiddleman>> submit() {
+    public CompletableFuture<List<?>> submit() {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 return complete();
@@ -232,6 +252,7 @@ public class FollowsAction extends Action<List<EntityMiddleman>> {
      * @param value The value to encode.
      * @return The encoded value.
      */
+    @Deprecated
     private static String encodeValue(String value) {
         return URLEncoder.encode(value, StandardCharsets.UTF_8);
     }

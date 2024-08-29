@@ -1,4 +1,4 @@
-package dev.kurumidisciples.javadex.internal.factory;
+package dev.kurumidisciples.javadex.internal.factories;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,19 +12,19 @@ import dev.kurumidisciples.javadex.api.entities.User;
 import dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap;
 import dev.kurumidisciples.javadex.api.entities.relationship.enums.RelationshipType;
 import dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException;
+import dev.kurumidisciples.javadex.internal.factories.entities.UserFactory;
 import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
 
 /**
  * <p>UserFactory class.</p>
  *
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
-public class UserFactory {
+public class UploaderFactory {
     
     private static final String USER_API = "https://api.mangadex.org/user/";
     
-    private static final Logger logger = LogManager.getLogger(UserFactory.class);
+    private static final Logger logger = LogManager.getLogger(UploaderFactory.class);
 
     /**
      * Builds a User object from the given Chapter object.
@@ -43,6 +43,6 @@ public class UserFactory {
             return null; 
         }
         Gson gson = new Gson();
-        return new User(gson.fromJson(jsonResponse, JsonObject.class));
+        return UserFactory.createEntity(gson.fromJson(jsonResponse, JsonObject.class).getAsJsonObject("data"));
     }
 }

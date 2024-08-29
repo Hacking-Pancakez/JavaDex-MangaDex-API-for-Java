@@ -1,7 +1,7 @@
 package annotation;
 
 import dev.kurumidisciples.javadex.api.core.JavaDexBuilder;
-import dev.kurumidisciples.javadex.api.entities.content.Manga;
+import dev.kurumidisciples.javadex.api.entities.Manga;
 import dev.kurumidisciples.javadex.api.entities.enums.State;
 import dev.kurumidisciples.javadex.internal.annotations.MustBeDraft;
 

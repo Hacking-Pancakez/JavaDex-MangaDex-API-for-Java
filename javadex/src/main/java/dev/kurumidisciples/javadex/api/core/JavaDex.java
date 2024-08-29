@@ -12,8 +12,6 @@ import java.util.concurrent.CompletionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,9 +25,9 @@ import com.google.gson.JsonParser;
 
 import dev.kurumidisciples.javadex.api.core.authentication.Token;
 import dev.kurumidisciples.javadex.api.entities.Chapter;
+import dev.kurumidisciples.javadex.api.entities.Manga;
 import dev.kurumidisciples.javadex.api.entities.ScanlationGroup;
 import dev.kurumidisciples.javadex.api.entities.User;
-import dev.kurumidisciples.javadex.api.entities.content.Manga;
 import dev.kurumidisciples.javadex.api.entities.enums.FollowingEntityType;
 import dev.kurumidisciples.javadex.api.entities.enums.Locale;
 import dev.kurumidisciples.javadex.api.entities.relationship.enums.RelationshipType;
@@ -39,11 +37,12 @@ import dev.kurumidisciples.javadex.internal.actions.create.MangaCreation;
 import dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction;
 import dev.kurumidisciples.javadex.internal.actions.retrieve.FollowsAction;
 import dev.kurumidisciples.javadex.internal.actions.retrieve.MangaAction;
+import dev.kurumidisciples.javadex.internal.annotations.Authenticated;
 import dev.kurumidisciples.javadex.internal.annotations.Size;
 import dev.kurumidisciples.javadex.internal.auth.Authenticator;
+import dev.kurumidisciples.javadex.internal.factories.entities.UserFactory;
 import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
 import dev.kurumidisciples.javadex.internal.utils.ErrorResponseChecker;
-import dev.kurumidisciples.javadex.internal.annotations.Authenticated;
 import okhttp3.Response;
 
 /**
@@ -123,6 +122,14 @@ public class JavaDex implements AutoCloseable{
     }
 
     /**
+     * Returns the {@link Authenticator} object associated with this JavaDex instance.
+     */
+    @Authenticated
+    public Authenticator getAuthenticator(){
+        return authenticator;
+    }
+
+    /**
      * Initiates a search action with the provided query.
      *
      * This method creates a new SearchAction object with the provided query. The SearchAction object
@@ -166,8 +173,8 @@ public class JavaDex implements AutoCloseable{
      * @param id The ID of the manga to retrieve. This should be a non-null and non-empty string.
      * @return A CompletableFuture that will be completed with the Manga object when the API response is received and parsed.
      */
-    public CompletableFuture<Manga> getMangaById(@NotNull String id) {
-        return MangaAction.getMangaById(id);
+    public CompletableFuture<Manga> retrieveMangaById(@NotNull String id) {
+        return MangaAction.retrieveMangaById(id);
     }
 
     /**
@@ -357,42 +364,20 @@ public class JavaDex implements AutoCloseable{
     }
 
     /**
-     * Retrieves the list of Scanlation Groups that the user is following.
-     *
-     * @return A CompletableFuture that will be completed with the list of ScanlationGroup objects
-     *         when the API response is received and parsed.
-     * @deprecated Use {@link #retrieveFollowingGroups()} instead.
-     */
-    @Deprecated
-    @Authenticated
-    public CompletableFuture<List<ScanlationGroup>> retrieveFollowingGroupsOLD(){
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                JsonObject response = GSON.fromJson(HTTPRequest.get("https://api.mangadex.org/user/follows/group", Optional.of(authenticator.getToken().getAccessToken())), JsonObject.class);
-                JsonArray groups = response.getAsJsonArray("data");
-
-                // Use Stream API to transform JsonArray to List<ScanlationGroup>
-                List<ScanlationGroup> groupList = StreamSupport.stream(groups.spliterator(), false)
-                        .map(JsonElement::getAsJsonObject)
-                        .map(ScanlationGroup::new)
-                        .collect(Collectors.toList());
-
-                return groupList;
-            } catch (HTTPRequestException e) {
-                logger.error("Could not retrieve following groups", e);
-                throw new CompletionException(e);
-            }
-        });
-    }
-
-    /**
-     * Retrieves the list of Scanlation Groups that the user is following.
+     * Retrieves the list of Scanlation Groups that the javadex instance is following.
      *
      * @return FollowsAction object that you can use to complete the action.
      */
     @Authenticated
     public FollowsAction retrieveFollowingGroups(){
         return new FollowsAction(FollowingEntityType.SELF_GROUP, authenticator.getToken());
+    }
+    /**
+     * Retrieves the list of custom lists that the javadex instance is following.
+     */
+    @Authenticated
+    public FollowsAction retrieveFollowingLists(){
+        return new FollowsAction(FollowingEntityType.SELF_LIST, authenticator.getToken());
     }
     
     /**
@@ -448,7 +433,7 @@ public class JavaDex implements AutoCloseable{
         return CompletableFuture.supplyAsync(() -> {
             try {
                 JsonObject response = GSON.fromJson(HTTPRequest.get("https://api.mangadex.org/user/me", Optional.of(authenticator.getToken().getAccessToken())), JsonObject.class);
-                return new User(response);
+                return UserFactory.createEntity(response.getAsJsonObject("data"));
             } catch (HTTPRequestException e) {
                 logger.error("Unable to retrieve self user.", e);
                 throw new CompletionException(e);
@@ -460,7 +445,7 @@ public class JavaDex implements AutoCloseable{
         return CompletableFuture.supplyAsync(() -> {
             try {
                 JsonObject response = GSON.fromJson(HTTPRequest.get("https://api.mangadex.org/user/" + userId), JsonObject.class);
-                return new User(response);
+                return UserFactory.createEntity(response.getAsJsonObject("data"));
             } catch (HTTPRequestException e) {
                 logger.error("Unable to retrieve user with ID: {}", userId, e);
                 throw new CompletionException(e);
@@ -470,6 +455,30 @@ public class JavaDex implements AutoCloseable{
 
     public CompletableFuture<User> retrieveUser(@NotNull String userId){
         return retrieveUser(UUID.fromString(userId));
+    }
+
+    @Authenticated
+    public CompletableFuture<Boolean> isFollowingManga(@NotNull Manga manga){
+        return CompletableFuture.supplyAsync(() ->{
+            try {
+                String url = String.format("https://api.mangadex.org/user/follows/manga/%s", manga.getIdRaw());
+                Response response = HTTPRequest.getResponse(url, Optional.of(getAccessToken()));
+                int responseCode = response.code();
+
+                switch (responseCode) {
+                    case 200:
+                        return true;
+                    case 404:
+                        return false;
+                    default:
+                        logger.error("Unexpected response code: {}", responseCode);
+                        throw ErrorResponseChecker.retrieveCorrectHTTPException(response);
+                }
+            } catch (HTTPRequestException e) {
+                logger.error("An HTTP exception occured while checking if self user was following given Manga", e);
+                throw new CompletionException(e);
+            }
+        });
     }
 
    /**
@@ -512,6 +521,7 @@ public class JavaDex implements AutoCloseable{
     /**
      * Inner class representing the response from the MangaDex API during token refresh.
      */
+    @Deprecated
     private class RefreshResponse {
         private String access_token;
         private String refresh_token;

@@ -15,34 +15,44 @@ import java.util.concurrent.CompletionException;
 
 import com.google.gson.JsonObject;
 
+import dev.kurumidisciples.javadex.api.entities.intermediate.IRelationHolder;
 import dev.kurumidisciples.javadex.api.entities.intermediate.ISnowflake;
 import dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap;
 import dev.kurumidisciples.javadex.api.entities.relationship.enums.RelationshipType;
 
+
 /**
- * Represents a CoverProxy entity.
+ * Represents a proxy for a cover entity on MangaDex, providing access to cover details
+ * and functionality to download the cover image.
  *
- * @author Hacking Pancakez
- * @version $Id: $Id
+ * <p>This class encapsulates the data of a MangaDex cover, such as its ID, creation 
+ * and update timestamps, volume, locale, and associated file details. It also 
+ * includes methods to download the cover image either as an {@link InputStream}, 
+ * save it to a specified {@link Path}, or write it to a {@link File}.</p>
+ * 
+ * <p>Instances of this class are typically created by parsing a {@link JsonObject}
+ * that contains cover data.</p>
+ *
+ * <p>Author: Hacking Pancakez</p>
  */
-public class CoverProxy implements ISnowflake {
+public class CoverProxy implements ISnowflake, IRelationHolder {
     private static final String BASE_URL = "https://uploads.mangadex.org/covers/";
 
-    private UUID coverId;
-    private OffsetDateTime updatedAt;
-    private OffsetDateTime createdAt;
-    private Double volume;
-    private String locale;
-    private String fileName;
-    private String description;
-    private int version;
-    private RelationshipMap relationshipMap;
-    private UUID mangaId;
+    private final UUID coverId;
+    private final OffsetDateTime updatedAt;
+    private final OffsetDateTime createdAt;
+    private final Number volume;
+    private final String locale;
+    private final String fileName;
+    private final String description;
+    private final int version;
+    private final RelationshipMap relationshipMap;
+    private final UUID mangaId;
 
     /**
-     * <p>Constructor for CoverProxy.</p>
+     * Constructs a new {@code CoverProxy} instance by parsing the provided JSON data.
      *
-     * @param data a {@link com.google.gson.JsonObject} object
+     * @param data a {@link JsonObject} containing the cover data
      */
     public CoverProxy(JsonObject data) {
         this.coverId = UUID.fromString(data.get("id").getAsString());
@@ -58,15 +68,16 @@ public class CoverProxy implements ISnowflake {
         this.mangaId = relationshipMap.get(RelationshipType.MANGA).get(0).getId();
     }
 
-    
     /**
-     * <p>getIdRaw.</p>
+     * Returns the raw string representation of the cover's UUID.
      *
-     * @return String
+     * @return the cover's UUID as a string
      */
+    @Override
     public String getIdRaw() {
         return coverId.toString();
     }
+
     /** {@inheritDoc} */
     @Override
     public UUID getId() {
@@ -74,91 +85,95 @@ public class CoverProxy implements ISnowflake {
     }
 
     /**
-     * <p>Getter for the field <code>updatedAt</code>.</p>
+     * Returns the timestamp when this cover was last updated.
      *
-     * @return a {@link java.time.OffsetDateTime} object
+     * @return the {@link OffsetDateTime} of the last update
      */
+    @Override
     public OffsetDateTime getUpdatedAt() {
         return updatedAt;
     }
 
     /**
-     * <p>Getter for the field <code>createdAt</code>.</p>
+     * Returns the timestamp when this cover was created.
      *
-     * @return a {@link java.time.OffsetDateTime} object
+     * @return the {@link OffsetDateTime} of creation
      */
+    @Override
     public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
     /**
-     * <p>Getter for the field <code>volume</code>.</p>
+     * Returns the volume number associated with this cover, if available.
      *
-     * @return a {@link java.lang.Double} object
+     * @return the volume number, or {@code null} if not specified
      */
-    public Double getVolume() {
+    public Number getVolume() {
         return volume;
     }
 
     /**
-     * <p>Getter for the field <code>locale</code>.</p>
+     * Returns the locale associated with this cover, if available.
      *
-     * @return a {@link java.lang.String} object
+     * @return the locale as a {@link String}, or {@code null} if not specified
      */
     public String getLocale() {
         return locale;
     }
 
     /**
-     * <p>Getter for the field <code>fileName</code>.</p>
+     * Returns the file name of this cover.
      *
-     * @return a {@link java.lang.String} object
+     * @return the file name as a {@link String}
      */
     public String getFileName() {
         return fileName;
     }
 
     /**
-     * <p>Getter for the field <code>description</code>.</p>
+     * Returns the description of this cover, if available.
      *
-     * @return a {@link java.lang.String} object
+     * @return the description as a {@link String}, or {@code null} if not specified
      */
     public String getDescription() {
         return description;
     }
 
     /**
-     * <p>Getter for the field <code>version</code>.</p>
+     * Returns the version number of this cover.
      *
-     * @return a int
+     * @return the version number as an {@link Integer}
      */
-    public int getVersion() {
+    @Override
+    public Integer getVersion() {
         return version;
     }
 
     /**
-     * <p>Getter for the field <code>relationshipMap</code>.</p>
+     * Returns the map of relationships associated with this cover.
      *
-     * @return a {@link dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap} object
+     * @return a {@link RelationshipMap} object containing the cover's relationships
      */
+    @Override
     public RelationshipMap getRelationshipMap() {
         return relationshipMap;
     }
 
     /**
-     * <p>getUrl.</p>
+     * Constructs and returns the URL for downloading this cover image.
      *
-     * @return a {@link java.lang.String} object
+     * @return the cover image URL as a {@link String}
      */
     public String getUrl() {
         return BASE_URL + mangaId.toString() + "/" + getFileName();
     }
 
     /**
-     * <p>download.</p>
+     * Downloads the cover image as an {@link InputStream}.
      *
-     * @return a {@link java.io.InputStream} object
-     * @throws java.io.IOException if any.
+     * @return an {@link InputStream} of the cover image
+     * @throws IOException if an I/O error occurs
      */
     public InputStream download() throws IOException {
         URL url = new URL(getUrl());
@@ -167,10 +182,10 @@ public class CoverProxy implements ISnowflake {
     }
 
     /**
-     * <p>downloadToPath.</p>
+     * Downloads the cover image and saves it to the specified {@link Path}.
      *
-     * @param path a {@link java.nio.file.Path} object
-     * @return a {@link java.util.concurrent.CompletableFuture} object
+     * @param path the {@link Path} to save the cover image to
+     * @return a {@link CompletableFuture} that completes with the path to the saved image
      */
     public CompletableFuture<Path> downloadToPath(Path path) {
         return CompletableFuture.supplyAsync(() -> {
@@ -186,10 +201,10 @@ public class CoverProxy implements ISnowflake {
     }
 
     /**
-     * <p>downloadToFile.</p>
+     * Downloads the cover image and saves it to the specified {@link File}.
      *
-     * @param file a {@link java.io.File} object
-     * @return a {@link java.util.concurrent.CompletableFuture} object
+     * @param file the {@link File} to save the cover image to
+     * @return a {@link CompletableFuture} that completes with the saved file
      */
     public CompletableFuture<File> downloadToFile(File file) {
         return CompletableFuture.supplyAsync(() -> {

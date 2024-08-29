@@ -6,7 +6,6 @@ package dev.kurumidisciples.javadex.api.core.authentication;
  * ensuring thread safety in multi-threaded environments.
  *
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
 public class Token {
 

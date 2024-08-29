@@ -1,6 +1,6 @@
 package dev.kurumidisciples.javadex.api.entities.enums;
 
-import dev.kurumidisciples.javadex.api.entities.content.Manga;
+import dev.kurumidisciples.javadex.api.entities.Manga;
 
 /**
  * <p>Defines the state of a {@link Manga}.</p>

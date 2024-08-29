@@ -1,4 +1,4 @@
-package dev.kurumidisciples.javadex.internal.factory.statistics;
+package dev.kurumidisciples.javadex.internal.factories.statistics;
 
 import org.apache.maven.api.annotations.Nonnull;
 

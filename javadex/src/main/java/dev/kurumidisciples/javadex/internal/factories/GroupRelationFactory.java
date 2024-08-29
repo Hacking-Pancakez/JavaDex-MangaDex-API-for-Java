@@ -1,4 +1,4 @@
-package dev.kurumidisciples.javadex.internal.factory;
+package dev.kurumidisciples.javadex.internal.factories;
 
 import java.io.IOException;
 
@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import dev.kurumidisciples.javadex.api.entities.ScanlationGroup;
 import dev.kurumidisciples.javadex.api.entities.relationship.RelationshipData;
 import dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException;
+import dev.kurumidisciples.javadex.internal.factories.entities.GroupFactory;
 import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
 
 /**
@@ -19,11 +20,11 @@ import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
  * @author Hacking Pancakez
  * @version $Id: $Id
  */
-public class GroupFactory {
+public class GroupRelationFactory {
 
     private static final String GROUP_API = "https://api.mangadex.org/group/";
 
-    private static final Logger logger = LogManager.getLogger(GroupFactory.class);
+    private static final Logger logger = LogManager.getLogger(GroupRelationFactory.class);
 
     /**
      * Builds a group from relationship data
@@ -44,7 +45,7 @@ public class GroupFactory {
                 return null; // Or handle the exception in a different way
             }
             Gson gson = new Gson();
-            return new ScanlationGroup(gson.fromJson(jsonResponse, JsonObject.class).get("data").getAsJsonObject());
+            return GroupFactory.createEntity(gson.fromJson(jsonResponse, JsonObject.class).getAsJsonObject("data"));
     }
 
 }

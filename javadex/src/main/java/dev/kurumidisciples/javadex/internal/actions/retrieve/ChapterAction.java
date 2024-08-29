@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,15 +16,16 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import dev.kurumidisciples.javadex.api.entities.Chapter;
+import dev.kurumidisciples.javadex.api.entities.Manga;
 import dev.kurumidisciples.javadex.api.entities.ScanlationGroup;
 import dev.kurumidisciples.javadex.api.entities.User;
-import dev.kurumidisciples.javadex.api.entities.content.Manga;
 import dev.kurumidisciples.javadex.api.entities.enums.IncludesType;
 import dev.kurumidisciples.javadex.api.entities.enums.Locale;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.ContentRating;
 import dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException;
 import dev.kurumidisciples.javadex.internal.actions.Action;
 import dev.kurumidisciples.javadex.internal.annotations.Size;
+import dev.kurumidisciples.javadex.internal.factories.entities.ChapterFactory;
 import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
 
 /**
@@ -31,7 +33,6 @@ import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
  *
  * See <a href="https://api.mangadex.org/docs/swagger.html#/Chapter/get-chapter"> MangaDex Chapter Endpoint</a>
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
 public class ChapterAction extends Action<List<Chapter>> {
     
@@ -77,6 +78,17 @@ public class ChapterAction extends Action<List<Chapter>> {
     public ChapterAction() {
         this.limit = 10;
         this.offset = 0;
+    }
+
+    public static CompletableFuture<Chapter> retrieveChapterById(String id){
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                return ChapterFactory.createEntity(JsonParser.parseString(HTTPRequest.get(API_ENDPOINT + "/" + id)).getAsJsonObject());
+            } catch (HTTPRequestException e) {
+                logger.error("An error occurred while retrieving chapter with id: " + id, e);
+                throw new CompletionException(e);
+            }
+        });
     }
 
     /**
@@ -492,7 +504,7 @@ public class ChapterAction extends Action<List<Chapter>> {
         JsonObject chapterResponse = JsonParser.parseString(response).getAsJsonObject();
         List<Chapter> chapters = new ArrayList<>();
         chapterResponse.getAsJsonArray("data").forEach(chapter -> {
-            chapters.add(new Chapter(chapter.getAsJsonObject()));
+            chapters.add(ChapterFactory.createEntity(chapter.getAsJsonObject()));
         });
         return chapters;
     }

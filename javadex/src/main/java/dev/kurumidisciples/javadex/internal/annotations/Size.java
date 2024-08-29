@@ -12,7 +12,6 @@ import java.lang.annotation.Target;
  *
  * @since 0.1.4
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

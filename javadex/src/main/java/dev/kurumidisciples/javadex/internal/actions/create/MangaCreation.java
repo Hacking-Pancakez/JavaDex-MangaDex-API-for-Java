@@ -11,14 +11,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
-import com.google.errorprone.annotations.DoNotCall;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import dev.kurumidisciples.javadex.api.core.authentication.Token;
 import dev.kurumidisciples.javadex.api.entities.Author;
-import dev.kurumidisciples.javadex.api.entities.content.Manga;
+import dev.kurumidisciples.javadex.api.entities.Manga;
 import dev.kurumidisciples.javadex.api.entities.enums.IncludesType;
 import dev.kurumidisciples.javadex.api.entities.enums.Locale;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.LinkType;
@@ -28,8 +27,8 @@ import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Status;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Tag;
 import dev.kurumidisciples.javadex.api.exceptions.MangaCreationException;
 import dev.kurumidisciples.javadex.internal.actions.Action;
-import dev.kurumidisciples.javadex.api.entities.enums.State;
 import dev.kurumidisciples.javadex.internal.annotations.MustNotBeUnknown;
+import dev.kurumidisciples.javadex.internal.factories.entities.MangaFactory;
 import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -406,7 +405,7 @@ public class MangaCreation extends Action<Manga> {
             Response response = HTTPRequest.postResponse(MANGA_CREATION_URL, toJson().toString(), Optional.of("Bearer " + authorization.getAccessToken()));
             if (response.isSuccessful()) {
                 JsonObject responseData = gson.fromJson(response.body().string(), JsonObject.class);
-                return new Manga(responseData);
+                return MangaFactory.createEntity(responseData);
             } else {
                 logger.error("Failed to create manga. Response: " + response.body().string());
                 throw new MangaCreationException("Failed to create manga.", new Exception(response.body().string()));

@@ -5,6 +5,7 @@ package dev.kurumidisciples.javadex.api.entities.intermediate;
  *
  * @author Hacking Pancakez
  */
+@Deprecated 
 public abstract class Entity implements ISnowflake {
     
 }

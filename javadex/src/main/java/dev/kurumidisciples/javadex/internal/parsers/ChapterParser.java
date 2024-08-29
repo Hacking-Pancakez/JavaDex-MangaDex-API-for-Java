@@ -1,11 +1,12 @@
 package dev.kurumidisciples.javadex.internal.parsers;
 
-import com.google.gson.JsonObject;
-import dev.kurumidisciples.javadex.api.entities.enums.Locale;
-import dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap;
-
 import java.time.OffsetDateTime;
 import java.util.UUID;
+
+import com.google.gson.JsonObject;
+
+import dev.kurumidisciples.javadex.api.entities.enums.Locale;
+import dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap;
 
 public class ChapterParser {
 

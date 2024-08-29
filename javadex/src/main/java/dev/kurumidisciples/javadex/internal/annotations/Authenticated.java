@@ -19,6 +19,6 @@ import dev.kurumidisciples.javadex.api.core.JavaDex;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
+@Target({ElementType.METHOD, ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.FIELD, ElementType.LOCAL_VARIABLE})
 public @interface Authenticated {
 }

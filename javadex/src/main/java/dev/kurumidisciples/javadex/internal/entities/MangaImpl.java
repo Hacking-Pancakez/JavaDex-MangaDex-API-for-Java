@@ -1,7 +1,11 @@
-package dev.kurumidisciples.javadex.api.entities.content;
+package dev.kurumidisciples.javadex.internal.entities;
 
 import java.time.OffsetDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.Executors;
@@ -17,8 +21,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import dev.kurumidisciples.javadex.api.entities.Chapter;
-import dev.kurumidisciples.javadex.api.entities.enums.*;
+import dev.kurumidisciples.javadex.api.entities.Manga;
+import dev.kurumidisciples.javadex.api.entities.Manga;
 import dev.kurumidisciples.javadex.api.entities.enums.Locale;
+import dev.kurumidisciples.javadex.api.entities.enums.State;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.LinkType;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.ContentRating;
 import dev.kurumidisciples.javadex.api.entities.enums.manga.filters.Demographic;
@@ -33,21 +39,10 @@ import dev.kurumidisciples.javadex.api.statistics.StatisticsData;
 import dev.kurumidisciples.javadex.internal.annotations.MustNotBeUnknown;
 import dev.kurumidisciples.javadex.internal.annotations.NotLessThanOne;
 import dev.kurumidisciples.javadex.internal.annotations.Size;
+import dev.kurumidisciples.javadex.internal.factories.entities.ChapterFactory;
 import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
-import dev.kurumidisciples.javadex.internal.parsers.MangaParsers;
 
-/**
- * Represents a Manga entity in the MangaDex API.
- * <p>Could represent a <b>draft version</b> of a manga, these are not yet published and are not visible to the public. They will not have any retrievable chapters and/or pages. Use the method {@code getState()} to check if it is a draft.</p>
- *
- * @see Can represent any readable content in MangaDex, encapsulating manga, manhwa, manhua, and doujinshi.
- * @see <a href="https://api.mangadex.org/docs/03-manga/creation/#creation">Creation</a>
- * @see <a href="https://api.mangadex.org/docs/03-manga/search/">Search</a>
- * @author Hacking Pancakez
- */
-public class Manga extends Entity {
-
-    
+public class MangaImpl extends Entity implements Manga {
 
 
     private static final Logger logger = LogManager.getLogger(Manga.class);
@@ -72,42 +67,35 @@ public class Manga extends Entity {
     private final boolean chapterNumbersResetOnNewVolume;
     private final OffsetDateTime createdAt;
     private final OffsetDateTime updatedAt;
-    private final long version;
+    private final int version;
     private final List<Locale> availableTranslatedLanguages;
     private final String latestUploadedChapterId;
     private final RelationshipMap relationshipMap;
 
-    /**
-     * <p>Constructor for Manga.</p>
-     *
-     * @param mangaJson a {@link com.google.gson.JsonObject} object
-     */
-    public Manga(@NotNull JsonObject mangaJson) {
-        JsonObject attributes = mangaJson.getAsJsonObject("attributes");
-        this.id = UUID.fromString(mangaJson.get("id").getAsString());
-        this.title = attributes.getAsJsonObject("title").has("en") ? attributes.getAsJsonObject("title").get("en").getAsString() : "No title";
-
-        this.description = MangaParsers.parseDescription(attributes.getAsJsonObject("description"));
-        this.altTitles = MangaParsers.parseAltTitles(attributes.getAsJsonArray("altTitles"));
-        this.isLocked = attributes.get("isLocked").getAsBoolean();
-        this.originalLanguage = Locale.getByLanguage(attributes.get("originalLanguage").getAsString());
-        this.lastVolume = attributes.has("lastVolume") && !attributes.get("lastVolume").isJsonNull() ? attributes.get("lastVolume").getAsNumber() : null;
-        this.lastChapter = attributes.has("lastChapter") && !attributes.get("lastChapter").isJsonNull() ? attributes.get("lastChapter").getAsNumber() : null;
-        this.publicationDemographic = Demographic.getDemographic(attributes.has("publicationDemographic") && !attributes.get("publicationDemographic").isJsonNull() ? attributes.get("publicationDemographic").getAsString() : "Unknown");
-        this.status = Status.getStatus(attributes.get("status").getAsString());
-        this.year = attributes.has("year") && !attributes.get("year").isJsonNull() ? attributes.get("year").getAsLong() : null;
-        this.contentRating = ContentRating.getContentRating(attributes.get("contentRating").getAsString());
-        this.state = State.getByValue(attributes.get("state").getAsString());
-        this.links = MangaParsers.parseLinks(attributes.getAsJsonObject("links"));
-        this.chapterNumbersResetOnNewVolume = attributes.get("chapterNumbersResetOnNewVolume").getAsBoolean();
-        this.createdAt = OffsetDateTime.parse(attributes.get("createdAt").getAsString());
-        this.updatedAt = OffsetDateTime.parse(attributes.get("updatedAt").getAsString());
-        this.version = attributes.get("version").getAsLong();
-        this.latestUploadedChapterId = attributes.has("latestUploadedChapter") && !attributes.get("latestUploadedChapter").isJsonNull() ? attributes.get("latestUploadedChapter").getAsString() : null;
-        this.tags = MangaParsers.parseTags(attributes.getAsJsonArray("tags"));
-        this.availableTranslatedLanguages = MangaParsers.parseAvailableTranslatedLanguages(attributes.getAsJsonArray("availableTranslatedLanguages"));
-        this.relationshipMap = new RelationshipMap(mangaJson.getAsJsonArray("relationships"));
-        this.author = relationshipMap.get(RelationshipType.AUTHOR).get(0).getId();
+    public MangaImpl(UUID id, String title, Map<Locale, String> description, Map<Locale, List<String>> altTitles, boolean isLocked, Locale originalLanguage, Number lastVolume, Number lastChapter, Demographic publicationDemographic, Status status, Long year, ContentRating contentRating, State state, Map<LinkType, String> links, boolean chapterNumbersResetOnNewVolume, OffsetDateTime createdAt, OffsetDateTime updatedAt, int version, String latestUploadedChapterId, List<Tag> tags, List<Locale> availableTranslatedLanguages, RelationshipMap relationshipMap, UUID author) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.altTitles = altTitles;
+        this.isLocked = isLocked;
+        this.originalLanguage = originalLanguage;
+        this.lastVolume = lastVolume;
+        this.lastChapter = lastChapter;
+        this.publicationDemographic = publicationDemographic;
+        this.status = status;
+        this.year = year;
+        this.contentRating = contentRating;
+        this.state = state;
+        this.links = links;
+        this.chapterNumbersResetOnNewVolume = chapterNumbersResetOnNewVolume;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.version = version;
+        this.latestUploadedChapterId = latestUploadedChapterId;
+        this.tags = tags;
+        this.availableTranslatedLanguages = availableTranslatedLanguages;
+        this.relationshipMap = relationshipMap;
+        this.author = author;
     }
 
     /**
@@ -117,6 +105,10 @@ public class Manga extends Entity {
      */
     public RelationshipMap getRelationshipMap() {
         return relationshipMap;
+    }
+
+    public Integer getVersion() {
+        return version;
     }
 
     /**
@@ -388,7 +380,7 @@ public class Manga extends Entity {
                 JsonArray chapters = response.getAsJsonArray("data");
                 List<Chapter> chaptersList = new ArrayList<>();
                 for (JsonElement chapter : chapters) {
-                    chaptersList.add(new Chapter(chapter.getAsJsonObject()));
+                    chaptersList.add(ChapterFactory.createEntity(chapter.getAsJsonObject()));
                 }
                 return chaptersList;
             } catch (HTTPRequestException e) {
@@ -454,7 +446,7 @@ public class Manga extends Entity {
                     CompletableFuture.supplyAsync(() -> {
                         try {
                             JsonObject response = gson.fromJson(HTTPRequest.get("https://api.mangadex.org/chapter/" + id), JsonObject.class);
-                            return new Chapter(response.getAsJsonObject("data"));
+                            return ChapterFactory.createEntity(response.getAsJsonObject("data"));
                         } catch (HTTPRequestException e) {
                             logger.error("An error occurred while attempting to retrieve chapter " + id, e);
                             throw new CompletionException(e);
@@ -486,7 +478,8 @@ public class Manga extends Entity {
                 JsonArray chapterArray = response.getAsJsonArray("data");
                 if (chapterArray.size() == 0) logger.warn("No chapters found for manga " + id + " with number " + number + " in language " + lang.getLanguage() + ".");
                 for (JsonElement chapterElement : chapterArray) {
-                    chapters.add(new Chapter(chapterElement.getAsJsonObject()));
+                    System.out.println(chapterElement);
+                    chapters.add(ChapterFactory.createEntity(chapterElement.getAsJsonObject()));
                 }
                 return chapters;
             } catch (HTTPRequestException e) {

@@ -2,7 +2,7 @@ package dev.kurumidisciples.javadex.api.statistics;
 
 import com.google.gson.JsonObject;
 
-import dev.kurumidisciples.javadex.internal.factory.statistics.DistributionFactory;
+import dev.kurumidisciples.javadex.internal.factories.statistics.DistributionFactory;
 
 public class Rating {
     
@@ -46,7 +46,6 @@ public class Rating {
      * "9": 0,
      * "10": 0
      * </pre>
-     * @return
      */
     public int[][] getDistribution() {
         return distribution;
