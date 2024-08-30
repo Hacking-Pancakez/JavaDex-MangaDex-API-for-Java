@@ -9,6 +9,7 @@ import dev.kurumidisciples.javadex.api.entities.MDList;
 import dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap;
 import dev.kurumidisciples.javadex.api.entities.relationship.enums.RelationshipType;
 import dev.kurumidisciples.javadex.api.proxies.MangaProxy;
+import dev.kurumidisciples.javadex.api.proxies.UserProxy;
 
 public class MDListImpl implements MDList{
     
@@ -94,5 +95,10 @@ public class MDListImpl implements MDList{
     @Override
     public List<MangaProxy> getMangas(){
         return relationshipMap.get(RelationshipType.MANGA).stream().map(data -> new MangaProxy(data.getId())).collect(Collectors.toList());
+    }
+
+    @Override
+    public UserProxy getCreator(){
+        return new UserProxy(getCreatorId());
     }
 }

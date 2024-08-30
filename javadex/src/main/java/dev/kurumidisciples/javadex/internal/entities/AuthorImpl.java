@@ -4,6 +4,8 @@ import java.net.URL;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+import org.apache.maven.api.annotations.Nullable;
+
 import dev.kurumidisciples.javadex.api.entities.Author;
 import dev.kurumidisciples.javadex.api.entities.intermediate.Entity;
 
@@ -72,7 +74,7 @@ public class AuthorImpl extends Entity implements Author {
     }
 
     /**
-     * <p>getIdRaw.</p>
+     * Get the raw UUID of the author
      *
      * @return a {@link java.lang.String} object
      */
@@ -81,7 +83,7 @@ public class AuthorImpl extends Entity implements Author {
     }
 
     /**
-     * <p>Getter for the field <code>name</code>.</p>
+     * Returns the name of the author
      *
      * @return a {@link java.lang.String} object
      */
@@ -90,16 +92,17 @@ public class AuthorImpl extends Entity implements Author {
     }
 
     /**
-     * <p>Getter for the field <code>imageUrl</code>.</p>
+     * Returns the URL of the author's image if available. Null if not available
      *
      * @return a {@link java.net.URL} object
      */
+    @Nullable
     public URL getImageUrl() {
         return imageUrl;
     }
 
     /**
-     * <p>Getter for the field <code>twitter</code>.</p>
+     * Returns the author's twitter.
      *
      * @return a {@link java.lang.String} object
      */
@@ -108,7 +111,7 @@ public class AuthorImpl extends Entity implements Author {
     }
 
     /**
-     * <p>Getter for the field <code>pixiv</code>.</p>
+     * Returns the author's pixiv.
      *
      * @return a {@link java.lang.String} object
      */
@@ -117,7 +120,7 @@ public class AuthorImpl extends Entity implements Author {
     }
 
     /**
-     * <p>Getter for the field <code>melonBox</code>.</p>
+     * Returns the author's melonbox.
      *
      * @return a {@link java.lang.String} object
      */
@@ -126,7 +129,7 @@ public class AuthorImpl extends Entity implements Author {
     }
 
     /**
-     * <p>Getter for the field <code>fanbox</code>.</p>
+     * Returns the author's fanbox.
      *
      * @return a {@link java.lang.String} object
      */
@@ -135,7 +138,7 @@ public class AuthorImpl extends Entity implements Author {
     }
 
     /**
-     * <p>Getter for the field <code>nicoVideo</code>.</p>
+     * Returns the author's nico video.
      *
      * @return a {@link java.lang.String} object
      */
@@ -144,7 +147,7 @@ public class AuthorImpl extends Entity implements Author {
     }
 
     /**
-     * <p>Getter for the field <code>booth</code>.</p>
+     * Returns the author's booth.
      *
      * @return a {@link java.lang.String} object
      */
@@ -153,7 +156,7 @@ public class AuthorImpl extends Entity implements Author {
     }
 
     /**
-     * <p>Getter for the field <code>skeb</code>.</p>
+     * Returns the author's skeb.
      *
      * @return a {@link java.lang.String} object
      */
@@ -162,7 +165,7 @@ public class AuthorImpl extends Entity implements Author {
     }
 
     /**
-     * <p>Getter for the field <code>fantia</code>.</p>
+     * Returns the author's fantia.
      *
      * @return a {@link java.lang.String} object
      */
@@ -171,7 +174,7 @@ public class AuthorImpl extends Entity implements Author {
     }
 
     /**
-     * <p>Getter for the field <code>tumblr</code>.</p>
+     * Returns the author's tumblr.
      *
      * @return a {@link java.lang.String} object
      */
@@ -180,7 +183,7 @@ public class AuthorImpl extends Entity implements Author {
     }
 
     /**
-     * <p>Getter for the field <code>youtube</code>.</p>
+     * Returns the author's youtube.
      *
      * @return a {@link java.lang.String} object
      */
@@ -189,7 +192,7 @@ public class AuthorImpl extends Entity implements Author {
     }
 
     /**
-     * <p>Getter for the field <code>weibo</code>.</p>
+     * Returns the author's weibo.
      *
      * @return a {@link java.lang.String} object
      */
@@ -198,7 +201,7 @@ public class AuthorImpl extends Entity implements Author {
     }
 
     /**
-     * <p>Getter for the field <code>naver</code>.</p>
+     * Returns the author's naver.
      *
      * @return a {@link java.lang.String} object
      */
@@ -207,7 +210,7 @@ public class AuthorImpl extends Entity implements Author {
     }
 
     /**
-     * <p>Getter for the field <code>website</code>.</p>
+     * Returns the author's website.
      *
      * @return a {@link java.net.URL} object
      */
@@ -216,9 +219,7 @@ public class AuthorImpl extends Entity implements Author {
     }
 
     /**
-     * <p>Getter for the field <code>version</code>.</p>
-     *
-     * @return a int
+     * {@inheritDoc}
      */
     public Integer getVersion() {
         return version;

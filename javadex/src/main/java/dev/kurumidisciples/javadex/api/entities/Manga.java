@@ -24,6 +24,7 @@ import dev.kurumidisciples.javadex.internal.annotations.MustNotBeUnknown;
 /**
  * Represents a Manga object in the MangaDex API. This interface provides methods to retrieve various details
  * and metadata about a manga, including its state, titles, chapters, and relationships with other entities.
+ * @author Hacking Pancakez
  */
 public interface Manga extends ISnowflake, IRelationHolder {
 

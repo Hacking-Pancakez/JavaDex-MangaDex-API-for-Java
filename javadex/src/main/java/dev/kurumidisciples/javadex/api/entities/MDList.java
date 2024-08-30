@@ -5,8 +5,8 @@ import java.util.UUID;
 
 import dev.kurumidisciples.javadex.api.entities.intermediate.IRelationHolder;
 import dev.kurumidisciples.javadex.api.entities.intermediate.ISnowflake;
-import dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap;
 import dev.kurumidisciples.javadex.api.proxies.MangaProxy;
+import dev.kurumidisciples.javadex.api.proxies.UserProxy;
 
 /**
  * Represents a user-created list in MangaDex.
@@ -32,14 +32,38 @@ public interface MDList extends ISnowflake, IRelationHolder {
         }
     }
 
+    /**
+     * Returns the custom name of the list.
+     */
     String getName();
-    RelationshipMap getRelationshipMap();
+    /**
+     * Returns the visibility of the list on the MangaDex platform.
+     */
     Visibility getVisibility();
+    /**
+     * Returns whether the list is public.
+     */
     boolean isPublic();
+    /**
+     * Returns whether the list is private.
+     */
     boolean isPrivate();
+    /**
+     * Returns the ID of the user who created the list.
+     */
     UUID getCreatorId();
+    /**
+     * Returns the ID of the user who created the list as a raw string.
+     */
     String getCreatorIdRaw();
+    /**
+     * Returns the manga in the list as a list of {@link MangaProxy} objects.
+     */
     List<MangaProxy> getMangas();
+    /**
+     * Returns the user who created the list as a {@link UserProxy} object.
+     */
+    UserProxy getCreator();
 
 
 }

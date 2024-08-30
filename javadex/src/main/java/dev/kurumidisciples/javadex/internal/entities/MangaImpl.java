@@ -411,7 +411,7 @@ public class MangaImpl extends Entity implements Manga {
     }
 
     /**
-     * <p>retrieveChaptersIds.</p>
+     * Retrieve the IDs of all chapters for the manga in the specified language.
      *
      * @param lang a {@link dev.kurumidisciples.javadex.api.entities.enums.Locale} object
      * @return a {@link java.util.concurrent.CompletableFuture} object
@@ -432,7 +432,7 @@ public class MangaImpl extends Entity implements Manga {
     }
 
     /**
-     * <p>retrieveChaptersOrdered.</p>
+     * Retrieve the chapters for the manga in the specified language, ordered by their chapter number.
      *
      * @param language a {@link dev.kurumidisciples.javadex.api.entities.enums.Locale} object
      * @return a {@link java.util.concurrent.CompletableFuture} object
@@ -462,7 +462,7 @@ public class MangaImpl extends Entity implements Manga {
     }
 
     /**
-     * <p>retrieveChapterByNumber.</p>
+     * Retrieve the chapters for the manga in the specified language, ordered by their chapter number.
      *
      * @param lang a {@link dev.kurumidisciples.javadex.api.entities.enums.Locale} object
      * @param number a int
@@ -490,7 +490,7 @@ public class MangaImpl extends Entity implements Manga {
     }
 
     /**
-     * <p>retrieveCurrentCover.</p>
+     * Retrieves the current cover displayed on MangaDex.
      *
      * @return a {@link java.util.concurrent.CompletableFuture} object
      */
@@ -507,6 +507,9 @@ public class MangaImpl extends Entity implements Manga {
         });
     }
 
+    /**
+     * Retrieve the StatisticsData object for the manga.
+     */
     public CompletableFuture<StatisticsData> retrieveStatistics(){
         return CompletableFuture.supplyAsync(() -> {
             try {
