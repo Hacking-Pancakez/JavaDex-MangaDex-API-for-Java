@@ -248,9 +248,9 @@
                 <artifactId>aspectj-maven-plugin</artifactId>
                 <version>1.15.0</version>
                 <configuration>
-                    <complianceLevel>11</complianceLevel>
-                    <source>11</source>
-                    <target>11</target>
+                    <complianceLevel>17</complianceLevel>
+                    <source>17</source>
+                    <target>17</target>
                     <release>17</release>
                     <aspectLibraries>
                         <aspectLibrary>
