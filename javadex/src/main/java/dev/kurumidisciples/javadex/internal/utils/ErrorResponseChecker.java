@@ -37,6 +37,8 @@ public class ErrorResponseChecker {
             return new HTTPClientErrorException("Client error: " + code, response);
         } else if (code >= 500) {
             return new HTTPServerErrorException("Server error: " + code, response);
+        } else if (code == 404) {
+            return new HTTPClientErrorException("Resource not found", response);
         } else {
             return new HTTPUnexpectedStatusCodeException("Unexpected status code: " + code, response);
         }

@@ -4,7 +4,6 @@ package dev.kurumidisciples.javadex.api.exceptions;
  * This exception is thrown when a network error occurs. Encapsulates all exceptions that can occur during network operations.
  *
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
 public class NetworkErrorException extends RuntimeException {
 

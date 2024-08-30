@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 
 import dev.kurumidisciples.javadex.api.entities.ScanlationGroup;
 import dev.kurumidisciples.javadex.api.entities.relationship.RelationshipData;
+import dev.kurumidisciples.javadex.api.exceptions.http.HTTPNotFoundException;
 import dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException;
 import dev.kurumidisciples.javadex.internal.factories.entities.GroupFactory;
 import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
@@ -46,6 +47,17 @@ public class GroupRelationFactory {
             }
             Gson gson = new Gson();
             return GroupFactory.createEntity(gson.fromJson(jsonResponse, JsonObject.class).getAsJsonObject("data"));
+    }
+
+    public static ScanlationGroup getScanlationGroup(String groupId) throws HTTPRequestException{
+        String jsonResponse = new String();
+        try {
+            jsonResponse = HTTPRequest.get(GROUP_API + groupId);
+        } catch (HTTPNotFoundException e) {
+            throw new HTTPNotFoundException("Group not found", e);
+        }
+        Gson gson = new Gson();
+        return GroupFactory.createEntity(gson.fromJson(jsonResponse, JsonObject.class).getAsJsonObject("data"));
     }
 
 }
