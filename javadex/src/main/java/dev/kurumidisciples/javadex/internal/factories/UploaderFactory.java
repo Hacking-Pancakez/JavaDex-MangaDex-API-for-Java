@@ -11,6 +11,7 @@ import dev.kurumidisciples.javadex.api.entities.Chapter;
 import dev.kurumidisciples.javadex.api.entities.User;
 import dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap;
 import dev.kurumidisciples.javadex.api.entities.relationship.enums.RelationshipType;
+import dev.kurumidisciples.javadex.api.exceptions.EntityNotFoundException;
 import dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException;
 import dev.kurumidisciples.javadex.internal.factories.entities.UserFactory;
 import dev.kurumidisciples.javadex.internal.http.HTTPRequest;
@@ -45,4 +46,12 @@ public class UploaderFactory {
         Gson gson = new Gson();
         return UserFactory.createEntity(gson.fromJson(jsonResponse, JsonObject.class).getAsJsonObject("data"));
     }
+
+    public static User retrieveUser(String id) throws HTTPRequestException{
+        String jsonResponse = null;
+        jsonResponse = HTTPRequest.get(USER_API + id);
+        Gson gson = new Gson();
+        return UserFactory.createEntity(gson.fromJson(jsonResponse, JsonObject.class).getAsJsonObject("data"));
+    }
+    
 }
