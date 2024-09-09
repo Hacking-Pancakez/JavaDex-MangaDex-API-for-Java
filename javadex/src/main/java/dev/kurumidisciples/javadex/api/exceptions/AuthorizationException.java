@@ -5,7 +5,6 @@ package dev.kurumidisciples.javadex.api.exceptions;
  * Typically thrown when a user tries to access a method while not being logged in.
  *
  * @author Hacking Pancakez
- * @version $Id: $Id
  */
 public class AuthorizationException extends IllegalArgumentException{
     

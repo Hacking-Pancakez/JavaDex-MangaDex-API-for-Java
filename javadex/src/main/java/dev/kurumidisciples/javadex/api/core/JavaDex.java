@@ -13,6 +13,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import javax.security.auth.login.LoginException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -207,8 +209,8 @@ public class JavaDex implements AutoCloseable{
         logger.debug("Scheduling token refresh every {} milliseconds", refreshRate.toMillis());
         scheduler.scheduleAtFixedRate(() -> {
             try {
-                refreshAccessToken();
-            } catch (HTTPRequestException e) {
+                getAuthenticator().refresh();
+            } catch (HTTPRequestException | LoginException e) {
                 logger.error("Failed to refresh access token", e);
             }
         }, refreshRate.toMillis(), refreshRate.toMillis(), TimeUnit.MILLISECONDS);
