@@ -150,7 +150,7 @@ public interface Manga extends ISnowflake, IRelationHolder {
      *
      * @return the year of first publication, or null if not available.
      */
-    Long getYear();
+    Number getYear();
 
     /**
      * Returns the UUID of the latest uploaded chapter of the manga.

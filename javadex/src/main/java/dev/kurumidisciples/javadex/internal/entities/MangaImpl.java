@@ -61,7 +61,7 @@ public class MangaImpl extends Entity implements Manga {
     private final Number lastChapter;
     private final Demographic publicationDemographic;
     private final Status status;
-    private final Long year;
+    private final Number year;
     private final ContentRating contentRating;
     private final State state;
     private final boolean chapterNumbersResetOnNewVolume;
@@ -72,7 +72,7 @@ public class MangaImpl extends Entity implements Manga {
     private final String latestUploadedChapterId;
     private final RelationshipMap relationshipMap;
 
-    public MangaImpl(UUID id, String title, Map<Locale, String> description, Map<Locale, List<String>> altTitles, boolean isLocked, Locale originalLanguage, Number lastVolume, Number lastChapter, Demographic publicationDemographic, Status status, Long year, ContentRating contentRating, State state, Map<LinkType, String> links, boolean chapterNumbersResetOnNewVolume, OffsetDateTime createdAt, OffsetDateTime updatedAt, int version, String latestUploadedChapterId, List<Tag> tags, List<Locale> availableTranslatedLanguages, RelationshipMap relationshipMap, UUID author) {
+    public MangaImpl(UUID id, String title, Map<Locale, String> description, Map<Locale, List<String>> altTitles, boolean isLocked, Locale originalLanguage, Number lastVolume, Number lastChapter, Demographic publicationDemographic, Status status, Number year, ContentRating contentRating, State state, Map<LinkType, String> links, boolean chapterNumbersResetOnNewVolume, OffsetDateTime createdAt, OffsetDateTime updatedAt, int version, String latestUploadedChapterId, List<Tag> tags, List<Locale> availableTranslatedLanguages, RelationshipMap relationshipMap, UUID author) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -342,7 +342,7 @@ public class MangaImpl extends Entity implements Manga {
      *
      * @return a {@link java.lang.Long} object
      */
-    public Long getYear() {
+    public Number getYear() {
         return year;
     }
 

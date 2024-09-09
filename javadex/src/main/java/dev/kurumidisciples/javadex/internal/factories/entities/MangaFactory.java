@@ -38,7 +38,7 @@ public class MangaFactory {
         Number lastChapter = attributes.has("lastChapter") && !attributes.get("lastChapter").isJsonNull() ? attributes.get("lastChapter").getAsNumber() : null;
         Demographic publicationDemographic = Demographic.getDemographic(attributes.has("publicationDemographic") && !attributes.get("publicationDemographic").isJsonNull() ? attributes.get("publicationDemographic").getAsString() : "Unknown");
         Status status = Status.getStatus(attributes.get("status").getAsString());
-        long year = attributes.has("year") && !attributes.get("year").isJsonNull() ? attributes.get("year").getAsLong() : null;
+        Number year = attributes.has("year") && !attributes.get("year").isJsonNull() ? attributes.get("year").getAsNumber() : null;
         ContentRating contentRating = ContentRating.getContentRating(attributes.get("contentRating").getAsString());
         State state = State.getByValue(attributes.get("state").getAsString());
         Map<LinkType, String> links = MangaParsers.parseLinks(attributes.getAsJsonObject("links"));
