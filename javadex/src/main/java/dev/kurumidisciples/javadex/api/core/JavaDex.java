@@ -421,9 +421,9 @@ public class JavaDex implements AutoCloseable{
     }
 
     /**
-     * <Retrieves the current user's information from the MangaDex API.
+     * Retrieves the current user's information from the MangaDex API.
      *
-     * <p>This method sends a GET request to the "/user/me" endpoint of the MangaDex API.
+     * <p>This method sends a GET request to the {@code /user/me} endpoint of the MangaDex API.</p>
      * The response is parsed into a {@link User} object and returned as a {@link CompletableFuture}.
      *
      * @return a CompletableFuture that will complete with the User object for the current user

@@ -30,8 +30,8 @@ public abstract class Action<T> {
     public abstract CompletableFuture<T> submit();
 
     /**
-     * Sets the limit of chapters to retrieve.
-     * <p>Limit must be between 1 and 100.</p>
+     * The maximum number of items to include.
+     * <p>Limit must be between {@code 1} and {@code 100}.</p>
      * <p>Default is {@code 10}.</p>
      *
      * @param limit a {@link java.lang.Integer} object
@@ -40,8 +40,8 @@ public abstract class Action<T> {
     public abstract Action<T> setLimit(Integer limit);
 
     /**
-     * Sets the offset for the chapter action.
-     * <p>Offset is the number of chapters to skip before returning the results.</p>
+     * The offset on the collection.
+     * <p>Offset is the number of entites to skip before returning the results.</p>
      * <p>Default is {@code 0}.</p>
      *
      * @param offset the offset.

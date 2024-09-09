@@ -2,7 +2,6 @@ package dev.kurumidisciples.javadex.api.entities;
 
 import dev.kurumidisciples.javadex.api.entities.intermediate.IRelationHolder;
 import dev.kurumidisciples.javadex.api.entities.intermediate.ISnowflake;
-import dev.kurumidisciples.javadex.api.entities.relationship.RelationshipMap;
 
 import java.util.List;
 
