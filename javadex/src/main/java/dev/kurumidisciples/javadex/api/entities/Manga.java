@@ -210,4 +210,11 @@ public interface Manga extends ISnowflake, IRelationHolder {
      * @return a {@link CompletableFuture} that will complete with a {@link StatisticsData} object representing the statistics.
      */
     CompletableFuture<StatisticsData> retrieveStatistics();
+
+    /**
+     * Retrieves the chapter with the specified number for the manga in the specified language.
+     * Will return an empty list if no chapter with the specified number is found.
+     * @return a {@link CompletableFuture} that will complete with a list of chapters with the specified number. Can be empty.
+     */
+    CompletableFuture<List<Chapter>> retrieveChapterByNumber(@MustNotBeUnknown @NotNull Locale lang, int number);
 }

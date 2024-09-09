@@ -462,11 +462,7 @@ public class MangaImpl extends Entity implements Manga {
     }
 
     /**
-     * Retrieve the chapters for the manga in the specified language, ordered by their chapter number.
-     *
-     * @param lang a {@link dev.kurumidisciples.javadex.api.entities.enums.Locale} object
-     * @param number a int
-     * @return a {@link java.util.concurrent.CompletableFuture} object
+     * {@inheritDoc}
      */
     public CompletableFuture<List<Chapter>> retrieveChapterByNumber(@NotNull Locale lang, @NotLessThanOne int number) {
         return CompletableFuture.supplyAsync(() -> {
