@@ -510,7 +510,7 @@ public class MangaImpl extends Entity implements Manga {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 JsonObject response = gson.fromJson(HTTPRequest.get("https://api.mangadex.org/statistics/manga/" + id.toString()), JsonObject.class);
-                return new StatisticsData(response.getAsJsonObject("data"));
+                return new StatisticsData(response.getAsJsonObject("statistics"));
             } catch (HTTPRequestException e) {
                 logger.error("Could not retrieve statistics for manga " + id, e);
                 throw new CompletionException(e);
