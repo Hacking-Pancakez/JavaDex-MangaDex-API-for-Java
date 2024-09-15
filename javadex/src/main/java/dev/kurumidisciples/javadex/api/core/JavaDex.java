@@ -35,6 +35,7 @@ import dev.kurumidisciples.javadex.api.entities.enums.Locale;
 import dev.kurumidisciples.javadex.api.entities.relationship.enums.RelationshipType;
 import dev.kurumidisciples.javadex.api.exceptions.AuthorizationException;
 import dev.kurumidisciples.javadex.api.exceptions.http.middlemen.HTTPRequestException;
+import dev.kurumidisciples.javadex.api.proxies.ChapterProxy;
 import dev.kurumidisciples.javadex.internal.actions.create.MangaCreation;
 import dev.kurumidisciples.javadex.internal.actions.retrieve.ChapterAction;
 import dev.kurumidisciples.javadex.internal.actions.retrieve.FollowsAction;
@@ -141,7 +142,7 @@ public class JavaDex implements AutoCloseable{
      * @return A new SearchAction object with the provided query.
      * @throws IllegalArgumentException If the provided query is null or empty.
      */
-    public MangaAction search(@NotNull String query) {
+    public MangaAction searchManga(@NotNull String query) {
       return new MangaAction(query);
     }
 
@@ -150,7 +151,7 @@ public class JavaDex implements AutoCloseable{
      *
      * @return A SearchAction object.
      */
-    public MangaAction search(){
+    public MangaAction searchManga(){
       return new MangaAction();
     }
 
@@ -162,7 +163,7 @@ public class JavaDex implements AutoCloseable{
      * @return A SearchAction object.
      * @param offset a int
      */
-    public MangaAction search(@NotNull String query, @Size(min=0, max=100) int limit, @Size(min=0) int offset){
+    public MangaAction searchManga(@NotNull String query, @Size(min=0, max=100) int limit, @Size(min=0) int offset){
       return new MangaAction(query, limit, offset);
     }
 
@@ -271,6 +272,50 @@ public class JavaDex implements AutoCloseable{
     }
 
     /**
+     * Unfollows a specific manga.
+     * @return CompletableFuture - true if the manga was successfully unfollowed, false if error.
+     */
+    @Authenticated
+    public CompletableFuture<Boolean> unfollowManga(@NotNull Manga manga) {
+        return unfollowManga(manga.getIdRaw());
+    }
+
+    /**
+     * Unfollows a specific manga.
+     * @return CompletableFuture - true if the manga was successfully unfollowed, false if error.
+     */
+    @Authenticated
+    public CompletableFuture<Boolean> unfollowManga(@NotNull UUID mangaId) {
+        return unfollowManga(mangaId.toString());
+    }
+
+    /**
+     * Unfollows a specific manga.
+     * @param mangaId
+     * @return CompletableFuture - true if the manga was successfully unfollowed, false if error.
+     */
+    @Authenticated
+    public CompletableFuture<Boolean> unfollowManga(@NotNull String mangaId) {
+        final String url = String.format("https://api.mangadex.org/manga/%s/follow", mangaId);
+        
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                String response = HTTPRequest.delete(url, Optional.of(authenticator.getToken().getAccessToken()));
+                boolean success = response.contains("ok");
+                if (success) {
+                    logger.debug("Successfully unfollowed manga {}", mangaId);
+                } else {
+                    logger.error("Failed to unfollow manga {}", mangaId);
+                }
+                return success;
+            } catch (HTTPRequestException e) {
+                logger.error("Unable to unfollow the given Manga object", e);
+                throw new CompletionException(e);
+            }
+        });
+    }
+
+    /**
      * Retrieves a list of UUIDs representing the chapters read for a specific manga.
      *
      * <p>This method sends a GET request to the MangaDex API to retrieve the list of read chapters for the manga with the specified ID.
@@ -283,7 +328,7 @@ public class JavaDex implements AutoCloseable{
      * @return A CompletableFuture that will be completed with the list of UUIDs representing the read chapters when the API response is received and parsed.
      */
     @Authenticated
-    public CompletableFuture<List<UUID>> retrieveReadChapters(@NotNull String mangaId) {
+    public CompletableFuture<List<ChapterProxy>> retrieveReadChapters(@NotNull String mangaId) {
         final String url = "https://api.mangadex.org/manga/" + mangaId + "/read";
         
         return CompletableFuture.supplyAsync(() -> {
@@ -292,9 +337,9 @@ public class JavaDex implements AutoCloseable{
                 JsonArray chapters = JsonParser.parseString(jsonResponse)
                                                 .getAsJsonObject()
                                                 .getAsJsonArray("data");
-                List<UUID> chaptersList = new ArrayList<>();
+                List<ChapterProxy> chaptersList = new ArrayList<>();
                 for (JsonElement chapter : chapters) {
-                    chaptersList.add(UUID.fromString(chapter.getAsString()));
+                    chaptersList.add(new ChapterProxy(UUID.fromString(chapter.getAsString())));
                 }
                 return chaptersList;
             } catch (HTTPRequestException e) {
