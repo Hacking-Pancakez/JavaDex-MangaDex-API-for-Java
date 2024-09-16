@@ -1,4 +1,4 @@
-[![JavaDex Latest - 0.1.5.0.BETA.1](https://img.shields.io/badge/JavaDex_Latest-0.1.5.0.BETA.1-2ea44f?style=for-the-badge)](https://)
+[![JavaDex Latest - 0.1.5.0.BETA.2](https://img.shields.io/badge/JavaDex_Latest-0.1.5.0.BETA.2-2ea44f?style=for-the-badge)](https://)
 [![javadoc](https://javadoc.io/badge2/dev.kurumidisciples/javadex/javadoc.svg)](https://javadoc.io/doc/dev.kurumidisciples/javadex)
 # JavaDex: MangaDex API for Java
 
